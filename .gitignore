@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+
+# frontend
+front-end/.next/
+front-end/out/
+front-end/coverage/
+front-end/.npm-cache/
+front-end/tsconfig.tsbuildinfo
+front-end/.env.local
+front-end/.env.development.local
+front-end/.env.test.local
+front-end/.env.production.local
+
+# backend
+back-end/bin/
+back-end/tmp/
+back-end/.cache/
+back-end/coverage.out
+back-end/.env
+
+# env
+.env
+.env.local
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/
