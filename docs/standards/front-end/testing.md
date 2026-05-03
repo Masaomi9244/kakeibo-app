@@ -13,13 +13,23 @@ Lint、format、testに関する規約です。
 以下が通らない状態で作業完了にしない。
 
 ```txt
-npm run lint
-npm run format:check
-npm run typecheck
-npm run test
+npm run check
 ```
 
-パッケージマネージャーがnpm以外の場合は、同等のコマンドを用意する。
+`npm run check` は `typecheck`、`lint`、`format`、`test`、`build:check`
+をまとめて実行する。
+
+個別確認が必要な場合のみ、以下を実行する。
+
+```txt
+npm run typecheck
+npm run lint
+npm run format
+npm run test
+npm run build:check
+```
+
+パッケージマネージャーがnpm以外の場合でも、同名または同等の一括検証コマンドを用意する。
 
 ### ESLintで必ず検出したいもの
 
@@ -42,14 +52,18 @@ ESLintでは最低限以下を検出する。
 以下の導入を推奨する。
 
 ```txt
+@next/eslint-plugin-next
 @typescript-eslint/eslint-plugin
 @typescript-eslint/parser
-eslint-config-next
-eslint-config-prettier
-eslint-plugin-import
-eslint-plugin-unused-imports
-eslint-plugin-simple-import-sort
+eslint-import-resolver-typescript
+eslint-plugin-import-x
+eslint-plugin-jsx-a11y
+eslint-plugin-perfectionist
+eslint-plugin-promise
+eslint-plugin-react
 eslint-plugin-react-hooks
+eslint-plugin-sonarjs
+eslint-plugin-unused-imports
 eslint-plugin-testing-library
 eslint-plugin-jest-dom
 ```
@@ -102,10 +116,11 @@ Prettierでformatを統一する。
 推奨方針：
 
 ```txt
-printWidth: 100
+printWidth: 88
 singleQuote: false
 semi: true
 trailingComma: all
+endOfLine: lf
 ```
 
 ### import順
@@ -114,16 +129,13 @@ import順は機械的にソートする。
 
 原則以下の順とする。
 
-1. React / Next.js
-2. 外部ライブラリ
-3. `@/domains`
-4. `@/features`
-5. `@/components`
-6. `@/libs`
-7. `@/theme`
-8. 相対import
+1. 型import
+2. Node.js組み込み、外部ライブラリ
+3. 内部alias
+4. 同階層の相対import
+5. CSSなどの副作用import
 
-import順は `eslint-plugin-simple-import-sort` などで自動化する。
+import順は `eslint-plugin-perfectionist` で自動化する。
 
 ### `import type`
 
@@ -204,10 +216,7 @@ import { formatAmount } from "@/libs/money";
 フロントエンド変更では、完了前に以下を実行する。
 
 ```txt
-npm run lint
-npm run format:check
-npm run typecheck
-npm run test
+npm run check
 ```
 
 未実行または失敗した場合は、完了報告に必ず以下を明記する。
@@ -236,10 +245,10 @@ no-console
 react-hooks/rules-of-hooks
 react-hooks/exhaustive-deps
 unused-imports/no-unused-imports
-simple-import-sort/imports
-simple-import-sort/exports
-import/no-cycle
-import/no-unresolved
+perfectionist/sort-imports
+perfectionist/sort-named-imports
+import-x/no-cycle
+import-x/no-useless-path-segments
 ```
 
 lintで検知できない設計ルールは、この規約のレビュー観点で確認する。

@@ -1,6 +1,8 @@
+import type { ReactElement } from "react";
+
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
-export default function HomePage() {
+export default function HomePage(): ReactElement {
   return (
     <Container component="main" maxWidth="sm">
       <Stack

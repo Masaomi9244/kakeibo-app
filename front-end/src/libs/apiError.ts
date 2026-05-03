@@ -1,9 +1,9 @@
 export type ApiErrorResponse = {
   message: string;
-  details?: {
+  details?: Array<{
     field?: string;
     message: string;
-  }[];
+  }>;
 };
 
 export class ApiClientError extends Error {

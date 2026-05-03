@@ -35,6 +35,10 @@
 - barrel exportを理由なく追加する
 - DTOからdomain型への変換をcomponent、hook、api関数に直接書く
 - UI、変換、API通信など複数責務を1つのテストに詰め込む
+- `npm run check` を通さずに完了扱いにする
+- lint、format、typecheck、testの失敗を警告扱いで見逃す
+- 同階層以外の相対importで責務境界を曖昧にする
+- `pre-commit` hookを理由なく回避する
 
 ---
 
@@ -59,6 +63,8 @@
 - `npm run typecheck` が通っているか
 - ESLint無効化コメントに妥当な理由があるか
 - import順が機械的に整理されているか
+- importが `@/` aliasを使い、親ディレクトリ相対importになっていないか
+- ESLintのレイヤー制約に違反していないか
 - `useEffect` が不要に使われていないか
 - API通信が共通API Client経由になっているか
 - mutationの多重実行防止ができているか
@@ -84,7 +90,7 @@ AIエージェントがフロントエンドを変更する場合は、以下の
 4. DTO、domain型、props型、mapper、hook、componentの境界を先に決める
 5. 実装する
 6. 必要なテストを追加または更新する
-7. lint / format / typecheck / test を実行する
+7. `npm run check` を実行する
 8. 未実行または失敗があれば、理由と残リスクを報告する
 
 AIエージェントは以下をしてはいけない。
@@ -94,6 +100,7 @@ AIエージェントは以下をしてはいけない。
 - 型エラーを回避するために `any`、`as any`、`@ts-ignore` を使う
 - `page.tsx` に処理を集めてから後で分ける
 - 失敗した検証コマンドを隠して完了扱いにする
+- pre-commit hookやlintルールを一時的に弱めて完了扱いにする
 
 ---
 
@@ -108,6 +115,7 @@ AIエージェントは以下をしてはいけない。
 - 追加するファイル名が責務を表している
 - 共通化が早すぎない
 - 既存のlint / format / test方針と矛盾しない
+- 追加するimportがレイヤー制約に沿っている
 
 ---
 
@@ -129,7 +137,8 @@ AIエージェントは以下をしてはいけない。
 - 金額と日付の正規化・表示整形がテスト可能な関数へ分離されている
 - 重要なexportには目的が分かるコメントがある
 - テストが責務ごとに分かれている
-- lint / format / typecheck / test の結果を確認している
+- `npm run check` が成功している
+- pre-commit hookで同等の検証が走る状態を保っている
 
 ---
 

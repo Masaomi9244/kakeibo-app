@@ -1,7 +1,7 @@
 const getRequiredClientEnv = (key: string): string => {
   const value = process.env[key];
 
-  if (!value) {
+  if (value === undefined || value === "") {
     throw new Error(`Missing required environment variable: ${key}`);
   }
 
@@ -11,6 +11,6 @@ const getRequiredClientEnv = (key: string): string => {
 // API Clientが利用する公開環境変数を1か所で管理する。
 export const clientEnv = {
   apiBaseUrl: getRequiredClientEnv("NEXT_PUBLIC_API_BASE_URL"),
-  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-  supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
+  supabaseUrl: process.env["NEXT_PUBLIC_SUPABASE_URL"] ?? "",
+  supabaseAnonKey: process.env["NEXT_PUBLIC_SUPABASE_ANON_KEY"] ?? "",
 };
