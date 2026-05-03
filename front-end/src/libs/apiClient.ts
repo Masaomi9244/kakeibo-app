@@ -1,19 +1,28 @@
-import { ApiClientError, type ApiErrorResponse } from "./apiError";
+import type { ApiErrorResponse } from "./apiError";
+
+import { ApiClientError } from "./apiError";
 import { clientEnv } from "./env";
 
-type ApiRequestOptions = Omit<RequestInit, "body"> & {
-  body?: unknown;
+type ApiRequestOptions = Omit<RequestInit, "body" | "headers"> & {
   accessToken?: string;
+  body?: unknown;
+  headers?: HeadersInit;
 };
 
-const buildHeaders = (options: ApiRequestOptions): Headers => {
+type HeaderBuildOptions = {
+  accessToken: string | undefined;
+  body: unknown;
+  headers: HeadersInit | undefined;
+};
+
+const buildHeaders = (options: HeaderBuildOptions): Headers => {
   const headers = new Headers(options.headers);
 
   if (options.body !== undefined) {
     headers.set("Content-Type", "application/json");
   }
 
-  if (options.accessToken) {
+  if (options.accessToken !== undefined && options.accessToken !== "") {
     headers.set("Authorization", `Bearer ${options.accessToken}`);
   }
 
@@ -25,11 +34,17 @@ export const requestApi = async <TResponse>(
   path: string,
   options: ApiRequestOptions = {},
 ): Promise<TResponse> => {
-  const response = await fetch(`${clientEnv.apiBaseUrl}${path}`, {
-    ...options,
-    headers: buildHeaders(options),
-    body: options.body === undefined ? undefined : JSON.stringify(options.body),
-  });
+  const { accessToken, body, headers, ...requestOptions } = options;
+  const requestInit: RequestInit = {
+    ...requestOptions,
+    headers: buildHeaders({ accessToken, body, headers }),
+  };
+
+  if (body !== undefined) {
+    requestInit.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(`${clientEnv.apiBaseUrl}${path}`, requestInit);
 
   const data = (await response.json()) as unknown;
 

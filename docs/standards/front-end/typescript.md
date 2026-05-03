@@ -28,6 +28,35 @@ TypeScriptはstrictを有効にする。
 
 `strict` を弱める設定は禁止する。既存コード対応で一時的に弱める場合でも、対象範囲、理由、戻す条件をドキュメントに残す。
 
+`skipLibCheck` は外部ライブラリの型定義都合を吸収するためのみ許可する。
+アプリケーションコードの型エラーを隠す目的で使ってはいけない。
+`front-end/src/` 配下は `npm run typecheck` と type-aware ESLint の両方で検証する。
+
+### 機械検証
+
+フロントエンドの型安全性は、以下を必須の機械検証とする。
+
+- `npm run typecheck`
+- `npm run lint`
+- `npm run format`
+- `npm run test`
+- `npm run build:check`
+- `npm run check`
+
+完了報告では、原則として `npm run check` の成功を確認する。
+個別コマンドだけを実行した場合は、実行したコマンドと未実行の理由を明記する。
+
+ESLintはtype-aware ruleを有効にし、以下をエラーとして扱う。
+
+- `any`
+- 浮いたPromise
+- nullable値の暗黙的な真偽値判定
+- 型だけの通常import
+- 未使用import
+- 親ディレクトリ相対import
+- レイヤー境界違反
+- exported functionまたはReact componentの戻り値型不足
+
 ### `any` の扱い
 
 `any` は禁止する。

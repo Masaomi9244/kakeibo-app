@@ -1,0 +1,4 @@
+cd front-end
+
+npm run lint:staged
+npm run check

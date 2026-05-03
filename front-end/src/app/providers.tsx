@@ -1,16 +1,19 @@
 "use client";
 
+import type { ReactElement, ReactNode } from "react";
+
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+
 import { appTheme } from "@/theme/appTheme";
 
 type AppProvidersProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 // アプリ全体で共有する外部ライブラリProviderを集約する。
-export function AppProviders({ children }: AppProvidersProps) {
+export function AppProviders({ children }: Readonly<AppProvidersProps>): ReactElement {
   const [queryClient] = useState(
     () =>
       new QueryClient({
