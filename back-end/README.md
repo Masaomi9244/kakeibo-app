@@ -13,14 +13,27 @@ go run ./cmd/api
 ## 主なコマンド
 
 ```bash
-go test ./...
-go test ./... -race
-gofmt -w .
+make check
+make fmt
+make fmt-check
+make lint
+make test
+make test-race
+make db-lint
+make db-format
 ```
+
+`make check` はバックエンド変更の完了条件です。
+Go formatter、`go mod tidy -diff`、`go vet`、`golangci-lint`、race test、DB migration lintをまとめて実行します。
+
+Goの整形は `golangci-lint fmt` で `gofmt`、`goimports`、`gofumpt`、`gci`
+をまとめて適用します。
+
+SQL migrationが追加された場合は `sqlfluff` が必要です。
+未導入の状態で `*.sql` が存在すると `make db-lint` は失敗します。
 
 ## 参照docs
 
 - `../docs/architecture/back-end.md`
 - `../docs/standards/back-end/index.md`
 - `../docs/standards/back-end/checklist.md`
-

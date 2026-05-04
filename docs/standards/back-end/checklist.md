@@ -28,6 +28,8 @@
 - `context.Background()` をrequest処理内で下位層へ渡す
 - `utils`、`common`、`helper` packageへ責務不明な処理を集める
 - テストで複数責務をまとめて検証する
+- `make check` を通さずに完了扱いにする
+- lint、format、vet、race test、DB lintの失敗を警告扱いで見逃す
 
 ---
 
@@ -51,7 +53,7 @@
 - 日付範囲がAsia/Tokyo基準でstart inclusive / end exclusiveになっているか
 - `time.Now()` がテスト不能な形で埋め込まれていないか
 - contextが第一引数で渡っているか
-- gofmt / goimports / lint / test が通っているか
+- `make check` が通っているか
 - テスト対象が責務ごとに分離されているか
 
 ---
@@ -68,7 +70,7 @@ AIエージェントがバックエンドを変更する場合は、以下の順
 6. repository呼び出しでuserIDによる認可境界が守られるか確認する
 7. 実装する
 8. 必要なテストを追加または更新する
-9. gofmt / goimports / lint / test を実行する
+9. `make check` を実行する
 10. 未実行または失敗があれば、理由と残リスクを報告する
 
 AIエージェントは以下をしてはいけない。
@@ -79,6 +81,7 @@ AIエージェントは以下をしてはいけない。
 - userIDの扱いをrequest由来にする
 - IDだけで更新・削除する
 - 失敗した検証コマンドを隠して完了扱いにする
+- lintルールや `make check` を一時的に弱めて完了扱いにする
 
 ---
 
@@ -114,7 +117,7 @@ AIエージェントは以下をしてはいけない。
 - transactionが必要な処理で境界が明確になっている
 - 重要なexportには目的が分かるコメントがある
 - テストが責務ごとに分かれている
-- gofmt / goimports / lint / test の結果を確認している
+- `make check` が成功している
 
 ---
 

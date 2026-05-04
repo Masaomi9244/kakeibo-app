@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 
+	"github.com/labstack/echo/v4"
+
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/config"
 	httpmiddleware "github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/middleware"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/response"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/router"
-	"github.com/labstack/echo/v4"
 )
 
 func main() {

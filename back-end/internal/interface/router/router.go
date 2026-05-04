@@ -1,8 +1,9 @@
 package router
 
 import (
-	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/handler"
 	"github.com/labstack/echo/v4"
+
+	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/handler"
 )
 
 // Register は公開endpointとAPI endpointのルーティングを集約する。

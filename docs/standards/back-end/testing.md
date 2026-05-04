@@ -13,13 +13,32 @@ Lint、format、testに関する規約です。
 完了前に以下を実行する。
 
 ```txt
-gofmt
-goimports
-go test ./...
-golangci-lint run
+make check
 ```
 
-projectに別コマンドが定義されている場合は、それに従う。
+`make check` は以下をまとめて実行する。
+
+- `golangci-lint fmt --diff`
+- `go mod tidy -diff`
+- `go vet ./...`
+- `golangci-lint run`
+- `go test -race ./...`
+- `make db-lint`
+
+個別に確認する場合は以下を使う。
+
+```txt
+make fmt
+make fmt-check
+make mod-tidy-check
+make lint
+make test
+make test-race
+make db-lint
+```
+
+Goの整形は `golangci-lint fmt` に寄せる。
+`gofmt`、`goimports`、`gofumpt`、`gci` の結果が一致しない状態で完了しない。
 
 ### golangci-lintで検出したいもの
 
@@ -34,6 +53,10 @@ projectに別コマンドが定義されている場合は、それに従う。
 - cyclomatic complexity過多
 - staticcheck相当の問題
 - gosec相当の危険な実装
+- wrapped errorを考慮しないerror判定
+- `nolint` の理由不足
+- import groupの乱れ
+- SQL rows / stmt のclose漏れ
 
 ### 完了報告
 
@@ -45,6 +68,22 @@ projectに別コマンドが定義されている場合は、それに従う。
 - 残っているリスク
 
 「小さい変更だから」は未実行理由にしない。
+
+---
+
+## DB Migration Lint
+
+SQL migrationは `back-end/migrations/` 配下に置き、`make db-lint` の対象にする。
+
+SQL migrationが存在する場合、以下を必須とする。
+
+- `sqlfluff` でPostgreSQL dialectとしてlintする
+- ファイル名は `YYYYMMDDHHMMSS_snake_case.sql` にする
+- 手動の好みによるSQL整形差分を残さない
+- migration lintを未実行のままDB変更を完了しない
+
+SQL migrationがまだ存在しない場合、`make db-lint` は成功してよい。
+ただし、最初の `*.sql` 追加時点で `sqlfluff` 未導入なら検証失敗とする。
 
 ---
 

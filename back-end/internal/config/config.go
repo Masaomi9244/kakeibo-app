@@ -17,7 +17,7 @@ func Load() Config {
 	}
 }
 
-func getEnv(key string, fallback string) string {
+func getEnv(key, fallback string) string {
 	value := os.Getenv(key)
 	if value == "" {
 		return fallback
