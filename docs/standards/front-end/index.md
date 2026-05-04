@@ -307,13 +307,21 @@ features/income/mappers/incomeMapper.ts
 
 複数featureで利用する汎用UIを置く。
 
-Atomic Design寄りに以下で分ける。
+Atomic Design寄りに以下のディレクトリで分ける。
 
-- atoms
-- molecules
-- organisms
+- `components/atoms/`
+- `components/molecules/`
+- `components/organisms/`
 
 特定featureの業務ロジックを混ぜない。
+
+分類基準:
+
+- `atoms/`: `AppButton`、`AppTextField`、`AmountText` など、アプリ全体で見た目や挙動を統一する最小UI
+- `molecules/`: `StatCard`、`PageHeader`、`EmptyState`、`ErrorMessage` など、atomsやMUIを組み合わせた小さな汎用UI
+- `organisms/`: `AppShell`、`AppSideNav`、`AppBottomNav` など、複数featureで使う大きめの共通UI
+
+feature固有の画面部品はAtomic Design分類へ寄せず、`features/{feature}/components/` に置く。
 
 ### `libs/`
 
@@ -341,7 +349,9 @@ MUI themeを配置する。
 |---|---|---|
 | ルーティング、ページ骨組み | `app/` | `features/*/components/` |
 | feature固有UI | `features/{feature}/components/` | `components/` |
-| 複数featureで使うUI | `components/` | 特定feature配下 |
+| 複数featureで使う最小UI | `components/atoms/` | 特定feature配下 |
+| 複数featureで使う小さな組み合わせUI | `components/molecules/` | 特定feature配下 |
+| 複数featureで使う大きめの共通UI | `components/organisms/` | 特定feature配下 |
 | React state、query、mutation | `features/{feature}/hooks/` | `page.tsx`、API関数 |
 | 入力正規化、画面都合の処理手順 | `features/{feature}/usecases/` または `libs/` | component、hook内の長い分岐 |
 | DTOとdomain型の変換 | `features/{feature}/mappers/` | component、hook、api関数 |
