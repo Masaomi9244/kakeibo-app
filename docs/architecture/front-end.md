@@ -180,6 +180,8 @@ API URLは `NEXT_PUBLIC_API_BASE_URL` から取得する。
 
 APIエラーはバックエンドのエラーレスポンス形式に合わせる。
 
+domain型、API DTO、mapper、TanStack Query hooks、query keyの詳細は `front-end-domain-api-hooks.md` に置く。
+
 ```ts
 export type ApiErrorResponse = {
   message: string;

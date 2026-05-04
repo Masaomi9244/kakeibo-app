@@ -14,8 +14,9 @@
 2. `../product/scope.md`
 3. 該当する `../features/*.md`
 4. `../architecture/front-end.md`
-5. 該当する `../api/*.md`
-6. `../standards/front-end/index.md`
+5. `../architecture/front-end-domain-api-hooks.md`
+6. 該当する `../api/*.md`
+7. `../standards/front-end/index.md`
 
 ---
 
@@ -24,6 +25,7 @@
 | 内容 | 移行先 |
 |---|---|
 | 技術スタック、Next.js構成、状態管理、UI方針 | `../architecture/front-end.md` |
+| domain型、API DTO、mapper、TanStack Query hooks | `../architecture/front-end-domain-api-hooks.md` |
 | ログイン画面 | `../features/auth.md` |
 | トップ画面 | `../features/home.md` |
 | 収入画面 | `../features/incomes.md` |

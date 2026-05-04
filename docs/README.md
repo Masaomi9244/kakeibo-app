@@ -73,10 +73,12 @@ docs/
     figma-make-scope-review.md
     mvp-implementation-spec.md
     component-breakdown.md
+    implementation-task-breakdown.md
 
   architecture/
     overview.md
     front-end.md
+    front-end-domain-api-hooks.md
     back-end.md
     db.md
     infra.md
