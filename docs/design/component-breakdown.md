@@ -580,6 +580,8 @@ front-end/src/features/annual-summary/components/AnnualTrendChart.tsx
 
 ## Query / API hook候補
 
+domain型、API DTO、mapper、query key、invalidate方針の詳細は `docs/architecture/front-end-domain-api-hooks.md` を正とする。
+
 ```txt
 features/home/hooks/useMonthlySummary.ts
 features/home/hooks/useTodayExpenses.ts
