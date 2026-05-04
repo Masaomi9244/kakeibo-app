@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="680" viewBox="0 0 1400 680" role="img" aria-labelledby="title desc">
+  <title id="title">目的別の読み方</title>
+  <desc id="desc">仕様確認、画面実装、API実装、DB変更、AIへの実装依頼ごとに読むdocsの流れを示す図。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .goal { fill: #ecfeff; stroke: #0f766e; }
+      .doc { fill: #f0fdf4; stroke: #16a34a; }
+      .line { fill: none; stroke: #0f766e; stroke-width: 2.2; marker-end: url(#arrow); }
+      .title { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .desc { font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .hint { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="680"/>
+  <text class="title" x="60" y="54">目的別の読み方</text>
+  <text class="hint" x="60" y="80">やりたい作業から、最初に読むdocsと詳細docsへ進むための早見図です。</text>
+
+  <rect class="box goal" x="80" y="135" width="260" height="76"/>
+  <text class="label" x="210" y="164" text-anchor="middle">仕様を確認したい</text>
+  <text class="desc" x="210" y="188" text-anchor="middle">何を作るかを確認</text>
+  <rect class="box doc" x="430" y="135" width="350" height="76"/>
+  <text class="label" x="605" y="164" text-anchor="middle">product/*.md</text>
+  <text class="desc" x="605" y="188" text-anchor="middle">概要・scope・用語・未決・roadmap</text>
+  <rect class="box doc" x="870" y="135" width="350" height="76"/>
+  <text class="label" x="1045" y="164" text-anchor="middle">features/*.md</text>
+  <text class="desc" x="1045" y="188" text-anchor="middle">画面表示・操作・完了条件</text>
+  <path class="line" d="M340 173 L430 173"/>
+  <path class="line" d="M780 173 L870 173"/>
+
+  <rect class="box goal" x="80" y="245" width="260" height="76"/>
+  <text class="label" x="210" y="274" text-anchor="middle">画面を作りたい</text>
+  <text class="desc" x="210" y="298" text-anchor="middle">フロントUI実装</text>
+  <rect class="box doc" x="430" y="245" width="350" height="76"/>
+  <text class="label" x="605" y="274" text-anchor="middle">features -> design</text>
+  <text class="desc" x="605" y="298" text-anchor="middle">画面仕様・UI spec・component分解</text>
+  <rect class="box doc" x="870" y="245" width="350" height="76"/>
+  <text class="label" x="1045" y="274" text-anchor="middle">architecture/front-end -> standards/front-end</text>
+  <text class="desc" x="1045" y="298" text-anchor="middle">設計方針・実装規約</text>
+  <path class="line" d="M340 283 L430 283"/>
+  <path class="line" d="M780 283 L870 283"/>
+
+  <rect class="box goal" x="80" y="355" width="260" height="76"/>
+  <text class="label" x="210" y="384" text-anchor="middle">APIを作りたい</text>
+  <text class="desc" x="210" y="408" text-anchor="middle">バックエンドendpoint実装</text>
+  <rect class="box doc" x="430" y="355" width="350" height="76"/>
+  <text class="label" x="605" y="384" text-anchor="middle">features -> api</text>
+  <text class="desc" x="605" y="408" text-anchor="middle">機能仕様・request/response</text>
+  <rect class="box doc" x="870" y="355" width="350" height="76"/>
+  <text class="label" x="1045" y="384" text-anchor="middle">architecture/back-end -> standards/back-end</text>
+  <text class="desc" x="1045" y="408" text-anchor="middle">BE設計・実装規約</text>
+  <path class="line" d="M340 393 L430 393"/>
+  <path class="line" d="M780 393 L870 393"/>
+
+  <rect class="box goal" x="80" y="465" width="260" height="76"/>
+  <text class="label" x="210" y="494" text-anchor="middle">DBを触りたい</text>
+  <text class="desc" x="210" y="518" text-anchor="middle">schema・migration変更</text>
+  <rect class="box doc" x="430" y="465" width="350" height="76"/>
+  <text class="label" x="605" y="494" text-anchor="middle">db/*.md</text>
+  <text class="desc" x="605" y="518" text-anchor="middle">schema・migration・index・constraint</text>
+  <rect class="box doc" x="870" y="465" width="350" height="76"/>
+  <text class="label" x="1045" y="494" text-anchor="middle">architecture/db -> standards/db</text>
+  <text class="desc" x="1045" y="518" text-anchor="middle">DB設計方針・変更規約</text>
+  <path class="line" d="M340 503 L430 503"/>
+  <path class="line" d="M780 503 L870 503"/>
+
+  <rect class="box goal" x="80" y="575" width="260" height="76"/>
+  <text class="label" x="210" y="604" text-anchor="middle">AIに実装依頼したい</text>
+  <text class="desc" x="210" y="628" text-anchor="middle">依頼前に読む入口</text>
+  <rect class="box doc" x="430" y="575" width="350" height="76"/>
+  <text class="label" x="605" y="604" text-anchor="middle">README -> agent-workflow</text>
+  <text class="desc" x="605" y="628" text-anchor="middle">読む順番・作業手順・DoR</text>
+  <rect class="box doc" x="870" y="575" width="350" height="76"/>
+  <text class="label" x="1045" y="604" text-anchor="middle">該当docs -> standards</text>
+  <text class="desc" x="1045" y="628" text-anchor="middle">仕様確認後に規約へ進む</text>
+  <path class="line" d="M340 613 L430 613"/>
+  <path class="line" d="M780 613 L870 613"/>
+</svg>

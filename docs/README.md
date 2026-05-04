@@ -4,6 +4,8 @@
 
 ドキュメントは「入口を薄く、詳細は役割ごとに分ける」方針で整理します。
 
+docs全体の関係図は `doc-map.md` を参照します。
+
 ---
 
 ## 最初に読むもの
@@ -51,6 +53,7 @@ docs配下は、以下の構成を正とします。
 ```txt
 docs/
   README.md
+  doc-map.md
 
   product/
     overview.md

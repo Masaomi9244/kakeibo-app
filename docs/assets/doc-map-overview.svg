@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980" role="img" aria-labelledby="title desc">
+  <title id="title">docs全体の関係図</title>
+  <desc id="desc">docs READMEを入口としてproduct、features、design、architecture、api、db、standardsがどうつながるかを示す図。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+    </marker>
+    <marker id="softArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .primary { fill: #ecfeff; stroke: #0891b2; }
+      .product { fill: #f0fdf4; stroke: #16a34a; }
+      .feature { fill: #eff6ff; stroke: #2563eb; }
+      .design { fill: #fff7ed; stroke: #ea580c; }
+      .arch { fill: #f5f3ff; stroke: #7c3aed; }
+      .contract { fill: #fef2f2; stroke: #dc2626; }
+      .rule { fill: #f1f5f9; stroke: #475569; }
+      .compat { fill: #fffbeb; stroke: #d97706; }
+      .archive { fill: #f8fafc; stroke: #94a3b8; stroke-dasharray: 6 5; }
+      .line { fill: none; stroke: #2563eb; stroke-width: 2.2; marker-end: url(#arrow); }
+      .softLine { fill: none; stroke: #64748b; stroke-width: 2; stroke-dasharray: 6 5; marker-end: url(#softArrow); }
+      .title { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .desc { font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .hint { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="980"/>
+  <text class="title" x="60" y="54">docs全体の関係図</text>
+  <text class="hint" x="60" y="80">太線は読む順・依存の中心、点線は互換入口や退避docsへの補助導線です。</text>
+
+  <rect class="box primary" x="560" y="120" width="280" height="82"/>
+  <text class="label" x="700" y="153" text-anchor="middle">docs/README.md</text>
+  <text class="desc" x="700" y="178" text-anchor="middle">入口・読む順番・正の優先順位</text>
+
+  <rect class="box rule" x="560" y="245" width="280" height="82"/>
+  <text class="label" x="700" y="278" text-anchor="middle">standards/agent-workflow.md</text>
+  <text class="desc" x="700" y="303" text-anchor="middle">作業手順・Definition of Ready</text>
+
+  <rect class="box product" x="80" y="385" width="250" height="86"/>
+  <text class="label" x="205" y="418" text-anchor="middle">product/</text>
+  <text class="desc" x="205" y="443" text-anchor="middle">目的・MVP範囲・用語・未決事項</text>
+
+  <rect class="box feature" x="390" y="385" width="250" height="86"/>
+  <text class="label" x="515" y="418" text-anchor="middle">features/</text>
+  <text class="desc" x="515" y="443" text-anchor="middle">ユーザー視点の画面・機能仕様</text>
+
+  <rect class="box design" x="700" y="385" width="250" height="86"/>
+  <text class="label" x="825" y="418" text-anchor="middle">design/</text>
+  <text class="desc" x="825" y="443" text-anchor="middle">Figma案をMVP scopeへ寄せる</text>
+
+  <rect class="box arch" x="1010" y="385" width="250" height="86"/>
+  <text class="label" x="1135" y="418" text-anchor="middle">architecture/</text>
+  <text class="desc" x="1135" y="443" text-anchor="middle">FE/BE/DB/Infraの設計方針</text>
+
+  <rect class="box contract" x="390" y="570" width="250" height="86"/>
+  <text class="label" x="515" y="603" text-anchor="middle">api/</text>
+  <text class="desc" x="515" y="628" text-anchor="middle">HTTP API契約・request/response</text>
+
+  <rect class="box contract" x="700" y="570" width="250" height="86"/>
+  <text class="label" x="825" y="603" text-anchor="middle">db/</text>
+  <text class="desc" x="825" y="628" text-anchor="middle">schema・migration・index・集計</text>
+
+  <rect class="box rule" x="1010" y="570" width="250" height="86"/>
+  <text class="label" x="1135" y="603" text-anchor="middle">standards/</text>
+  <text class="desc" x="1135" y="628" text-anchor="middle">実装規約・lint/test/checklist</text>
+
+  <rect class="box compat" x="80" y="760" width="250" height="86"/>
+  <text class="label" x="205" y="793" text-anchor="middle">front-end/spec.md</text>
+  <text class="desc" x="205" y="818" text-anchor="middle">フロント仕様の互換入口</text>
+
+  <rect class="box compat" x="390" y="760" width="250" height="86"/>
+  <text class="label" x="515" y="793" text-anchor="middle">back-end/spec.md</text>
+  <text class="desc" x="515" y="818" text-anchor="middle">バックエンド仕様の互換入口</text>
+
+  <rect class="box compat" x="700" y="760" width="250" height="86"/>
+  <text class="label" x="825" y="793" text-anchor="middle">rules/</text>
+  <text class="desc" x="825" y="818" text-anchor="middle">旧coding rulesの互換入口</text>
+
+  <rect class="box archive" x="1010" y="760" width="250" height="86"/>
+  <text class="label" x="1135" y="793" text-anchor="middle">archive/</text>
+  <text class="desc" x="1135" y="818" text-anchor="middle">旧版・移行済みdocs</text>
+
+  <path class="line" d="M700 202 L700 245"/>
+  <path class="line" d="M560 177 C380 225, 240 285, 205 385"/>
+  <path class="line" d="M330 428 L390 428"/>
+  <path class="line" d="M640 428 L700 428"/>
+  <path class="line" d="M950 428 L1010 428"/>
+
+  <path class="line" d="M515 471 L515 570"/>
+  <path class="line" d="M825 471 L825 570"/>
+  <path class="line" d="M1135 471 L1135 570"/>
+  <path class="line" d="M640 613 L700 613"/>
+  <path class="line" d="M950 613 L1010 613"/>
+
+  <path class="softLine" d="M205 760 C260 690, 440 680, 515 656"/>
+  <path class="softLine" d="M515 760 C560 700, 1080 700, 1135 656"/>
+  <path class="softLine" d="M825 760 L1080 656"/>
+  <path class="softLine" d="M1135 760 L1135 656"/>
+</svg>
