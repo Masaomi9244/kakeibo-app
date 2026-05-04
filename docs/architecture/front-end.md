@@ -162,6 +162,14 @@ MUI themeを利用する。
 
 アプリ全体で見た目や挙動を統一したいものは `components/atoms` にラッパーを作る。
 
+複数featureで使う共通UIはAtomic Design寄りに分類する。
+
+- `components/atoms/`: 最小UI
+- `components/molecules/`: 小さな組み合わせUI
+- `components/organisms/`: 大きめの共通UI
+
+feature固有の画面部品は `features/{feature}/components/` に置く。
+
 ---
 
 ## API接続

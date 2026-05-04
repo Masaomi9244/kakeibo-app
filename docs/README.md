@@ -13,11 +13,12 @@
 1. `standards/agent-workflow.md`
 2. `product/overview.md`
 3. `product/scope.md`
-4. 該当する `features/*.md`
-5. 該当する `api/*.md`
-6. 該当する `db/*.md`
-7. 該当する `architecture/*.md`
-8. 該当する `standards/**/*.md`
+4. デザイン実装前は `design/*.md`
+5. 該当する `features/*.md`
+6. 該当する `api/*.md`
+7. 該当する `db/*.md`
+8. 該当する `architecture/*.md`
+9. 該当する `standards/**/*.md`
 
 現時点では以下を正とします。
 
@@ -28,17 +29,18 @@
 5. `product/open-questions.md`
 6. `product/roadmap.md`
 7. `features/*.md`
-8. `architecture/*.md`
-9. `api/*.md`
-10. `db/*.md`
-11. `front-end/spec.md`
-12. `back-end/spec.md`
-13. `db/spec.md`
-14. `standards/agent-workflow.md`
-15. `standards/common.md`
-16. `standards/front-end/*.md`
-17. `standards/back-end/*.md`
-18. `standards/db/*.md`
+8. `design/*.md`
+9. `architecture/*.md`
+10. `api/*.md`
+11. `db/*.md`
+12. `front-end/spec.md`
+13. `back-end/spec.md`
+14. `db/spec.md`
+15. `standards/agent-workflow.md`
+16. `standards/common.md`
+17. `standards/front-end/*.md`
+18. `standards/back-end/*.md`
+19. `standards/db/*.md`
 
 ---
 
@@ -65,6 +67,12 @@ docs/
     calendar.md
     annual-summary.md
     pwa.md
+
+  design/
+    README.md
+    figma-make-scope-review.md
+    mvp-implementation-spec.md
+    component-breakdown.md
 
   architecture/
     overview.md
@@ -139,6 +147,12 @@ docs/
 画面表示、操作、期待挙動、完了条件を書きます。
 
 API request / response、DB schema、コードの書き方はここに書きません。
+
+### `design/`
+
+Figma Makeなどのデザイン案を、MVP scopeに合わせてレビューし、実装用design specへ落とした内容を置きます。
+
+ここはプロダクト仕様の正ではありません。実装時は `product/` と `features/` を優先し、design specはUI判断の補助として使います。
 
 ### `architecture/`
 

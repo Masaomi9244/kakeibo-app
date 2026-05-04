@@ -65,6 +65,13 @@ MUI themeは `src/theme/theme.ts` に定義する。
 - `AppTextField`
 - `AmountText`
 
+atomsより大きい共通UIは、責務に応じて以下に置く。
+
+- `components/molecules/`: `StatCard`、`PageHeader`、`EmptyState` などの小さな組み合わせUI
+- `components/organisms/`: `AppShell`、`AppSideNav`、`AppBottomNav` などの大きめの共通UI
+
+feature固有の画面部品は `components/` へ早めに共通化せず、まず `features/{feature}/components/` に置く。
+
 ### sxの扱い
 
 `sx` は使用してよい。
