@@ -12,6 +12,11 @@ Goコードは必ず `gofmt` と `goimports` を通す。
 
 手動の好みによる整形差分を出さない。
 
+このリポジトリでは `golangci-lint fmt` を正とする。
+`gofmt`、`goimports`、`gofumpt`、`gci` の差分は `make fmt` で直し、`make fmt-check` で検出する。
+
+完了前には個別コマンドではなく、原則として `make check` を実行する。
+
 ### package名
 
 package名は短い小文字にする。

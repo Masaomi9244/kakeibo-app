@@ -1,16 +1,19 @@
 package response
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
+// ErrorResponse はAPI共通エラーレスポンスの最上位形式を表す。
 type ErrorResponse struct {
 	Message string        `json:"message"`
 	Details []ErrorDetail `json:"details,omitempty"`
 }
 
+// ErrorDetail は入力項目ごとのエラー詳細を表す。
 type ErrorDetail struct {
 	Field   string `json:"field,omitempty"`
 	Message string `json:"message"`
@@ -25,7 +28,8 @@ func HTTPErrorHandler(err error, c echo.Context) {
 	code := http.StatusInternalServerError
 	message := "サーバーでエラーが発生しました"
 
-	if httpErr, ok := err.(*echo.HTTPError); ok {
+	var httpErr *echo.HTTPError
+	if errors.As(err, &httpErr) {
 		code = httpErr.Code
 		message = messageForStatus(code)
 	}

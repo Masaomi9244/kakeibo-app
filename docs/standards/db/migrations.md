@@ -19,11 +19,15 @@ DB schemaはマイグレーションファイルで管理する。
 ```txt
 back-end/
   migrations/
-    001_create_users.sql
-    002_create_incomes.sql
-    003_create_fixed_costs.sql
-    004_create_expenses.sql
+    20260504090000_create_users.sql
+    20260504091000_create_incomes.sql
+    20260504092000_create_fixed_costs.sql
+    20260504093000_create_expenses.sql
 ```
+
+ファイル名は `YYYYMMDDHHMMSS_snake_case.sql` とする。
+番号だけの `001_*.sql` は、複数人開発で衝突しやすいため使わない。
+同じtimestampのmigrationを複数作ることは禁止する。
 
 ### 順序
 
@@ -37,6 +41,19 @@ expenses
 ```
 
 foreign keyを持つテーブルは、参照先テーブル作成後に作る。
+
+### Lint / Format
+
+SQL migrationはPostgreSQL dialectとして `sqlfluff` でlint / formatする。
+
+バックエンド配下で以下を実行する。
+
+```txt
+make db-lint
+make db-format
+```
+
+`*.sql` が存在する状態で `sqlfluff` が未導入の場合、`make db-lint` は失敗する。
 
 ### 1マイグレーションの責務
 
