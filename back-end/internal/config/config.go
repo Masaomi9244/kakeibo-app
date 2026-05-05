@@ -141,6 +141,10 @@ func validate(cfg Config) error {
 		return errors.New("FRONTEND_ORIGIN is required")
 	}
 
+	if cfg.DevUserID == "" {
+		return errors.New("DEV_USER_ID is required")
+	}
+
 	if cfg.DBMaxOpenConns <= 0 {
 		return errors.New("DB_MAX_OPEN_CONNS must be greater than 0")
 	}
