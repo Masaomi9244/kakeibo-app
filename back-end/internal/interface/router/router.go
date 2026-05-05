@@ -10,16 +10,34 @@ import (
 	httpmiddleware "github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/middleware"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/dateperiod"
 	expenseusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/expense"
+	fixedcostusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/fixedcost"
+	incomeusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/income"
 	monthlysummaryusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/monthlysummary"
 )
 
 // Register は公開endpointとAPI endpointのルーティングを集約する。
 func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	healthHandler := handler.NewHealthHandler()
+	incomeRepository := persistence.NewIncomeRepository(db)
+	fixedCostRepository := persistence.NewFixedCostRepository(db)
 	expenseRepository := persistence.NewExpenseRepository(db)
 	summaryRepository := persistence.NewMonthlySummaryRepository(db)
 	location := dateperiod.AsiaTokyo()
 
+	incomeHandler := handler.NewIncomeHandler(
+		incomeusecase.NewCreateIncomeUsecase(incomeRepository, location),
+		incomeusecase.NewListIncomesUsecase(incomeRepository, location),
+		incomeusecase.NewUpdateIncomeUsecase(incomeRepository, location),
+		incomeusecase.NewDeleteIncomeUsecase(incomeRepository),
+		location,
+	)
+	fixedCostHandler := handler.NewFixedCostHandler(
+		fixedcostusecase.NewCreateFixedCostUsecase(fixedCostRepository, location),
+		fixedcostusecase.NewListFixedCostsUsecase(fixedCostRepository, location),
+		fixedcostusecase.NewUpdateFixedCostUsecase(fixedCostRepository, location),
+		fixedcostusecase.NewDeleteFixedCostUsecase(fixedCostRepository),
+		location,
+	)
 	expenseHandler := handler.NewExpenseHandler(
 		expenseusecase.NewCreateExpenseUsecase(
 			expenseRepository,
@@ -38,6 +56,14 @@ func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	e.GET("/health", healthHandler.Get)
 
 	api := e.Group("/api", httpmiddleware.NewDevelopmentUser(cfg.DevUserID))
+	api.POST("/incomes", incomeHandler.Create)
+	api.GET("/incomes", incomeHandler.List)
+	api.PUT("/incomes/:id", incomeHandler.Update)
+	api.DELETE("/incomes/:id", incomeHandler.Delete)
+	api.POST("/fixed-costs", fixedCostHandler.Create)
+	api.GET("/fixed-costs", fixedCostHandler.List)
+	api.PUT("/fixed-costs/:id", fixedCostHandler.Update)
+	api.DELETE("/fixed-costs/:id", fixedCostHandler.Delete)
 	api.POST("/expenses", expenseHandler.Create)
 	api.GET("/expenses", expenseHandler.List)
 	api.DELETE("/expenses/:id", expenseHandler.Delete)
