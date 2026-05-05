@@ -9,25 +9,32 @@ import (
 
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/config"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/infrastructure/database"
+	"github.com/Masaomi9244/kakeibo-app/back-end/internal/infrastructure/persistence"
 	httpmiddleware "github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/middleware"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/response"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/router"
 )
 
 func main() {
+	if err := run(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func run() error {
 	cfg, err := config.Load()
 	if err != nil {
-		log.Fatalf("load config: %v", err)
+		return fmt.Errorf("load config: %w", err)
 	}
 
 	db, err := database.Open(context.Background(), cfg)
 	if err != nil {
-		log.Fatalf("connect database: %v", err)
+		return fmt.Errorf("connect database: %w", err)
 	}
 
 	sqlDB, err := db.DB()
 	if err != nil {
-		log.Fatalf("get sql database: %v", err)
+		return fmt.Errorf("get sql database: %w", err)
 	}
 
 	defer func() {
@@ -36,13 +43,17 @@ func main() {
 		}
 	}()
 
+	if err := persistence.NewUserRepository(db).EnsureDevelopmentUser(context.Background(), cfg.DevUserID); err != nil {
+		return fmt.Errorf("ensure development user: %w", err)
+	}
+
 	e := echo.New()
 	e.HideBanner = true
 	e.HidePort = true
 	e.HTTPErrorHandler = response.HTTPErrorHandler
 	e.Use(httpmiddleware.NewCORS(cfg.FrontendOrigin))
 
-	router.Register(e)
+	router.Register(e, db, cfg)
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", cfg.Port)))
+	return e.Start(fmt.Sprintf(":%s", cfg.Port))
 }
