@@ -69,3 +69,13 @@ func ParseDate(value string, location *time.Location) (DatePeriod, error) {
 		End:   start.AddDate(0, 0, 1),
 	}, nil
 }
+
+// ParseMonthStart はYYYY-MM-DD形式を受け取り、属する月の月初日に正規化する。
+func ParseMonthStart(value string, location *time.Location) (MonthPeriod, error) {
+	date, err := time.ParseInLocation(dateLayout, value, location)
+	if err != nil {
+		return MonthPeriod{}, fmt.Errorf("%w: invalid startMonth", apperror.ErrValidation)
+	}
+
+	return MonthFromTime(date, location), nil
+}
