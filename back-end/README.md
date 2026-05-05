@@ -10,6 +10,15 @@ go mod download
 go run ./cmd/api
 ```
 
+`DATABASE_URL` は起動時に必須です。
+ローカルでAPIを起動する前に、PostgreSQLまたはSupabase PostgreSQLへ接続できるURLを `.env` に設定してください。
+
+起動後は以下でヘルスチェックできます。
+
+```bash
+curl -s http://localhost:8080/health
+```
+
 ## 主なコマンド
 
 ```bash
