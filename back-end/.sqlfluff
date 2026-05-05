@@ -27,6 +27,7 @@ extended_capitalisation_policy = lower
 
 [sqlfluff:rules:references.keywords]
 unquoted_identifiers_policy = all
+ignore_words = users,name
 
 [sqlfluff:rules:references.quoting]
 prefer_quoted_identifiers = false

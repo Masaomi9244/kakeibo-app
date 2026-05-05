@@ -15,10 +15,10 @@ DBスキーマはマイグレーションファイルで管理する。
 ```txt
 back-end/
   migrations/
-    20260504090000_create_users.sql
-    20260504091000_create_incomes.sql
-    20260504092000_create_fixed_costs.sql
-    20260504093000_create_expenses.sql
+    20260505090000_create_users.sql
+    20260505091000_create_incomes.sql
+    20260505092000_create_fixed_costs.sql
+    20260505093000_create_expenses.sql
 ```
 
 ファイル名は `YYYYMMDDHHMMSS_snake_case.sql` にする。
