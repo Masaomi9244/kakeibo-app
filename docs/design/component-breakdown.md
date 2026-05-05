@@ -450,12 +450,20 @@ front-end/src/features/calendar/components/CalendarPageContent.tsx
 
 - 月間カレンダーを表示する
 - 日付選択を扱う
+- PC幅とスマホ幅で表示密度を調整する
 
 各日に表示するもの:
 
 - 日付
 - その日の出費合計
 - その日終了時点の残額
+
+レスポンシブ方針:
+
+- PC幅では、日付、出費合計、終了時点残額をセル内に表示する
+- スマホ幅では、日付と出費合計を優先してセル内に表示する
+- スマホ幅で終了時点残額をセル内に出すと読みづらい場合は、選択日詳細へ委譲する
+- セル内の金額バッジが隣の日付セルに重ならないようにする
 
 表示しないもの:
 
@@ -472,9 +480,13 @@ front-end/src/features/calendar/components/MonthlyCalendar.tsx
 役割:
 
 - 選択日の出費明細を表示する
+- スマホ幅でセル内に出しきれない日終了時点残額を表示する
 
 表示するもの:
 
+- 選択日
+- その日の出費合計
+- その日終了時点の残額
 - 金額
 - 時刻
 
@@ -530,6 +542,7 @@ front-end/src/features/annual-summary/components/AnnualSummaryCards.tsx
 役割:
 
 - 月別サマリー一覧を表示する
+- PC幅ではテーブル、スマホ幅ではカードまたは横スクロール可能な表で表示する
 
 表示するもの:
 
@@ -546,6 +559,13 @@ front-end/src/features/annual-summary/components/AnnualSummaryCards.tsx
 ```txt
 front-end/src/features/annual-summary/components/MonthlySummaryTable.tsx
 ```
+
+実装ルール:
+
+- スマホ幅で列見出しが縦に割れる状態にしない
+- スマホ幅で金額が隣の列と重ならないようにする
+- 横スクロール表にする場合は、月列を固定するか、月が見失われない表示にする
+- カード表示にする場合は、1か月1カードとし、主要金額を読みやすい順に並べる
 
 ### `AnnualTrendChart`
 
