@@ -10,6 +10,7 @@ import (
 	httpmiddleware "github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/middleware"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/dateperiod"
 	expenseusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/expense"
+	expensecalendarusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/expensecalendar"
 	fixedcostusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/fixedcost"
 	incomeusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/income"
 	monthlysummaryusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/monthlysummary"
@@ -20,6 +21,7 @@ func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	healthHandler := handler.NewHealthHandler()
 	incomeRepository := persistence.NewIncomeRepository(db)
 	fixedCostRepository := persistence.NewFixedCostRepository(db)
+	expenseCalendarRepository := persistence.NewExpenseCalendarRepository(db)
 	expenseRepository := persistence.NewExpenseRepository(db)
 	summaryRepository := persistence.NewMonthlySummaryRepository(db)
 	location := dateperiod.AsiaTokyo()
@@ -52,6 +54,15 @@ func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	monthlySummaryHandler := handler.NewMonthlySummaryHandler(
 		monthlysummaryusecase.NewGetMonthlySummaryUsecase(summaryRepository, location),
 	)
+	expenseCalendarHandler := handler.NewExpenseCalendarHandler(
+		expensecalendarusecase.NewGetExpenseCalendarUsecase(
+			expenseCalendarRepository,
+			expenseRepository,
+			summaryRepository,
+			location,
+		),
+		location,
+	)
 
 	e.GET("/health", healthHandler.Get)
 
@@ -68,4 +79,5 @@ func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	api.GET("/expenses", expenseHandler.List)
 	api.DELETE("/expenses/:id", expenseHandler.Delete)
 	api.GET("/monthly-summary", monthlySummaryHandler.Get)
+	api.GET("/expense-calendar", expenseCalendarHandler.Get)
 }
