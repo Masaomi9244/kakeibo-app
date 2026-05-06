@@ -34,6 +34,7 @@
 - `docs/back-end/spec.md`
 - `docs/db/spec.md`
 - `docs/standards/common.md`
+- `docs/standards/implementation-quality-gates.md`
 - `docs/standards/back-end/index.md`
 - `docs/standards/db/index.md`
 
@@ -53,12 +54,8 @@
 | 推奨 | 迷った場合は従う。従わない場合は理由を説明できる状態にする |
 | 許可 | 使ってよいが、責務分離とセキュリティを崩してはいけない |
 
-「必要に応じて」は、以下のいずれかに該当する場合を指す。
-
-- exported function、public method、usecase、handler、middleware、repository、重要なstruct/interfaceである
-- 認証、認可、バリデーション、トランザクション、集計、日時変換に関わる
-- 関数名や型名だけでは、存在理由または制約が読み取れない
-- 将来の実装者が誤って責務を広げやすい
+GoDoc対象は `go.md` のコメント規約に従い、すべての関数、method、type、interfaceとする。
+「必要に応じて」は、GoDoc対象以外の補足コメントや設計メモにだけ適用する。
 
 AIエージェントは、曖昧な判断を実装で勝手に補完しない。仕様・規約・既存実装のどれにも根拠がない場合は、先に仕様または規約へ追記してから実装する。
 
@@ -87,6 +84,7 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 - `time.Now()` を集計ロジックに直書きしない。必要な場合はclockを注入できる形にする
 - Asia/Tokyo基準の月次・日次・年次範囲をDBサーバーのタイムゾーンに依存させない
 - `make check` が通らない状態で完了しない
+- `make check` に含まれる `doc-check`、fmt、vet、lint、race test、DB lintを弱めない
 - テスト対象ごとに責務を分け、複数観点を1つのテストに詰め込まない
 
 ---
@@ -128,9 +126,10 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 
 ### 基本方針
 
-exportする関数、public method、usecase、handler、middleware、repository、重要なstruct/interfaceには、日本語コメントを書く。
+すべての関数、method、type、interfaceには、日本語のGoDocコメントを書く。
 
 コメントは「コードが何をしているか」ではなく、「何のために存在するか」「どういう意図や制約で使うか」を説明する。
+GoDocは対象識別子名から始める。
 
 ただし、以下のようなコメントは書かない。
 
@@ -139,7 +138,9 @@ exportする関数、public method、usecase、handler、middleware、repository
 - 仕様書の全文コピー
 - 実装と乖離しやすい細かすぎる説明
 
-小さな非export関数で、名前だけで目的が明確なものはコメント不要とする。
+小さな非export関数でもコメントを省略しない。
+この規約は `make doc-check` で機械検証する。
+`make check` は `doc-check` を含むため、GoDoc不足がある状態で完了してはいけない。
 
 ### 良いコメント例
 

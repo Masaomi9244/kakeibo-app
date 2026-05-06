@@ -91,6 +91,7 @@ exportする場合は、以下を満たす。
 フロントエンドのTSDoc方針と同じく、バックエンドではすべての関数、method、type、interfaceにGoDocコメントを書く。
 
 対象はexported / unexportedを問わない。
+この規約は `make doc-check` で機械検証し、`make check` に含める。
 
 GoDocは以下を満たす。
 
@@ -155,6 +156,9 @@ func normalizeMemo(value *string) (normalizedMemo, error) {
 helperは「利用される層」に置く。
 複数層から使いたくなった場合だけ、責務名を持つpackageとして切り出す。
 `common`、`utils`、`helper` への退避は禁止する。
+
+1ファイルに複数の主要責務を置かない。
+handler、usecase、repository、mapper、model、config、middlewareは、変更理由が分かれる時点で別fileまたは別packageへ分ける。
 
 ### ポインタと値
 

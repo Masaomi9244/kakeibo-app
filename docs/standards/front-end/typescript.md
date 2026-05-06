@@ -37,6 +37,7 @@ TypeScriptはstrictを有効にする。
 フロントエンドの型安全性は、以下を必須の機械検証とする。
 
 - `npm run typecheck`
+- `npm run doc:check`
 - `npm run lint`
 - `npm run format`
 - `npm run test`
@@ -56,6 +57,9 @@ ESLintはtype-aware ruleを有効にし、以下をエラーとして扱う。
 - 親ディレクトリ相対import
 - レイヤー境界違反
 - exported functionまたはReact componentの戻り値型不足
+
+TSDocはESLintではなく `scripts/check-tsdoc.mjs` で検証する。
+このscriptは `src/` 配下の関数、function代入、type、interfaceを対象にする。
 
 ### `any` の扱い
 

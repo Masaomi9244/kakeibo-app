@@ -23,6 +23,7 @@ export default tseslint.config(
       "out/**",
       "prettier.config.mjs",
       "next-env.d.ts",
+      "scripts/**",
     ],
   },
   js.configs.recommended,

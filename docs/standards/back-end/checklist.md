@@ -29,7 +29,9 @@
 - `utils`、`common`、`helper` packageへ責務不明な処理を集める
 - テストで複数責務をまとめて検証する
 - `make check` を通さずに完了扱いにする
+- `doc-check` を理由なく回避する
 - lint、format、vet、race test、DB lintの失敗を警告扱いで見逃す
+- GoDoc不足をあと回しにして完了扱いにする
 
 ---
 
@@ -115,8 +117,9 @@ AIエージェントは以下をしてはいけない。
 - DTO、domain model、GORM modelが分離されている
 - 日付・タイムゾーン処理がAsia/Tokyo基準でテスト可能になっている
 - transactionが必要な処理で境界が明確になっている
-- 重要なexportには目的が分かるコメントがある
+- すべての関数、method、type、interfaceに規約どおりのGoDocがある
 - テストが責務ごとに分かれている
+- `make doc-check` が成功している
 - `make check` が成功している
 
 ---

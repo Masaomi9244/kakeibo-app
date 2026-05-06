@@ -5,6 +5,7 @@
 AIエージェントが実装依頼を受けたときに、読む順番、判断順序、変更範囲、確認タイミング、完了報告を迷わないようにする。
 
 このドキュメントは、個別のフロントエンド規約、バックエンド規約、DB規約より前に読む。
+実装前後の保守性ゲートは `implementation-quality-gates.md` も必ず確認する。
 
 ---
 
@@ -15,12 +16,12 @@ AIエージェントが実装依頼を受けたときに、読む順番、判断
 | 依頼種別 | 主な対象 | 最初に読む |
 |---|---|---|
 | 仕様確認 | docsのみ | `docs/README.md`, `docs/product/*.md` |
-| 画面実装 | front-end | `docs/product/overview.md`, `docs/features/*.md`, `docs/architecture/front-end.md`, `docs/standards/front-end/index.md` |
-| API実装 | back-end | `docs/api/common.md`, 該当する `docs/api/*.md`, `docs/architecture/back-end.md`, `docs/standards/back-end/index.md` |
-| DB変更 | db, back-end | `docs/db/schema.md`, `docs/db/migrations.md`, `docs/db/constraints.md`, `docs/standards/db/index.md` |
-| 認証・認可 | front-end, back-end, db | `docs/features/auth.md`, `docs/architecture/back-end.md`, `docs/standards/back-end/auth.md`, `docs/standards/db/constraints-and-indexes.md` |
-| 集計処理 | back-end, db, front-end | `docs/product/glossary.md`, `docs/db/aggregation.md`, 該当する `docs/api/*.md` |
-| 横断変更 | 複数領域 | `docs/README.md`, `docs/product/open-questions.md`, 関連する全領域のindex |
+| 画面実装 | front-end | `docs/standards/implementation-quality-gates.md`, `docs/product/overview.md`, `docs/features/*.md`, `docs/architecture/front-end.md`, `docs/standards/front-end/index.md` |
+| API実装 | back-end | `docs/standards/implementation-quality-gates.md`, `docs/api/common.md`, 該当する `docs/api/*.md`, `docs/architecture/back-end.md`, `docs/standards/back-end/index.md` |
+| DB変更 | db, back-end | `docs/standards/implementation-quality-gates.md`, `docs/db/schema.md`, `docs/db/migrations.md`, `docs/db/constraints.md`, `docs/standards/db/index.md` |
+| 認証・認可 | front-end, back-end, db | `docs/standards/implementation-quality-gates.md`, `docs/features/auth.md`, `docs/architecture/back-end.md`, `docs/standards/back-end/auth.md`, `docs/standards/db/constraints-and-indexes.md` |
+| 集計処理 | back-end, db, front-end | `docs/standards/implementation-quality-gates.md`, `docs/product/glossary.md`, `docs/db/aggregation.md`, 該当する `docs/api/*.md` |
+| 横断変更 | 複数領域 | `docs/README.md`, `docs/standards/implementation-quality-gates.md`, `docs/product/open-questions.md`, 関連する全領域のindex |
 
 依頼が複数種別にまたがる場合は、もっとも外側の仕様から読み、次にAPI、DB、実装規約の順で読む。
 
@@ -37,6 +38,8 @@ AIエージェントが実装依頼を受けたときに、読む順番、判断
 - `user_id` をrequest body、query、URL parameterから受け取らない設計になっている
 - 実装場所の規約を `docs/standards/**/*.md` で確認している
 - 仕様にない判断が必要な場合は、コードではなくdocsを先に更新する
+- コメント、責務分離、style、DTO/domain/DB model境界を `implementation-quality-gates.md` で確認している
+- 機械チェックが存在する規約は、対象の `check` コマンドに含まれている
 
 この条件を満たさない場合は、最小のdocs修正を行ってから実装する。
 
@@ -114,10 +117,11 @@ AIエージェントが実装依頼を受けたときに、読む順番、判断
 3. 既存実装の責務分離と命名を確認する
 4. 変更範囲を小さく決める
 5. docs不足があれば先にdocsを更新する
-6. 実装する
-7. 対象範囲のテスト、lint、format、typecheckを実行する
-8. 失敗があれば原因を切り分ける
-9. 変更内容、確認結果、残リスクを報告する
+6. 機械チェックで固定できる規約不足があれば、実装前にcheck scriptまたはlint設定へ寄せる
+7. 実装する
+8. 対象範囲のテスト、lint、format、typecheckを実行する
+9. 失敗があれば原因を切り分ける
+10. 変更内容、確認結果、残リスクを報告する
 
 途中で仕様判断が必要になった場合は、コードで仮決めしない。
 
@@ -138,6 +142,8 @@ AIエージェントが実装依頼を受けたときに、読む順番、判断
 - DB変更の場合、migration、constraint、index、認可境界が確認されている
 - 対象範囲のチェックリストを確認している
 - 実行可能な検証コマンドを実行している
+- フロントエンド変更では `npm run check` に `doc:check` が含まれている
+- バックエンド変更では `make check` に `doc-check` が含まれている
 - 実行できなかった検証がある場合、理由を報告している
 
 ---

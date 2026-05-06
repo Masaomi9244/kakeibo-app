@@ -90,6 +90,8 @@ components/atoms/AmountText.styles.ts
 ```
 
 `*.styles.ts` は表示スタイルだけを持つ。React component、API通信、状態管理、domainロジックを置かない。
+style objectは名前付きexportにし、default exportは禁止する。
+型は `SxProps<Theme>`、MUI component固有の型、または責務が分かる専用readonly型で明示する。
 
 1行程度の局所的な `sx` は許可する。ただし、以下のいずれかに該当した時点で `*.styles.ts`、共通component、またはthemeへ寄せる。
 
@@ -97,6 +99,7 @@ components/atoms/AmountText.styles.ts
 - 同じ見た目が2箇所以上に出る
 - レスポンシブ指定を含む
 - 色、余白、角丸、Typographyの基準値を複数持つ
+- hover / focus / disabledなど状態styleを含む
 
 以下は禁止する。
 
@@ -104,6 +107,7 @@ components/atoms/AmountText.styles.ts
 - themeにある値を使わずに、余白・角丸・Typographyを大量に直書きする
 - `!important` を使う
 - レスポンシブ対応を個別componentに場当たり的に散らす
+- 型のないstyle objectをexportする
 
 画面固有の一時的な調整は許可するが、2箇所以上で同じ見た目が必要になった時点で共通componentまたはthemeへ寄せる。
 
