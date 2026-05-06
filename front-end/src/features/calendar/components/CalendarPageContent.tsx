@@ -5,6 +5,9 @@ import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { PageHeader } from "@/components/molecules/PageHeader";
 import { formatYen } from "@/libs/money";
 
+/**
+ * 月間カレンダーの1日分セルに表示する値。
+ */
 type CalendarCell = {
   readonly dateKey: string;
   readonly day: number;
@@ -14,10 +17,16 @@ type CalendarCell = {
   readonly isSelected: boolean;
 };
 
+/**
+ * 月間カレンダーの日付セルコンポーネントに渡すprops。
+ */
 type CalendarDateCellProps = {
   readonly cell: CalendarCell;
 };
 
+/**
+ * 選択日の支出一覧に表示する出費。
+ */
 type SelectedExpense = {
   readonly amount: number;
   readonly id: string;
@@ -96,6 +105,13 @@ const selectedExpenses: readonly SelectedExpense[] = [
   { amount: 780, id: "selected-0915", time: "09:15" },
 ];
 
+/**
+ * @description カレンダーの日付セルを支出合計と残高付きで表示する。
+ * @param props - 1日分のカレンダーセル情報。
+ * @returns カレンダー日付セルUI。
+ * @example
+ * <CalendarDateCell cell={cell} />
+ */
 function CalendarDateCell({ cell }: CalendarDateCellProps): ReactElement {
   return (
     <Box
@@ -140,6 +156,13 @@ function CalendarDateCell({ cell }: CalendarDateCellProps): ReactElement {
   );
 }
 
+/**
+ * @description 曜日ラベルに応じて日曜、土曜、平日の表示色を返す。
+ * @param weekDay - 曜日ラベル。
+ * @returns MUIのsx colorで利用できるtheme参照。
+ * @example
+ * getWeekDayColor("日");
+ */
 const getWeekDayColor = (weekDay: string): string => {
   if (weekDay === "日") {
     return "error.main";
@@ -152,6 +175,13 @@ const getWeekDayColor = (weekDay: string): string => {
   return "text.secondary";
 };
 
+/**
+ * @description 対象月の日別支出合計と月次集計をカレンダー形式で表示する。
+ * @param なし
+ * @returns 月間カレンダーUI。
+ * @example
+ * <MonthCalendar />
+ */
 function MonthCalendar(): ReactElement {
   return (
     <Paper
@@ -232,6 +262,13 @@ function MonthCalendar(): ReactElement {
   );
 }
 
+/**
+ * @description 選択日の支出合計と支出一覧を表示する。
+ * @param なし
+ * @returns 選択日の支出一覧UI。
+ * @example
+ * <SelectedDayExpenses />
+ */
 function SelectedDayExpenses(): ReactElement {
   return (
     <Paper
@@ -276,6 +313,13 @@ function SelectedDayExpenses(): ReactElement {
   );
 }
 
+/**
+ * @description 月間カレンダー画面の静的モック全体を表示する。
+ * @param なし
+ * @returns 月間カレンダー画面のコンテンツUI。
+ * @example
+ * <CalendarPageContent />
+ */
 export function CalendarPageContent(): ReactElement {
   return (
     <Stack spacing={3}>

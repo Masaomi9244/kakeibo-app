@@ -4,6 +4,9 @@ import { createClient } from "@supabase/supabase-js";
 
 import { clientEnv } from "./env";
 
+/**
+ * MVP時点でフロントエンドが参照するSupabase Database型。
+ */
 type AppDatabase = {
   public: {
     Functions: Record<string, never>;
@@ -12,9 +15,18 @@ type AppDatabase = {
   };
 };
 
+/**
+ * アプリで利用するSupabase Browser Client型。
+ */
 type AppSupabaseClient = SupabaseClient<AppDatabase, "public", "public">;
 
-// Supabase Auth Clientの生成を1か所に閉じ込める。
+/**
+ * @description Supabase Auth Clientの生成を1か所に閉じ込める。
+ * @param なし
+ * @returns Supabase Browser Client。
+ * @example
+ * const supabase = createSupabaseBrowserClient();
+ */
 export const createSupabaseBrowserClient = (): AppSupabaseClient => {
   if (clientEnv.supabaseUrl === "" || clientEnv.supabaseAnonKey === "") {
     throw new Error("Supabase client environment variables are not set.");

@@ -18,16 +18,25 @@ import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { formatYen } from "@/libs/money";
 
+/**
+ * 今日の出費一覧に表示する出費。
+ */
 type ExpenseItem = {
   readonly amount: number;
   readonly id: string;
   readonly time: string;
 };
 
+/**
+ * 出費のクイック入力コンポーネントに渡すprops。
+ */
 type QuickExpenseInputProps = {
   readonly onCommit: (amount: number) => void;
 };
 
+/**
+ * 今日の出費カードに渡すprops。
+ */
 type TodayExpensesCardProps = {
   readonly expenses: readonly ExpenseItem[];
   readonly total: number;
@@ -51,6 +60,13 @@ const baseTodayExpenses: readonly ExpenseItem[] = [
   },
 ];
 
+/**
+ * @description 出費入力欄の文字列を1円以上の整数へ変換する。
+ * @param value - ユーザーが入力した金額文字列。
+ * @returns 変換できた金額。変換できない場合はnull。
+ * @example
+ * parseAmountInput("1,200");
+ */
 const parseAmountInput = (value: string): number | null => {
   const normalizedValue = value.replaceAll(",", "").trim();
 
@@ -67,6 +83,13 @@ const parseAmountInput = (value: string): number | null => {
   return amount;
 };
 
+/**
+ * @description ホーム画面で今月の残り予算と今日使える目安を強調表示する。
+ * @param なし
+ * @returns 予算サマリーのヒーローUI。
+ * @example
+ * <BudgetHero />
+ */
 function BudgetHero(): ReactElement {
   return (
     <Paper
@@ -96,11 +119,25 @@ function BudgetHero(): ReactElement {
   );
 }
 
+/**
+ * @description 金額だけで出費を記録するためのクイック入力欄を表示する。
+ * @param props - 出費確定時に呼び出すコールバック。
+ * @returns 出費金額入力UI。
+ * @example
+ * <QuickExpenseInput onCommit={handleExpenseCommit} />
+ */
 function QuickExpenseInput({ onCommit }: QuickExpenseInputProps): ReactElement {
   const lastCommittedValueRef = useRef<string | null>(null);
   const [amountInput, setAmountInput] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
+  /**
+   * @description 入力中の金額を検証し、正しい値なら出費として確定する。
+   * @param なし
+   * @returns なし。
+   * @example
+   * commitAmount();
+   */
   const commitAmount = (): void => {
     const rawValue = amountInput.trim();
 
@@ -126,11 +163,25 @@ function QuickExpenseInput({ onCommit }: QuickExpenseInputProps): ReactElement {
     setErrorMessage(undefined);
   };
 
+  /**
+   * @description 金額入力の変更をstateへ反映し、二重保存防止状態をリセットする。
+   * @param event - 入力変更イベント。
+   * @returns なし。
+   * @example
+   * handleAmountChange(event);
+   */
   const handleAmountChange = (event: ChangeEvent<HTMLInputElement>): void => {
     lastCommittedValueRef.current = null;
     setAmountInput(event.target.value);
   };
 
+  /**
+   * @description Enterキー押下時に出費確定処理を実行する。
+   * @param event - キーボード入力イベント。
+   * @returns なし。
+   * @example
+   * handleAmountKeyDown(event);
+   */
   const handleAmountKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === "Enter") {
       commitAmount();
@@ -170,6 +221,13 @@ function QuickExpenseInput({ onCommit }: QuickExpenseInputProps): ReactElement {
   );
 }
 
+/**
+ * @description 今日の出費一覧と合計金額を表示する。
+ * @param props - 表示する出費一覧と合計金額。
+ * @returns 今日の出費カードUI。
+ * @example
+ * <TodayExpensesCard expenses={expenses} total={2140} />
+ */
 function TodayExpensesCard({ expenses, total }: TodayExpensesCardProps): ReactElement {
   return (
     <Paper
@@ -222,6 +280,13 @@ function TodayExpensesCard({ expenses, total }: TodayExpensesCardProps): ReactEl
   );
 }
 
+/**
+ * @description ホーム画面の静的モック全体を表示する。
+ * @param なし
+ * @returns ホーム画面のコンテンツUI。
+ * @example
+ * <HomePageContent />
+ */
 export function HomePageContent(): ReactElement {
   const [committedExpenseAmount, setCommittedExpenseAmount] = useState<number | null>(
     null,
@@ -240,15 +305,36 @@ export function HomePageContent(): ReactElement {
           ...baseTodayExpenses,
         ];
 
+  /**
+   * @description クイック入力で確定した出費を静的モックの一覧へ一時反映する。
+   * @param amount - 確定した出費金額。
+   * @returns なし。
+   * @example
+   * handleExpenseCommit(1200);
+   */
   const handleExpenseCommit = (amount: number): void => {
     setCommittedExpenseAmount(amount);
     setIsSnackbarOpen(true);
   };
 
+  /**
+   * @description 出費登録完了通知を閉じる。
+   * @param なし
+   * @returns なし。
+   * @example
+   * handleSnackbarClose();
+   */
   const handleSnackbarClose = (): void => {
     setIsSnackbarOpen(false);
   };
 
+  /**
+   * @description 最後に静的モックへ反映した出費を取り消す。
+   * @param なし
+   * @returns なし。
+   * @example
+   * handleUndoExpense();
+   */
   const handleUndoExpense = (): void => {
     setCommittedExpenseAmount(null);
     setIsSnackbarOpen(false);

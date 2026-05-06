@@ -8,11 +8,20 @@ import { useState } from "react";
 
 import { appTheme } from "@/theme/appTheme";
 
+/**
+ * アプリProviderコンポーネントに渡すprops。
+ */
 type AppProvidersProps = {
   children: ReactNode;
 };
 
-// アプリ全体で共有する外部ライブラリProviderを集約する。
+/**
+ * @description アプリ全体で共有する外部ライブラリProviderを集約する。
+ * @param props - Provider配下に描画するchildren。
+ * @returns MUI themeとTanStack Queryを適用したchildren。
+ * @example
+ * <AppProviders><App /></AppProviders>
+ */
 export function AppProviders({ children }: Readonly<AppProvidersProps>): ReactElement {
   const [queryClient] = useState(
     () =>

@@ -1,3 +1,6 @@
+/**
+ * アプリ共通ナビゲーションに表示するリンク情報。
+ */
 export type NavigationItem = {
   readonly href: string;
   readonly label: string;

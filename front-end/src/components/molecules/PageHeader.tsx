@@ -2,11 +2,21 @@ import type { ReactElement } from "react";
 
 import { Stack, Typography } from "@mui/material";
 
+/**
+ * 画面見出しコンポーネントに渡すprops。
+ */
 type PageHeaderProps = {
   readonly subtitle?: string;
   readonly title: string;
 };
 
+/**
+ * @description 各画面のタイトルと補足テキストを同じ余白で表示する。
+ * @param props - 画面タイトルと任意のサブタイトル。
+ * @returns 画面上部の見出しUI。
+ * @example
+ * <PageHeader title="ホーム" subtitle="2026年5月" />
+ */
 export function PageHeader({ subtitle, title }: PageHeaderProps): ReactElement {
   return (
     <Stack spacing={0.75}>

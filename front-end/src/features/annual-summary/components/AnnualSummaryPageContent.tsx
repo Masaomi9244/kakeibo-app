@@ -6,6 +6,9 @@ import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { formatYen } from "@/libs/money";
 
+/**
+ * 年間サマリーの月別一覧に表示する1か月分の集計。
+ */
 type MonthlySummary = {
   readonly availableIncome: number;
   readonly expense: number;
@@ -16,6 +19,9 @@ type MonthlySummary = {
   readonly totalIncome: number;
 };
 
+/**
+ * 年間サマリーの棒グラフに表示する指標。
+ */
 type BarMetric = {
   readonly color: string;
   readonly id: string;
@@ -23,6 +29,9 @@ type BarMetric = {
   readonly value: number;
 };
 
+/**
+ * 棒グラフの1指標列コンポーネントに渡すprops。
+ */
 type BarMetricProps = {
   readonly metric: BarMetric;
 };
@@ -91,6 +100,13 @@ const chartMetrics: readonly BarMetric[] = [
   { color: "#0d9488", id: "remaining", label: "生活費残り", value: 213840 },
 ];
 
+/**
+ * @description 年間サマリーの1指標を縦棒として表示する。
+ * @param props - 表示する指標。
+ * @returns 棒グラフの1列UI。
+ * @example
+ * <BarMetricColumn metric={metric} />
+ */
 function BarMetricColumn({ metric }: BarMetricProps): ReactElement {
   const maxAmount = 315000;
   const height = Math.max(6, Math.round((metric.value / maxAmount) * 180));
@@ -123,6 +139,13 @@ function BarMetricColumn({ metric }: BarMetricProps): ReactElement {
   );
 }
 
+/**
+ * @description 年間サマリーの主要指標を棒グラフとして表示する。
+ * @param なし
+ * @returns 静的な収支内訳グラフUI。
+ * @example
+ * <SummaryChart />
+ */
 function SummaryChart(): ReactElement {
   return (
     <Paper
@@ -153,6 +176,13 @@ function SummaryChart(): ReactElement {
   );
 }
 
+/**
+ * @description 月別の収入、固定費、出費、残り金額を一覧表示する。
+ * @param なし
+ * @returns 月別サマリー一覧UI。
+ * @example
+ * <MonthlySummaryList />
+ */
 function MonthlySummaryList(): ReactElement {
   return (
     <Paper
@@ -199,6 +229,13 @@ function MonthlySummaryList(): ReactElement {
   );
 }
 
+/**
+ * @description 年間サマリー画面の静的モック全体を表示する。
+ * @param なし
+ * @returns 年間サマリー画面のコンテンツUI。
+ * @example
+ * <AnnualSummaryPageContent />
+ */
 export function AnnualSummaryPageContent(): ReactElement {
   return (
     <Stack spacing={3}>
