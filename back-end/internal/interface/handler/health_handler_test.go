@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// TestHealthHandlerGet はhealth check APIが200 OKと固定responseを返すことを検証する。
 func TestHealthHandlerGet(t *testing.T) {
 	t.Parallel()
 

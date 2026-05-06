@@ -20,6 +20,9 @@ DB変更後は、最低限以下を確認する。
 - バックエンドのrepositoryテストが通る
 - SQL migrationが `make db-lint` を通る
 - migrationファイル名が `YYYYMMDDHHMMSS_snake_case.sql` になっている
+- migration先頭に目的コメントがある
+- テーブル作成・変更時に `COMMENT ON TABLE` と `COMMENT ON COLUMN` が追加されている
+- 制約・indexの意図がコメントまたは命名から読み取れる
 
 ### テストデータ
 

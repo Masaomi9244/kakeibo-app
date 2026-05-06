@@ -54,6 +54,7 @@ func (u *CreateFixedCostUsecase) Execute(ctx context.Context, userID string, inp
 	return createdFixedCost, nil
 }
 
+// normalize は固定費登録入力を検証し、永続化用の値へ正規化する。
 func (u *CreateFixedCostUsecase) normalize(input CreateFixedCostInput) (normalizedFixedCostInput, error) {
 	name := strings.TrimSpace(input.Name)
 	if name == "" {
@@ -81,6 +82,7 @@ func (u *CreateFixedCostUsecase) normalize(input CreateFixedCostInput) (normaliz
 	}, nil
 }
 
+// normalizedFixedCostInput は検証済みの固定費登録入力を表す。
 type normalizedFixedCostInput struct {
 	startMonth time.Time
 	name       string

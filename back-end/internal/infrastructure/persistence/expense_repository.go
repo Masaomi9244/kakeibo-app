@@ -57,6 +57,7 @@ func (r *ExpenseRepository) Delete(ctx context.Context, userID, id string) (bool
 	return result.RowsAffected > 0, nil
 }
 
+// listByPeriod は指定期間の出費取得queryを共通化する。
 func (r *ExpenseRepository) listByPeriod(ctx context.Context, userID string, start, end time.Time) ([]expense.Expense, error) {
 	var models []expenseModel
 	if err := r.db.WithContext(ctx).
@@ -74,6 +75,7 @@ func (r *ExpenseRepository) listByPeriod(ctx context.Context, userID string, sta
 	return expenses, nil
 }
 
+// toExpense はGORM永続化modelを出費domain modelへ変換する。
 func toExpense(model expenseModel) expense.Expense {
 	return expense.Expense{
 		ID:      model.ID,

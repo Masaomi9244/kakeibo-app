@@ -56,6 +56,7 @@ func (u *CreateIncomeUsecase) Execute(ctx context.Context, userID string, input 
 	return createdIncome, nil
 }
 
+// normalize は収入登録入力を検証し、永続化用の値へ正規化する。
 func (u *CreateIncomeUsecase) normalize(input CreateIncomeInput) (normalizedIncomeInput, error) {
 	if input.Amount <= 0 {
 		return normalizedIncomeInput{}, fmt.Errorf("%w: amount must be greater than 0", apperror.ErrValidation)
@@ -83,6 +84,7 @@ func (u *CreateIncomeUsecase) normalize(input CreateIncomeInput) (normalizedInco
 	}, nil
 }
 
+// normalizedIncomeInput は検証済みの収入登録入力を表す。
 type normalizedIncomeInput struct {
 	memo              *string
 	incomeDate        time.Time
@@ -90,10 +92,12 @@ type normalizedIncomeInput struct {
 	includedInBalance bool
 }
 
+// normalizedMemo は空文字をnilへ寄せた収入メモを表す。
 type normalizedMemo struct {
 	value *string
 }
 
+// normalizeMemo は任意の収入メモをtrimし、空文字と最大長を検証する。
 func normalizeMemo(value *string) (normalizedMemo, error) {
 	if value == nil {
 		return normalizedMemo{}, nil

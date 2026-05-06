@@ -6,12 +6,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// HealthHandler はhealth check APIのHTTP境界を担当する。
 type HealthHandler struct{}
 
+// HealthResponse はhealth check APIのresponse bodyを表す。
 type HealthResponse struct {
 	Status string `json:"status"`
 }
 
+// NewHealthHandler はhealth check API handlerを作成する。
 func NewHealthHandler() *HealthHandler {
 	return &HealthHandler{}
 }

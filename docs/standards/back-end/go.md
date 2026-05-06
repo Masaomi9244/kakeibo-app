@@ -86,6 +86,76 @@ exportする場合は、以下を満たす。
 - 利用責務が明確である
 - package境界として公開してよい
 
+### コメント規約
+
+フロントエンドのTSDoc方針と同じく、バックエンドではすべての関数、method、type、interfaceにGoDocコメントを書く。
+
+対象はexported / unexportedを問わない。
+
+GoDocは以下を満たす。
+
+- コメントは対象識別子名から始める
+- 「何のために存在するか」「どの層の責務か」を説明する
+- 単なる実装手順や識別子名の言い換えを書かない
+- handler、usecase、repository、mapper、DTO、domain型は層の境界が分かるように書く
+
+良い例：
+
+```go
+// CreateIncomeUsecase は対象ユーザーの収入登録ルールを実行する。
+type CreateIncomeUsecase struct {
+    repository income.Repository
+}
+
+// Execute は入力値を検証し、対象ユーザーの収入を登録する。
+func (u *CreateIncomeUsecase) Execute(ctx context.Context, userID string, input CreateIncomeInput) (income.Income, error) {
+    // ...
+}
+```
+
+private helperでもコメントを省略しない。
+
+```go
+// normalizeMemo は空白だけのmemoを未指定として扱い、最大文字数を検証する。
+func normalizeMemo(value *string) (normalizedMemo, error) {
+    // ...
+}
+```
+
+悪い例：
+
+```go
+// memoをtrimする。
+func normalizeMemo(value *string) (normalizedMemo, error) {
+    // ...
+}
+```
+
+### 責務分離規約
+
+フロントエンドで見た目やhelperを切り出すのと同じく、バックエンドでは層の責務を混ぜない。
+
+各層の責務は以下に固定する。
+
+- `cmd`: 起動、設定読み込み、依存関係の組み立てだけを行う
+- `interface/handler`: HTTP request / response、query、path、status code、DTO変換だけを扱う
+- `usecase`: 入力検証、業務フロー、repository呼び出し順だけを扱う
+- `domain`: 業務上の型、入力、repository interfaceだけを扱う
+- `infrastructure/persistence`: GORM model、SQL query、DB error wrapだけを扱う
+- `infrastructure/database`: DB接続とconnection pool設定だけを扱う
+
+以下は禁止する。
+
+- handlerでGORMやSQLを直接呼ぶ
+- repositoryでHTTP statusやDTOを扱う
+- domain packageがEcho、GORM、環境変数に依存する
+- usecaseがEchoの `Context` やHTTP status codeを返す
+- mapper、normalize、date変換などのprivate helperを責務と違うpackageへ置く
+
+helperは「利用される層」に置く。
+複数層から使いたくなった場合だけ、責務名を持つpackageとして切り出す。
+`common`、`utils`、`helper` への退避は禁止する。
+
 ### ポインタと値
 
 structをポインタで扱うか値で扱うかは、以下で判断する。

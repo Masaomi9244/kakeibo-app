@@ -15,12 +15,14 @@ import (
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/router"
 )
 
+// main はAPIサーバーの起動エントリーポイントを提供する。
 func main() {
 	if err := run(); err != nil {
 		log.Fatal(err)
 	}
 }
 
+// run は設定読み込み、DB接続、middleware、routerを組み立ててAPIサーバーを起動する。
 func run() error {
 	cfg, err := config.Load()
 	if err != nil {

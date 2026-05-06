@@ -85,6 +85,7 @@ func (u *GetExpenseCalendarUsecase) Execute(
 	}, nil
 }
 
+// parseSelectedDate は任意の選択日を検証し、対象月内の日付期間へ変換する。
 func (u *GetExpenseCalendarUsecase) parseSelectedDate(
 	value string,
 	monthPeriod dateperiod.MonthPeriod,
@@ -105,6 +106,7 @@ func (u *GetExpenseCalendarUsecase) parseSelectedDate(
 	return date, nil
 }
 
+// listSelectedDateExpenses は選択日が指定された場合のみ、その日の出費一覧を取得する。
 func (u *GetExpenseCalendarUsecase) listSelectedDateExpenses(
 	ctx context.Context,
 	userID string,
@@ -122,6 +124,7 @@ func (u *GetExpenseCalendarUsecase) listSelectedDateExpenses(
 	return expenses, nil
 }
 
+// buildDays は月内各日の出費合計と日次残額を生成する。
 func buildDays(
 	monthPeriod dateperiod.MonthPeriod,
 	summary monthlysummary.MonthlySummary,

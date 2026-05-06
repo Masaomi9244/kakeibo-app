@@ -9,6 +9,7 @@ import (
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/apperror"
 )
 
+// toHTTPError はusecase errorをHTTP layerのerrorへ変換する。
 func toHTTPError(err error) error {
 	switch {
 	case errors.Is(err, apperror.ErrValidation):

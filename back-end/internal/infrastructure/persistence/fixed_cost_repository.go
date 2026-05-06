@@ -96,6 +96,7 @@ func (r *FixedCostRepository) Delete(ctx context.Context, userID, id string) (bo
 	return result.RowsAffected > 0, nil
 }
 
+// toFixedCost はGORM永続化modelを固定費domain modelへ変換する。
 func toFixedCost(model fixedCostModel) fixedcost.FixedCost {
 	return fixedcost.FixedCost{
 		ID:         model.ID,

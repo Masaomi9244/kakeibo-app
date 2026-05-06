@@ -49,6 +49,7 @@ func (r *ExpenseCalendarRepository) ListDailyExpenseTotals(
 	return totals, nil
 }
 
+// dailyExpenseTotalRow は日別出費集計queryのscan先を表す。
 type dailyExpenseTotalRow struct {
 	Date         time.Time `gorm:"column:date"`
 	ExpenseTotal int       `gorm:"column:expense_total"`

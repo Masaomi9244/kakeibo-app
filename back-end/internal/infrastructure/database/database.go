@@ -39,6 +39,7 @@ func Open(ctx context.Context, cfg config.Config) (*gorm.DB, error) {
 	return db, nil
 }
 
+// applyConnectionPool は設定値を標準DB接続プールへ反映する。
 func applyConnectionPool(sqlDB *sql.DB, cfg config.Config) {
 	sqlDB.SetMaxOpenConns(cfg.DBMaxOpenConns)
 	sqlDB.SetMaxIdleConns(cfg.DBMaxIdleConns)
