@@ -5,11 +5,21 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { AppBottomNav } from "@/components/organisms/AppBottomNav";
 import { AppSideNav } from "@/components/organisms/AppSideNav";
 
+/**
+ * アプリ共通レイアウトに渡すprops。
+ */
 type AppShellProps = {
   readonly children: ReactNode;
   readonly currentPath: string;
 };
 
+/**
+ * @description PCのサイドナビとSPのヘッダー/ボトムナビを含む共通レイアウトを提供する。
+ * @param props - 現在のパスと画面本体。
+ * @returns アプリ共通レイアウトで包んだ画面UI。
+ * @example
+ * <AppShell currentPath="/"><HomePageContent /></AppShell>
+ */
 export function AppShell({ children, currentPath }: AppShellProps): ReactElement {
   return (
     <Box sx={{ minHeight: "100dvh" }}>

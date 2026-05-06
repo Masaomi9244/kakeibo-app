@@ -14,6 +14,9 @@ import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { formatYen } from "@/libs/money";
 
+/**
+ * 固定費一覧に表示する固定費。
+ */
 type FixedCostItem = {
   readonly amount: number;
   readonly id: string;
@@ -46,6 +49,13 @@ const fixedCostItems: readonly FixedCostItem[] = [
   },
 ];
 
+/**
+ * @description 固定費の意味と予算反映ルールを画面上で補足する。
+ * @param なし
+ * @returns 固定費説明カードUI。
+ * @example
+ * <FixedCostGuide />
+ */
 function FixedCostGuide(): ReactElement {
   return (
     <Paper
@@ -64,6 +74,13 @@ function FixedCostGuide(): ReactElement {
   );
 }
 
+/**
+ * @description 固定費を新規登録するための静的フォームを表示する。
+ * @param なし
+ * @returns 固定費登録フォームUI。
+ * @example
+ * <FixedCostForm />
+ */
 function FixedCostForm(): ReactElement {
   return (
     <Paper
@@ -110,6 +127,13 @@ function FixedCostForm(): ReactElement {
   );
 }
 
+/**
+ * @description 登録済み固定費の静的一覧を表示する。
+ * @param なし
+ * @returns 固定費一覧UI。
+ * @example
+ * <FixedCostList />
+ */
 function FixedCostList(): ReactElement {
   return (
     <Paper
@@ -172,6 +196,13 @@ function FixedCostList(): ReactElement {
   );
 }
 
+/**
+ * @description 固定費管理画面の静的モック全体を表示する。
+ * @param なし
+ * @returns 固定費管理画面のコンテンツUI。
+ * @example
+ * <FixedCostPageContent />
+ */
 export function FixedCostPageContent(): ReactElement {
   return (
     <Stack spacing={3}>

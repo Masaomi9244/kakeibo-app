@@ -11,10 +11,20 @@ export const metadata: Metadata = {
   description: "Personal kakeibo app",
 };
 
+/**
+ * ルートレイアウトコンポーネントに渡すprops。
+ */
 type RootLayoutProps = {
   children: ReactNode;
 };
 
+/**
+ * @description Next.js App Router全体にMUIとアプリProviderを適用する。
+ * @param props - 全ページ共通で描画するchildren。
+ * @returns HTMLルートを含むアプリ全体のレイアウト。
+ * @example
+ * <RootLayout><HomePage /></RootLayout>
+ */
 export default function RootLayout({
   children,
 }: Readonly<RootLayoutProps>): ReactElement {

@@ -128,38 +128,74 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 
 ### 基本方針
 
-exportする関数、Reactコンポーネント、hook、usecase、mapper、API関数、重要な型には、日本語コメントを書く。
+すべての関数、Reactコンポーネント、custom hook、usecase、mapper、API関数、type、interfaceには、TSDoc形式の日本語コメントを書く。
 
 コメントは「コードが何をしているか」ではなく、「何のために存在するか」「どういう意図で使うか」を説明する。
 
-ただし、以下のようなコメントは書かない。
+関数、Reactコンポーネント、custom hook、usecase、mapper、API関数には、以下のタグを必ず含める。
+
+- `@description`
+- `@param`
+- `@returns`
+- `@example`
+
+引数がない関数でも、`@param` には `なし` と書く。
+
+type、interfaceには `/** */` 形式でコメントを書く。props型、DTO型、domain型、private helper用の型も例外なく対象にする。
+
+ただし、以下のようなコメントは禁止する。
 
 - 関数名、変数名、型名の言い換えだけ
 - 実装手順を1行ずつ説明するもの
 - 仕様書の全文コピー
 - 実装と乖離しやすい細かすぎる説明
 
-小さな非export関数で、名前だけで目的が明確なものはコメント不要とする。
-
 ### 良いコメント例
 
 ```ts
-// 出費入力欄の文字列を、APIに送信できる整数の金額へ正規化する
+/**
+ * @description 出費入力欄の文字列を、APIに送信できる整数の金額へ正規化する。
+ * @param input - ユーザーが入力した金額文字列。
+ * @returns APIへ送れる整数の金額。
+ * @example
+ * normalizeExpenseAmount('1,200');
+ */
 export const normalizeExpenseAmount = (input: string): number => {
   // ...
 };
 ```
 
 ```tsx
-// トップ画面で最短導線の出費登録を行うための金額入力コンポーネント
-export const ExpenseAmountInput = () => {
+/**
+ * @description トップ画面で最短導線の出費登録を行うための金額入力コンポーネント。
+ * @param props - 出費登録に必要なコールバック。
+ * @returns 出費金額のみを入力するUI。
+ * @example
+ * <ExpenseAmountInput onCommit={handleCommit} />
+ */
+export const ExpenseAmountInput = (props: ExpenseAmountInputProps): ReactElement => {
   // ...
 };
 ```
 
 ```ts
-// 出費登録後にトップ画面で必要な一覧とサマリーを更新するためのmutation hook
-export const useCreateExpenseOnBlur = () => {
+/**
+ * 出費登録フォームから受け取るprops。
+ */
+type ExpenseAmountInputProps = {
+  readonly onCommit: (amount: number) => void;
+};
+```
+
+```ts
+/**
+ * @description 出費登録後にトップ画面で必要な一覧とサマリーを更新するためのmutation hook。
+ * @param なし
+ * @returns 出費登録mutationと実行状態。
+ * @example
+ * const createExpense = useCreateExpenseOnBlur();
+ */
+export const useCreateExpenseOnBlur = (): UseCreateExpenseOnBlurResult => {
   // ...
 };
 ```

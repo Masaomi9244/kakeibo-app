@@ -1,3 +1,6 @@
+/**
+ * APIが共通エラーレスポンスとして返すデータ構造。
+ */
 export type ApiErrorResponse = {
   message: string;
   details?: Array<{
@@ -6,10 +9,23 @@ export type ApiErrorResponse = {
   }>;
 };
 
+/**
+ * @description API通信でHTTPエラーを受け取ったことを表すアプリ共通エラー。
+ * @example
+ * throw new ApiClientError(400, { message: "Bad request" });
+ */
 export class ApiClientError extends Error {
   readonly status: number;
   readonly details?: ApiErrorResponse["details"];
 
+  /**
+   * @description HTTPステータスとAPIエラーレスポンスからクライアント用エラーを生成する。
+   * @param status - APIが返したHTTPステータス。
+   * @param response - APIが返した共通エラーレスポンス。
+   * @returns ApiClientErrorインスタンス。
+   * @example
+   * new ApiClientError(401, { message: "Unauthorized" });
+   */
   constructor(status: number, response: ApiErrorResponse) {
     super(response.message);
     this.name = "ApiClientError";

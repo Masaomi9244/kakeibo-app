@@ -2,44 +2,31 @@ import type { ReactElement } from "react";
 
 import { Typography } from "@mui/material";
 
+import type { AmountSize, AmountTone } from "@/components/atoms/AmountText.styles";
+
+import {
+  amountTextRootSx,
+  getAmountColor,
+  getAmountVariant,
+} from "@/components/atoms/AmountText.styles";
 import { formatYen } from "@/libs/money";
 
-type AmountTone = "default" | "expense" | "fixedCost" | "income" | "inverse";
-
+/**
+ * 金額表示コンポーネントに渡すprops。
+ */
 type AmountTextProps = {
   readonly amount: number;
-  readonly size?: "large" | "medium" | "small";
+  readonly size?: AmountSize;
   readonly tone?: AmountTone;
 };
 
-const getAmountColor = (tone: AmountTone): string => {
-  switch (tone) {
-    case "expense":
-      return "error.main";
-    case "fixedCost":
-      return "warning.main";
-    case "income":
-      return "success.main";
-    case "inverse":
-      return "common.white";
-    case "default":
-      return "text.primary";
-  }
-};
-
-const getAmountVariant = (
-  size: NonNullable<AmountTextProps["size"]>,
-): "h3" | "h4" | "h5" => {
-  switch (size) {
-    case "large":
-      return "h3";
-    case "medium":
-      return "h4";
-    case "small":
-      return "h5";
-  }
-};
-
+/**
+ * @description 金額を家計簿UI共通の色とサイズで表示する。
+ * @param props - 表示する金額、サイズ、意味色。
+ * @returns 金額テキストUI。
+ * @example
+ * <AmountText amount={1200} tone="expense" />
+ */
 export function AmountText({
   amount,
   size = "medium",
@@ -49,12 +36,7 @@ export function AmountText({
     <Typography
       component="p"
       variant={getAmountVariant(size)}
-      sx={{
-        color: getAmountColor(tone),
-        fontWeight: 700,
-        letterSpacing: 0,
-        lineHeight: 1.15,
-      }}
+      sx={[amountTextRootSx, { color: getAmountColor(tone) }]}
     >
       {formatYen(amount)}
     </Typography>

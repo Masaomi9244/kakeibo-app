@@ -3,18 +3,31 @@ import type { ApiErrorResponse } from "./apiError";
 import { ApiClientError } from "./apiError";
 import { clientEnv } from "./env";
 
+/**
+ * APIリクエスト関数に渡すオプション。
+ */
 type ApiRequestOptions = Omit<RequestInit, "body" | "headers"> & {
   accessToken?: string;
   body?: unknown;
   headers?: HeadersInit;
 };
 
+/**
+ * APIリクエスト用HTTPヘッダー生成に必要な値。
+ */
 type HeaderBuildOptions = {
   accessToken: string | undefined;
   body: unknown;
   headers: HeadersInit | undefined;
 };
 
+/**
+ * @description APIリクエストのbodyと認証状態に応じてHTTPヘッダーを組み立てる。
+ * @param options - 追加ヘッダー、アクセストークン、body。
+ * @returns fetchに渡すHeaders。
+ * @example
+ * buildHeaders({ accessToken: "token", body: { amount: 100 }, headers: undefined });
+ */
 const buildHeaders = (options: HeaderBuildOptions): Headers => {
   const headers = new Headers(options.headers);
 
@@ -29,7 +42,14 @@ const buildHeaders = (options: HeaderBuildOptions): Headers => {
   return headers;
 };
 
-// API境界のHTTP処理と共通エラー変換を担当する。
+/**
+ * @description API境界のHTTP処理と共通エラー変換を担当する。
+ * @param path - API base URL以降のパス。
+ * @param options - fetchオプション、body、認証トークン。
+ * @returns APIレスポンスを指定した型へ変換した値。
+ * @example
+ * await requestApi<{ ok: boolean }>("/health");
+ */
 export const requestApi = async <TResponse>(
   path: string,
   options: ApiRequestOptions = {},

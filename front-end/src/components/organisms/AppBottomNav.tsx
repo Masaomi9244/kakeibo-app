@@ -4,10 +4,20 @@ import { Box, ButtonBase, Paper, Stack, Typography } from "@mui/material";
 
 import { appNavigationItems } from "@/components/organisms/navigation";
 
+/**
+ * SP下部ナビゲーションコンポーネントに渡すprops。
+ */
 type AppBottomNavProps = {
   readonly currentPath: string;
 };
 
+/**
+ * @description モバイル幅でMVP主要画面へ移動する下部ナビゲーションを表示する。
+ * @param props - 現在のパス。
+ * @returns SP用ボトムナビゲーションUI。
+ * @example
+ * <AppBottomNav currentPath="/calendar" />
+ */
 export function AppBottomNav({ currentPath }: AppBottomNavProps): ReactElement {
   return (
     <Paper

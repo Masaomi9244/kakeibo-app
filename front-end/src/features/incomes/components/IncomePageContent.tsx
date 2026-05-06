@@ -15,6 +15,9 @@ import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { formatYen } from "@/libs/money";
 
+/**
+ * 収入一覧に表示する収入。
+ */
 type IncomeItem = {
   readonly amount: number;
   readonly date: string;
@@ -40,6 +43,13 @@ const incomeItems: readonly IncomeItem[] = [
   },
 ];
 
+/**
+ * @description 収入を新規登録するための静的フォームを表示する。
+ * @param なし
+ * @returns 収入登録フォームUI。
+ * @example
+ * <IncomeForm />
+ */
 function IncomeForm(): ReactElement {
   return (
     <Paper
@@ -101,6 +111,13 @@ function IncomeForm(): ReactElement {
   );
 }
 
+/**
+ * @description 登録済み収入の静的一覧を表示する。
+ * @param なし
+ * @returns 収入一覧UI。
+ * @example
+ * <IncomeList />
+ */
 function IncomeList(): ReactElement {
   return (
     <Paper
@@ -162,6 +179,13 @@ function IncomeList(): ReactElement {
   );
 }
 
+/**
+ * @description 収入管理画面の静的モック全体を表示する。
+ * @param なし
+ * @returns 収入管理画面のコンテンツUI。
+ * @example
+ * <IncomePageContent />
+ */
 export function IncomePageContent(): ReactElement {
   return (
     <Stack spacing={3}>

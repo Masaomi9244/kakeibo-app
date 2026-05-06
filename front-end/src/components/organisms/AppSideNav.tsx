@@ -4,10 +4,20 @@ import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 
 import { appNavigationItems } from "@/components/organisms/navigation";
 
+/**
+ * PCサイドナビゲーションコンポーネントに渡すprops。
+ */
 type AppSideNavProps = {
   readonly currentPath: string;
 };
 
+/**
+ * @description PC幅でMVP主要画面へ移動するサイドナビゲーションを表示する。
+ * @param props - 現在のパス。
+ * @returns PC用サイドナビゲーションUI。
+ * @example
+ * <AppSideNav currentPath="/incomes" />
+ */
 export function AppSideNav({ currentPath }: AppSideNavProps): ReactElement {
   return (
     <Box
