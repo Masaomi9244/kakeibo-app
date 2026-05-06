@@ -22,7 +22,7 @@
 
 - 仕様書にない機能を勝手に追加しない
 - 単一責務の原則を守る
-- 関数、class、コンポーネント、hook、usecase、handler、repositoryには、必要に応じて日本語コメントを書く
+- コメント対象は領域別規約を優先する。フロントエンドはTSDoc、バックエンドはGoDocを必須とする
 - コメントは「コードが何をしているか」ではなく「何のために存在するか」「どういう意図で使うか」を説明する
 - 認証済みユーザーの `user_id` をリクエストボディやクエリから受け取らない
 - 他ユーザーのデータを取得・更新・削除できる実装にしない
@@ -35,7 +35,13 @@
 
 ### 基本方針
 
-関数、class、Reactコンポーネント、hook、usecase、handler、repository、重要なstruct/interfaceには、必要に応じて日本語コメントを書く。
+コメント対象は、各領域の詳細規約に従う。
+
+- フロントエンドは `docs/standards/front-end/index.md` に従い、関数、Reactコンポーネント、custom hook、usecase、mapper、API関数、type、interfaceへTSDocを書く
+- バックエンドは `docs/standards/back-end/go.md` に従い、関数、method、type、interfaceへGoDocを書く
+- DBは `docs/standards/db/migrations.md` に従い、migration目的コメントとDB COMMENTを残す
+
+この共通規約の「必要に応じて」は、領域別規約が存在しない対象にだけ適用する。
 
 コメントはコードの逐語的な説明ではなく、以下が分かる内容にする。
 
@@ -81,9 +87,9 @@ export const ExpenseAmountInput = () => {
 func CreateExpense(...) {}
 ```
 
-### コメントを書きすぎない
+### コメントと実装をずらさない
 
-コメントは必要な箇所に書く。
+コメントは実装意図を固定するために書く。
 
 以下のようなコメントは不要とする。
 
@@ -92,6 +98,7 @@ func CreateExpense(...) {}
 - 実装と乖離しやすい詳細すぎる説明
 
 コメントと実装が矛盾する場合は、必ずコメントも更新する。
+コメント規約を機械チェックできる場合は、対象領域の `check` コマンドに含める。
 
 ---
 

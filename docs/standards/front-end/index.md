@@ -31,6 +31,7 @@
 - `docs/api/*.md`
 - `docs/front-end/spec.md`
 - `docs/standards/common.md`
+- `docs/standards/implementation-quality-gates.md`
 - `docs/standards/front-end/index.md`
 
 仕様や規約が矛盾する場合は、実装を進める前に仕様書または規約を修正する。
@@ -90,6 +91,7 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 - 型だけをimportする場合は `import type` を使う
 - barrel exportは原則禁止する
 - テスト対象ごとに責務を分け、複数観点を1つのテストに詰め込まない
+- `npm run check` に含まれる `doc:check`、typecheck、lint、format、test、build checkを弱めない
 
 ---
 
@@ -142,6 +144,9 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 引数がない関数でも、`@param` には `なし` と書く。
 
 type、interfaceには `/** */` 形式でコメントを書く。props型、DTO型、domain型、private helper用の型も例外なく対象にする。
+
+この規約は `npm run doc:check` で機械検証する。
+`npm run check` は `doc:check` を含むため、TSDoc不足がある状態で完了してはいけない。
 
 ただし、以下のようなコメントは禁止する。
 
@@ -300,6 +305,9 @@ API通信を直接書かない。
 
 必要なデータやイベントハンドラはpropsまたはhooksから受け取る。
 
+長い `sx` や画面固有styleは、同じdirectoryの `*.styles.ts` に切り出す。
+component fileはJSX構造、props受け取り、最小限のイベント接続に集中させる。
+
 ### `features/*/hooks/`
 
 Reactの状態管理、TanStack Query、イベント処理をまとめる。
@@ -311,6 +319,8 @@ Reactの状態管理、TanStack Query、イベント処理をまとめる。
 - Undo制御
 - blur / Enterの二重送信防止
 - Snackbar表示制御
+
+hooksが肥大化した場合は、入力正規化、DTO変換、表示用整形を `usecases/`、`mappers/`、`libs/` に分ける。
 
 ### `features/*/usecases/`
 
@@ -359,6 +369,8 @@ Atomic Design寄りに以下のディレクトリで分ける。
 
 feature固有の画面部品はAtomic Design分類へ寄せず、`features/{feature}/components/` に置く。
 
+`components/` 配下はshared UIであるため、`features/`、API DTO、TanStack Query、Supabase Clientをimportしない。
+
 ### `libs/`
 
 外部ライブラリ設定や共通関数を置く。
@@ -396,6 +408,7 @@ MUI themeを配置する。
 | API DTO | `features/{feature}/api/*Dto.ts` | domain型ファイル |
 | 汎用format関数 | `libs/` | feature固有component |
 | MUI theme設定 | `theme/` | component内の大量`sx` |
+| component固有style | 同directoryの `*.styles.ts` | JSX内の長い`sx` |
 
 判断に迷うものは、より依存が少ない場所へ置く。feature固有か共通か判断できない段階では、まずfeature配下に置き、2つ以上のfeatureから実利用された時点で共通化を検討する。
 
@@ -415,5 +428,12 @@ MUI themeを配置する。
 - そのファイル内でしか使わない小さなprivate helper
 - そのコンポーネント専用の小さなprops型
 - test file内のfixtureまたはrender helper
+
+責務別に切り出す場合の拡張子・suffixは以下へ寄せる。
+
+- `*.styles.ts`: style objectのみ
+- `*.types.ts`: props、hook戻り値、view modelなどの型のみ
+- `*.mapper.ts`: DTOとdomain型またはview modelの変換のみ
+- `*.test.ts(x)`: 対象ファイルのテストのみ
 
 ---

@@ -36,7 +36,9 @@
 - DTOからdomain型への変換をcomponent、hook、api関数に直接書く
 - UI、変換、API通信など複数責務を1つのテストに詰め込む
 - `npm run check` を通さずに完了扱いにする
+- `doc:check` を理由なく回避する
 - lint、format、typecheck、testの失敗を警告扱いで見逃す
+- TSDoc不足をあと回しにして完了扱いにする
 - 同階層以外の相対importで責務境界を曖昧にする
 - `pre-commit` hookを理由なく回避する
 
@@ -135,8 +137,9 @@ AIエージェントは以下をしてはいけない。
 - mutation後のinvalidateが必要範囲を満たしている
 - blur / Enter / buttonなどの二重送信が防止されている
 - 金額と日付の正規化・表示整形がテスト可能な関数へ分離されている
-- 重要なexportには目的が分かるコメントがある
+- すべての関数、Reactコンポーネント、custom hook、mapper、API関数、type、interfaceに規約どおりのTSDocがある
 - テストが責務ごとに分かれている
+- `npm run doc:check` が成功している
 - `npm run check` が成功している
 - pre-commit hookで同等の検証が走る状態を保っている
 
