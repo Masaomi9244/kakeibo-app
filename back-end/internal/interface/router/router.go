@@ -8,6 +8,7 @@ import (
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/infrastructure/persistence"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/handler"
 	httpmiddleware "github.com/Masaomi9244/kakeibo-app/back-end/internal/interface/middleware"
+	annualsummaryusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/annualsummary"
 	"github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/dateperiod"
 	expenseusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/expense"
 	expensecalendarusecase "github.com/Masaomi9244/kakeibo-app/back-end/internal/usecase/expensecalendar"
@@ -54,6 +55,9 @@ func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	monthlySummaryHandler := handler.NewMonthlySummaryHandler(
 		monthlysummaryusecase.NewGetMonthlySummaryUsecase(summaryRepository, location),
 	)
+	annualSummaryHandler := handler.NewAnnualSummaryHandler(
+		annualsummaryusecase.NewGetAnnualSummaryUsecase(summaryRepository, location),
+	)
 	expenseCalendarHandler := handler.NewExpenseCalendarHandler(
 		expensecalendarusecase.NewGetExpenseCalendarUsecase(
 			expenseCalendarRepository,
@@ -80,4 +84,5 @@ func Register(e *echo.Echo, db *gorm.DB, cfg config.Config) {
 	api.DELETE("/expenses/:id", expenseHandler.Delete)
 	api.GET("/monthly-summary", monthlySummaryHandler.Get)
 	api.GET("/expense-calendar", expenseCalendarHandler.Get)
+	api.GET("/annual-summary", annualSummaryHandler.Get)
 }
