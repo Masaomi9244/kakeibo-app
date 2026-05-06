@@ -5,13 +5,22 @@ export const appTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#2563eb",
+      main: "#0d9488",
     },
     secondary: {
-      main: "#16a34a",
+      main: "#059669",
+    },
+    error: {
+      main: "#dc2626",
+    },
+    success: {
+      main: "#059669",
+    },
+    warning: {
+      main: "#f59e0b",
     },
     background: {
-      default: "#f6f7f9",
+      default: "#f5f7f9",
       paper: "#ffffff",
     },
   },
