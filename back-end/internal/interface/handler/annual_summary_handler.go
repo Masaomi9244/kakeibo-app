@@ -38,6 +38,7 @@ func (h *AnnualSummaryHandler) Get(c echo.Context) error {
 	})
 }
 
+// toAnnualSummaryDTO は年間サマリーdomain modelをHTTP response DTOへ変換する。
 func toAnnualSummaryDTO(summary annualsummary.AnnualSummary) dto.AnnualSummary {
 	return dto.AnnualSummary{
 		Year:             summary.Year,
@@ -52,6 +53,7 @@ func toAnnualSummaryDTO(summary annualsummary.AnnualSummary) dto.AnnualSummary {
 	}
 }
 
+// toAnnualMonthSummaryDTOs は月別年間サマリーdomain modelのsliceをHTTP response DTOへ変換する。
 func toAnnualMonthSummaryDTOs(months []annualsummary.MonthSummary) []dto.AnnualMonthSummary {
 	items := make([]dto.AnnualMonthSummary, 0, len(months))
 	for _, month := range months {

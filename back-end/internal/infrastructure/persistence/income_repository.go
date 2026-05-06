@@ -96,6 +96,7 @@ func (r *IncomeRepository) Delete(ctx context.Context, userID, id string) (bool,
 	return result.RowsAffected > 0, nil
 }
 
+// toIncome はGORM永続化modelを収入domain modelへ変換する。
 func toIncome(model incomeModel) income.Income {
 	return income.Income{
 		ID:                model.ID,

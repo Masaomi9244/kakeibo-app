@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// TestLoad は必須環境変数と任意の接続プール設定をConfigへ読み込めることを検証する。
 func TestLoad(t *testing.T) {
 	t.Setenv("PORT", "9090")
 	t.Setenv("APP_ENV", "test")
@@ -53,6 +54,7 @@ func TestLoad(t *testing.T) {
 	}
 }
 
+// TestLoadRequiresDatabaseURL はDATABASE_URL未設定時に読み込みが失敗することを検証する。
 func TestLoadRequiresDatabaseURL(t *testing.T) {
 	t.Setenv("DATABASE_URL", "")
 
@@ -61,6 +63,7 @@ func TestLoadRequiresDatabaseURL(t *testing.T) {
 	}
 }
 
+// TestLoadRejectsInvalidPoolConfig は不正なDB接続プール設定を拒否することを検証する。
 func TestLoadRejectsInvalidPoolConfig(t *testing.T) {
 	t.Setenv("DATABASE_URL", "postgres://user:pass@localhost:5432/kakeibo?sslmode=disable")
 	t.Setenv("DB_MAX_OPEN_CONNS", "5")

@@ -1,3 +1,4 @@
+-- 目的: 毎月の予算から自動控除する固定費を管理するfixed_costs tableを作成する。
 CREATE TABLE fixed_costs (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id uuid NOT NULL,
@@ -19,3 +20,16 @@ CREATE TABLE fixed_costs (
 
 CREATE INDEX fixed_costs_user_id_start_month_idx
 ON fixed_costs (user_id, start_month);
+
+COMMENT ON TABLE fixed_costs IS '利用者ごとの毎月発生する固定費を管理するtable';
+
+COMMENT ON COLUMN fixed_costs.id IS '固定費recordのUUID primary key';
+COMMENT ON COLUMN fixed_costs.user_id IS '固定費を所有するusers.id';
+COMMENT ON COLUMN fixed_costs.name IS '固定費名。空白のみは禁止する';
+COMMENT ON COLUMN fixed_costs.amount IS '固定費金額。1円以上のみ許可する';
+COMMENT ON COLUMN fixed_costs.start_month IS '固定費を予算計算へ含め始める月初日';
+COMMENT ON COLUMN fixed_costs.is_active IS '固定費が現在有効かどうか';
+COMMENT ON COLUMN fixed_costs.created_at IS '固定費recordの作成日時';
+COMMENT ON COLUMN fixed_costs.updated_at IS '固定費recordの最終更新日時';
+
+COMMENT ON INDEX fixed_costs_user_id_start_month_idx IS '利用者と開始月による有効固定費一覧・集計を高速化するindex';

@@ -58,6 +58,7 @@ func Load() (Config, error) {
 	return cfg, nil
 }
 
+// getEnv は環境変数が未設定の場合にfallbackを返す。
 func getEnv(key, fallback string) string {
 	value := os.Getenv(key)
 	if value == "" {
@@ -67,6 +68,7 @@ func getEnv(key, fallback string) string {
 	return value
 }
 
+// loadEnvFile はローカル実行時の.env候補を読み込む。
 func loadEnvFile() error {
 	for _, filename := range []string{".env", "back-end/.env"} {
 		if err := godotenv.Load(filename); err != nil {
@@ -81,6 +83,7 @@ func loadEnvFile() error {
 	return nil
 }
 
+// applyPoolConfig はDB接続プール設定の環境変数をConfigへ反映する。
 func applyPoolConfig(cfg *Config) error {
 	maxOpenConns, err := getEnvInt("DB_MAX_OPEN_CONNS", cfg.DBMaxOpenConns)
 	if err != nil {
@@ -104,6 +107,7 @@ func applyPoolConfig(cfg *Config) error {
 	return nil
 }
 
+// getEnvInt は整数の環境変数を取得し、未設定時はfallbackを返す。
 func getEnvInt(key string, fallback int) (int, error) {
 	value := os.Getenv(key)
 	if value == "" {
@@ -118,6 +122,7 @@ func getEnvInt(key string, fallback int) (int, error) {
 	return parsed, nil
 }
 
+// getEnvDuration はduration形式の環境変数を取得し、未設定時はfallbackを返す。
 func getEnvDuration(key string, fallback time.Duration) (time.Duration, error) {
 	value := os.Getenv(key)
 	if value == "" {
@@ -132,6 +137,7 @@ func getEnvDuration(key string, fallback time.Duration) (time.Duration, error) {
 	return parsed, nil
 }
 
+// validate は起動に必要な設定値が仕様を満たすか検証する。
 func validate(cfg Config) error {
 	if cfg.DatabaseURL == "" {
 		return errors.New("DATABASE_URL is required")

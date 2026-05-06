@@ -12,6 +12,7 @@ import (
 
 const dateLayout = "2006-01-02"
 
+// toIncomeDTO は収入domain modelをHTTP response DTOへ変換する。
 func toIncomeDTO(income income.Income, location *time.Location) dto.Income {
 	return dto.Income{
 		ID:                income.ID,
@@ -22,6 +23,7 @@ func toIncomeDTO(income income.Income, location *time.Location) dto.Income {
 	}
 }
 
+// toIncomeDTOs は収入domain modelのsliceをHTTP response DTOへ変換する。
 func toIncomeDTOs(incomes []income.Income, location *time.Location) []dto.Income {
 	items := make([]dto.Income, 0, len(incomes))
 	for _, income := range incomes {
@@ -31,6 +33,7 @@ func toIncomeDTOs(incomes []income.Income, location *time.Location) []dto.Income
 	return items
 }
 
+// toFixedCostDTO は固定費domain modelをHTTP response DTOへ変換する。
 func toFixedCostDTO(fixedCost fixedcost.FixedCost, location *time.Location) dto.FixedCost {
 	return dto.FixedCost{
 		ID:         fixedCost.ID,
@@ -41,6 +44,7 @@ func toFixedCostDTO(fixedCost fixedcost.FixedCost, location *time.Location) dto.
 	}
 }
 
+// toFixedCostDTOs は固定費domain modelのsliceをHTTP response DTOへ変換する。
 func toFixedCostDTOs(fixedCosts []fixedcost.FixedCost, location *time.Location) []dto.FixedCost {
 	items := make([]dto.FixedCost, 0, len(fixedCosts))
 	for _, fixedCost := range fixedCosts {
@@ -50,6 +54,7 @@ func toFixedCostDTOs(fixedCosts []fixedcost.FixedCost, location *time.Location) 
 	return items
 }
 
+// toExpenseDTO は出費domain modelをHTTP response DTOへ変換する。
 func toExpenseDTO(expense expense.Expense, location *time.Location) dto.Expense {
 	return dto.Expense{
 		ID:      expense.ID,
@@ -58,6 +63,7 @@ func toExpenseDTO(expense expense.Expense, location *time.Location) dto.Expense 
 	}
 }
 
+// toExpenseDTOs は出費domain modelのsliceをHTTP response DTOへ変換する。
 func toExpenseDTOs(expenses []expense.Expense, location *time.Location) []dto.Expense {
 	items := make([]dto.Expense, 0, len(expenses))
 	for _, expense := range expenses {
@@ -67,6 +73,7 @@ func toExpenseDTOs(expenses []expense.Expense, location *time.Location) []dto.Ex
 	return items
 }
 
+// toMonthlySummaryDTO は月次サマリーdomain modelをHTTP response DTOへ変換する。
 func toMonthlySummaryDTO(summary monthlysummary.MonthlySummary) dto.MonthlySummary {
 	return dto.MonthlySummary{
 		Month:           summary.Month,

@@ -67,6 +67,7 @@ func (r *MonthlySummaryRepository) Get(
 	}, nil
 }
 
+// sumIncome は対象期間の収入合計を予算反映条件つきで集計する。
 func (r *MonthlySummaryRepository) sumIncome(
 	ctx context.Context,
 	userID string,
@@ -90,6 +91,7 @@ func (r *MonthlySummaryRepository) sumIncome(
 	return total, nil
 }
 
+// sumFixedCost は対象月に有効な固定費合計を集計する。
 func (r *MonthlySummaryRepository) sumFixedCost(ctx context.Context, userID string, monthStart time.Time) (int, error) {
 	total, err := scanSum(r.db.WithContext(ctx).
 		Table("fixed_costs").
@@ -101,6 +103,7 @@ func (r *MonthlySummaryRepository) sumFixedCost(ctx context.Context, userID stri
 	return total, nil
 }
 
+// sumExpense は対象期間の出費合計を集計する。
 func (r *MonthlySummaryRepository) sumExpense(ctx context.Context, userID string, start, end time.Time) (int, error) {
 	total, err := scanSum(r.db.WithContext(ctx).
 		Table("expenses").
@@ -112,6 +115,7 @@ func (r *MonthlySummaryRepository) sumExpense(ctx context.Context, userID string
 	return total, nil
 }
 
+// scanSum はSUM queryのNULL結果を0としてintへscanする。
 func scanSum(query *gorm.DB) (int, error) {
 	var total int
 	if err := query.Select("COALESCE(SUM(amount), 0)").Scan(&total).Error; err != nil {
@@ -121,6 +125,7 @@ func scanSum(query *gorm.DB) (int, error) {
 	return total, nil
 }
 
+// dateOnly は日付比較用に時刻を含まないYYYY-MM-DD文字列へ変換する。
 func dateOnly(value time.Time) string {
 	return value.Format("2006-01-02")
 }

@@ -66,6 +66,39 @@ make db-format
 - 仕様にない将来用カラムをついでに追加する
 - ローカル環境だけで動くSQLを書く
 
+### コメント規約
+
+すべてのmigrationには、ファイル先頭に目的コメントを書く。
+
+テーブルを作成・変更するmigrationでは、可能な限り `COMMENT ON TABLE` と `COMMENT ON COLUMN` を追加し、DB schema自体から意図を読めるようにする。
+
+コメントには以下を書く。
+
+- テーブルの責務
+- カラムの業務上の意味
+- check制約、unique制約、indexを置く理由
+- 日付・時刻カラムの基準
+
+良い例：
+
+```sql
+-- incomesはユーザーが受け取った単発収入を保存する。
+CREATE TABLE incomes (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid NOT NULL,
+    amount integer NOT NULL
+);
+
+COMMENT ON TABLE incomes IS 'ユーザーが受け取った単発収入を保存する。';
+COMMENT ON COLUMN incomes.amount IS '収入金額。1円以上の整数だけを許可する。';
+```
+
+以下は禁止する。
+
+- 目的コメントのないmigration
+- 制約の意図がmigrationから読み取れない変更
+- コメントと実際の制約が矛盾したままにすること
+
 ### 既存データがある場合
 
 既存データがあるschema変更では、以下を明確にする。

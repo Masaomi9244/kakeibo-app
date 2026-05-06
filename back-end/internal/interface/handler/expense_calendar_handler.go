@@ -49,6 +49,7 @@ func (h *ExpenseCalendarHandler) Get(c echo.Context) error {
 	})
 }
 
+// toExpenseCalendarDTO はカレンダーdomain modelをHTTP response DTOへ変換する。
 func (h *ExpenseCalendarHandler) toExpenseCalendarDTO(calendar expensecalendar.ExpenseCalendar) dto.ExpenseCalendar {
 	return dto.ExpenseCalendar{
 		Month:                calendar.Month,
@@ -61,6 +62,7 @@ func (h *ExpenseCalendarHandler) toExpenseCalendarDTO(calendar expensecalendar.E
 	}
 }
 
+// toExpenseCalendarDayDTOs は日別カレンダーdomain modelのsliceをHTTP response DTOへ変換する。
 func toExpenseCalendarDayDTOs(days []expensecalendar.Day) []dto.ExpenseCalendarDay {
 	items := make([]dto.ExpenseCalendarDay, 0, len(days))
 	for _, day := range days {

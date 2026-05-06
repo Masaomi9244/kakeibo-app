@@ -28,7 +28,11 @@ if [ -n "${duplicate_timestamps}" ]; then
   exit 1
 fi
 
-if ! command -v sqlfluff >/dev/null 2>&1; then
+if command -v sqlfluff >/dev/null 2>&1; then
+  sqlfluff_cmd="sqlfluff"
+elif python3 -m sqlfluff --version >/dev/null 2>&1; then
+  sqlfluff_cmd="python3 -m sqlfluff"
+else
   printf '%s\n' "sqlfluff is required when SQL migrations exist." >&2
   printf '%s\n' "Install sqlfluff and ensure the sqlfluff command is in PATH." >&2
   exit 1
@@ -36,13 +40,13 @@ fi
 
 case "${mode}" in
   lint)
-    sqlfluff lint ${sql_files}
+    ${sqlfluff_cmd} lint ${sql_files}
     ;;
   fix)
-    sqlfluff fix ${sql_files}
+    ${sqlfluff_cmd} fix ${sql_files}
     ;;
   format-check)
-    sqlfluff lint ${sql_files}
+    ${sqlfluff_cmd} lint ${sql_files}
     ;;
   *)
     printf '%s\n' "Unknown mode: ${mode}" >&2

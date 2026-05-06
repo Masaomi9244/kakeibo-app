@@ -39,6 +39,7 @@ func HTTPErrorHandler(err error, c echo.Context) {
 	}
 }
 
+// messageForStatus はHTTP status codeに対応する公開可能な日本語messageを返す。
 func messageForStatus(status int) string {
 	switch status {
 	case http.StatusBadRequest:

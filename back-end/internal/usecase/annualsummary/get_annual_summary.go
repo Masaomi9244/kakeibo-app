@@ -70,6 +70,7 @@ func (u *GetAnnualSummaryUsecase) Execute(ctx context.Context, userID, yearValue
 	return summary, nil
 }
 
+// parseYear はYYYY形式の入力値を対象年へ変換する。
 func (u *GetAnnualSummaryUsecase) parseYear(value string) (int, error) {
 	yearStart, err := time.ParseInLocation(yearLayout, value, u.location)
 	if err != nil {
@@ -79,6 +80,7 @@ func (u *GetAnnualSummaryUsecase) parseYear(value string) (int, error) {
 	return yearStart.Year(), nil
 }
 
+// toMonthSummary は月次サマリーdomain modelを年間サマリー用の月別modelへ変換する。
 func toMonthSummary(summary monthlysummary.MonthlySummary) annualsummary.MonthSummary {
 	return annualsummary.MonthSummary{
 		Month:            summary.Month,
