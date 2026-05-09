@@ -8,19 +8,28 @@ import { normalizeExpenseAmountInput } from "@/features/home/usecases/normalizeE
  * クイック出費入力hookに渡すparams。
  */
 type UseQuickExpenseInputParams = {
+  /** 登録処理中か */
   readonly isSubmitting: boolean;
+  /** 正規化済み出費金額の登録処理 */
   readonly onSubmit: (amount: number) => Promise<void>;
 };
 
 /**
  * クイック出費入力hookがcomponentへ返す値。
  */
-type UseQuickExpenseInputResult = {
+export type UseQuickExpenseInputResult = {
+  /** 入力中の金額文字列 */
   readonly amountInput: string;
+  /** 入力エラー文言 */
   readonly errorMessage: string | undefined;
+  /** blur時に呼び出す処理 */
   readonly handleAmountBlur: () => void;
+  /** 入力値変更時に呼び出す処理 */
   readonly handleAmountChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  /** キー操作時に呼び出す処理 */
   readonly handleAmountKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
+  /** 登録処理中か */
+  readonly isSubmitting: boolean;
 };
 
 /**
@@ -33,8 +42,11 @@ type UseQuickExpenseInputResult = {
 export function useQuickExpenseInput(
   params: UseQuickExpenseInputParams,
 ): UseQuickExpenseInputResult {
+  /** 直近で送信した入力値 */
   const lastSubmittedValueRef = useRef<string | null>(null);
+  /** 入力中の金額文字列 */
   const [amountInput, setAmountInput] = useState("");
+  /** 入力エラー文言 */
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   /**
@@ -45,6 +57,7 @@ export function useQuickExpenseInput(
    * void submitAmount();
    */
   const submitAmount = async (): Promise<void> => {
+    /** 前後空白を除いた入力値 */
     const rawValue = amountInput.trim();
 
     if (rawValue === "") {
@@ -56,6 +69,7 @@ export function useQuickExpenseInput(
       return;
     }
 
+    /** APIへ送信できる出費金額 */
     const normalizedAmount = normalizeExpenseAmountInput(rawValue);
 
     if (normalizedAmount === null) {
@@ -119,5 +133,6 @@ export function useQuickExpenseInput(
     handleAmountBlur,
     handleAmountChange,
     handleAmountKeyDown,
+    isSubmitting: params.isSubmitting,
   };
 }

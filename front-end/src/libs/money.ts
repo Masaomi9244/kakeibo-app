@@ -1,3 +1,4 @@
+/** 日本円表示に利用するIntl formatter。 */
 const yenFormatter = new Intl.NumberFormat("ja-JP", {
   currency: "JPY",
   maximumFractionDigits: 0,

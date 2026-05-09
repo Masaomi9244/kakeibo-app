@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 
 import { AppShell } from "@/components/organisms/AppShell";
-import { HomePageContent } from "@/features/home/components/HomePageContent";
+import { HomePageContent } from "@/components/templates/HomePageContent/HomePageContent";
 
 /**
  * @description ホーム画面のNext.jsルートとして共通レイアウトと画面本体を接続する。

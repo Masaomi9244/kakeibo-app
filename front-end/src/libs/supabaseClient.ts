@@ -8,9 +8,13 @@ import { clientEnv } from "./env";
  * MVP時点でフロントエンドが参照するSupabase Database型。
  */
 type AppDatabase = {
+  /** Supabase public schema */
   public: {
+    /** Supabase Edge Functions型 */
     Functions: Record<string, never>;
+    /** Supabase tables型 */
     Tables: Record<string, never>;
+    /** Supabase views型 */
     Views: Record<string, never>;
   };
 };

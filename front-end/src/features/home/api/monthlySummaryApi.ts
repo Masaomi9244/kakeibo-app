@@ -12,6 +12,7 @@ import { requestApi } from "@/libs/apiClient";
 export const getMonthlySummary = async (
   month: string,
 ): Promise<GetMonthlySummaryResponse> => {
+  /** 指定月の月次サマリー取得に使うquery string */
   const params = new URLSearchParams({ month });
 
   return requestApi<GetMonthlySummaryResponse>(

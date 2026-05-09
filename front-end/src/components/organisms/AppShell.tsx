@@ -3,13 +3,16 @@ import type { ReactElement, ReactNode } from "react";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
 import { AppBottomNav } from "@/components/organisms/AppBottomNav";
+import { appShellStyles } from "@/components/organisms/AppShell.styles";
 import { AppSideNav } from "@/components/organisms/AppSideNav";
 
 /**
  * アプリ共通レイアウトに渡すprops。
  */
 type AppShellProps = {
+  /** 画面本体 */
   readonly children: ReactNode;
+  /** 現在表示しているパス */
   readonly currentPath: string;
 };
 
@@ -22,23 +25,11 @@ type AppShellProps = {
  */
 export function AppShell({ children, currentPath }: AppShellProps): ReactElement {
   return (
-    <Box sx={{ minHeight: "100dvh" }}>
+    <Box sx={appShellStyles.root}>
       <AppSideNav currentPath={currentPath} />
-      <Box
-        component="header"
-        sx={{
-          alignItems: "center",
-          bgcolor: "background.paper",
-          borderBottom: 1,
-          borderColor: "divider",
-          display: { md: "none", xs: "flex" },
-          height: 64,
-          justifyContent: "space-between",
-          px: 2,
-        }}
-      >
+      <Box component="header" sx={appShellStyles.mobileHeader}>
         <Stack spacing={0}>
-          <Typography component="p" sx={{ fontWeight: 700 }} variant="h6">
+          <Typography component="p" sx={appShellStyles.mobileHeaderTitle} variant="h6">
             家計簿
           </Typography>
         </Stack>
@@ -46,14 +37,7 @@ export function AppShell({ children, currentPath }: AppShellProps): ReactElement
           ログアウト
         </Button>
       </Box>
-      <Box
-        component="main"
-        sx={{
-          ml: { md: "248px", xs: 0 },
-          pb: { md: 6, xs: 12 },
-          pt: { md: 4, xs: 3 },
-        }}
-      >
+      <Box component="main" sx={appShellStyles.pageMain}>
         <Container maxWidth="lg">{children}</Container>
       </Box>
       <AppBottomNav currentPath={currentPath} />

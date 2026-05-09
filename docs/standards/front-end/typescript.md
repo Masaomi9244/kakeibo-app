@@ -59,7 +59,7 @@ ESLintはtype-aware ruleを有効にし、以下をエラーとして扱う。
 - exported functionまたはReact componentの戻り値型不足
 
 TSDocはESLintではなく `scripts/check-tsdoc.mjs` で検証する。
-このscriptは `src/` 配下の関数、function代入、type、interfaceを対象にする。
+このscriptは `src/` 配下の関数、function代入、type、interface、const、type / interface propertyを対象にする。
 
 ### `any` の扱い
 
@@ -109,9 +109,15 @@ const handleError = (error: unknown) => {
 例：
 
 ```ts
+/**
+ * 出費。
+ */
 export type Expense = {
+  /** 出費ID */
   id: string;
+  /** 出費金額 */
   amount: number;
+  /** 出費日時 */
   spentAt: string;
 };
 ```
@@ -119,14 +125,23 @@ export type Expense = {
 API DTOは用途が分かる名前にする。
 
 ```ts
+/**
+ * 出費登録request。
+ */
 export type CreateExpenseRequest = {
+  /** 登録する出費金額 */
   amount: number;
 };
 
+/**
+ * 出費登録response。
+ */
 export type CreateExpenseResponse = {
+  /** 登録した出費 */
   expense: ExpenseResponseDto;
+  /** 登録後の月次サマリー */
   monthlySummary: MonthlySummaryResponseDto;
-}
+};
 ```
 
 ### type / interface のファイル分離方針
@@ -181,14 +196,14 @@ props型は以下の方針で配置する。
   `components` または `features` 配下の専用型ファイルに分離する
 
 feature固有のprops型:
-  `features/{featureName}/components/{componentName}.types.ts` などへ分離する
+  `components/{atomicLayer}/{componentName}/{componentName}.types.ts` などへ分離する
 ```
 
 例：
 
 ```txt
-features/expense/components/ExpenseAmountInput.tsx
-features/expense/components/ExpenseAmountInput.types.ts
+components/organisms/ExpenseAmountInput/ExpenseAmountInput.tsx
+components/organisms/ExpenseAmountInput/ExpenseAmountInput.types.ts
 ```
 
 #### hookの戻り値型
@@ -253,6 +268,34 @@ dataTypes.ts
 ```
 
 ---
+
+### type / interface propertyコメント
+
+type、interfaceのpropertyには、値が何を表すかを必ず日本語コメントで書く。
+props型、DTO型、domain型、style型、hookのparams / result型も対象にする。
+
+良い例:
+
+```ts
+type TodayExpensesCardProps = {
+  /** 出費 */
+  readonly expenses: readonly Expense[];
+  /** ローディング中か */
+  readonly isLoading: boolean;
+  /** 合計金額 */
+  readonly total: number;
+};
+```
+
+悪い例:
+
+```ts
+type TodayExpensesCardProps = {
+  readonly expenses: readonly Expense[];
+  readonly isLoading: boolean;
+  readonly total: number;
+};
+```
 
 ## TypeScript詳細ルール
 

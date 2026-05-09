@@ -9,7 +9,9 @@ import { invalidateIncomeCaches } from "@/features/incomes/hooks/invalidateIncom
  * 収入削除hookに渡すparams。
  */
 type UseDeleteIncomeParams = {
+  /** 収入削除月 */
   readonly month: string;
+  /** 収入削除年 */
   readonly year: number;
 };
 
@@ -23,6 +25,7 @@ type UseDeleteIncomeParams = {
 export function useDeleteIncome(
   params: UseDeleteIncomeParams,
 ): UseMutationResult<void, Error, string> {
+  /** 収入削除後に関連cacheを更新するQueryClient */
   const queryClient = useQueryClient();
 
   return useMutation({

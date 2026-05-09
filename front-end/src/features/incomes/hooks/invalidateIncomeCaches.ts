@@ -11,8 +11,11 @@ import {
  * 収入mutation後のcache invalidationに必要な値。
  */
 export type IncomeCacheInvalidationParams = {
+  /** cacheを更新する対象月 */
   readonly month: string;
+  /** cache更新に使うQueryClient */
   readonly queryClient: QueryClient;
+  /** cacheを更新する対象年 */
   readonly year: number;
 };
 

@@ -68,23 +68,25 @@ MUI themeは `src/theme/theme.ts` に定義する。
 atomsより大きい共通UIは、責務に応じて以下に置く。
 
 - `components/molecules/`: `StatCard`、`PageHeader`、`EmptyState` などの小さな組み合わせUI
-- `components/organisms/`: `AppShell`、`AppSideNav`、`AppBottomNav` などの大きめの共通UI
+- `components/organisms/`: `AppShell`、`AppSideNav`、`BudgetHero`、`IncomeForm` などの大きめのUI
+- `components/templates/`: `HomePageContent`、`IncomePageContent` などrouteに接続する画面単位UI
 
-feature固有の画面部品は `components/` へ早めに共通化せず、まず `features/{feature}/components/` に置く。
+feature固有の画面部品も `features/{feature}/components/` には置かず、Atomic Design分類に従って `components/` 配下へ置く。
 
 ### sxの扱い
 
 `sx` は使用してよい。
 
-ただし、長い `sx` をコンポーネントファイルへ直接書き続けることは禁止する。
+ただし、`sx` に渡すstyle objectをコンポーネントファイルへ直接書くことは禁止する。
 
-コンポーネント固有の長いstyle objectは、同じディレクトリの `*.styles.ts` に切り出す。
+コンポーネント固有のstyle objectは、同じディレクトリまたは同名ディレクトリの `*.styles.ts` に切り出す。
+動的なstyleも `getXxxSx()` のような関数として `*.styles.ts` に置く。
 
 例：
 
 ```txt
-features/home/components/HomePageContent.tsx
-features/home/components/HomePageContent.styles.ts
+components/templates/HomePageContent/HomePageContent.tsx
+components/templates/HomePageContent/HomePageContent.styles.ts
 components/atoms/AmountText.tsx
 components/atoms/AmountText.styles.ts
 ```
@@ -93,23 +95,20 @@ components/atoms/AmountText.styles.ts
 style objectは名前付きexportにし、default exportは禁止する。
 型は `SxProps<Theme>`、MUI component固有の型、または責務が分かる専用readonly型で明示する。
 
-1行程度の局所的な `sx` は許可する。ただし、以下のいずれかに該当した時点で `*.styles.ts`、共通component、またはthemeへ寄せる。
-
-- `sx` が3行以上になる
-- 同じ見た目が2箇所以上に出る
-- レスポンシブ指定を含む
-- 色、余白、角丸、Typographyの基準値を複数持つ
-- hover / focus / disabledなど状態styleを含む
+1行程度の局所的な `sx` も原則禁止する。
+MUIの `color`、`variant`、`spacing` などpropsで表現できる場合はpropsを使い、`sx` が必要な場合は必ず `*.styles.ts` へ置く。
 
 以下は禁止する。
 
 - `sx` に同じ色コードを複数箇所で直書きする
+- JSX内に `{ fontWeight: 700 }` のようなinline style objectを書く
 - themeにある値を使わずに、余白・角丸・Typographyを大量に直書きする
 - `!important` を使う
 - レスポンシブ対応を個別componentに場当たり的に散らす
 - 型のないstyle objectをexportする
 
-画面固有の一時的な調整は許可するが、2箇所以上で同じ見た目が必要になった時点で共通componentまたはthemeへ寄せる。
+画面固有の一時的な調整も `*.styles.ts` に置く。
+2箇所以上で同じ見た目が必要になった時点で共通componentまたはthemeへ寄せる。
 
 ### アクセシビリティ
 

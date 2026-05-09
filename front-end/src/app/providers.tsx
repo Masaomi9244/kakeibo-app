@@ -12,6 +12,7 @@ import { appTheme } from "@/theme/appTheme";
  * アプリProviderコンポーネントに渡すprops。
  */
 type AppProvidersProps = {
+  /** Provider配下に描画する画面 */
   children: ReactNode;
 };
 
@@ -23,6 +24,7 @@ type AppProvidersProps = {
  * <AppProviders><App /></AppProviders>
  */
 export function AppProviders({ children }: Readonly<AppProvidersProps>): ReactElement {
+  /** アプリ全体で共有するTanStack Query client */
   const [queryClient] = useState(
     () =>
       new QueryClient({

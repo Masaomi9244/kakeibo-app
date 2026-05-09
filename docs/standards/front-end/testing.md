@@ -153,7 +153,10 @@ import type { CreateExpenseRequest } from "@/features/expense/api/expenseDto";
 悪い例：
 
 ```ts
-import { createExpense, CreateExpenseRequest } from "@/features/expense/api/expenseApi";
+import {
+  createExpense,
+  CreateExpenseRequest,
+} from "@/features/expense/api/expenseApi";
 ```
 
 ### barrel export禁止
@@ -172,7 +175,7 @@ export * from "./ExpenseList";
 良い例：
 
 ```ts
-import { ExpenseAmountInput } from "@/features/expense/components/ExpenseAmountInput";
+import { QuickExpenseInput } from "@/components/organisms/QuickExpenseInput/QuickExpenseInput";
 ```
 
 例外として、外部公開APIを明確に固定したいpackage境界や、ライブラリ都合で必要な場合のみ許可する。
@@ -251,8 +254,7 @@ import-x/no-cycle
 import-x/no-useless-path-segments
 ```
 
-lintで検知できない設計ルールは、この規約のレビュー観点で確認する。
----
+## lintで検知できない設計ルールは、この規約のレビュー観点で確認する。
 
 ## テスト規約
 

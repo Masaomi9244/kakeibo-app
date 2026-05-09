@@ -13,7 +13,9 @@ import { mapIncomeDto } from "@/features/incomes/mappers/incomeMapper";
  * 収入登録hookに渡すparams。
  */
 type UseCreateIncomeParams = {
+  /** 収入登録月 */
   readonly month: string;
+  /** 収入登録年 */
   readonly year: number;
 };
 
@@ -27,10 +29,12 @@ type UseCreateIncomeParams = {
 export function useCreateIncome(
   params: UseCreateIncomeParams,
 ): UseMutationResult<Income, Error, CreateIncomeRequest> {
+  /** 収入登録後に関連cacheを更新するQueryClient */
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (request) => {
+      /** 収入登録APIのresponse */
       const response = await createIncome(request);
 
       return mapIncomeDto(response.income);

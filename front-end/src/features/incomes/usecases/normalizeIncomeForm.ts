@@ -1,19 +1,11 @@
 import type { CreateIncomeRequest } from "@/features/incomes/api/incomeDto";
-
-/**
- * 収入フォームの入力値。
- */
-export type IncomeFormValues = {
-  readonly amount: string;
-  readonly includedInBalance: boolean;
-  readonly incomeDate: string;
-  readonly memo: string;
-};
+import type { IncomeFormValues } from "@/features/incomes/domain/incomeForm";
 
 /**
  * 収入フォーム正規化結果。
  */
 export type NormalizedIncomeForm = {
+  /** APIへ送信する収入登録または更新request */
   readonly request: CreateIncomeRequest;
 };
 
@@ -37,12 +29,14 @@ const normalizeFullWidthDigits = (value: string): string =>
  * normalizeAmount("250,000");
  */
 const normalizeAmount = (value: string): null | number => {
+  /** 全角数字、カンマ、前後空白を正規化した入力値 */
   const normalizedValue = normalizeFullWidthDigits(value).replaceAll(",", "").trim();
 
   if (normalizedValue === "" || !/^\d+$/.test(normalizedValue)) {
     return null;
   }
 
+  /** 数値化した収入金額 */
   const amount = Number(normalizedValue);
 
   if (!Number.isSafeInteger(amount) || amount <= 0) {
@@ -62,13 +56,16 @@ const normalizeAmount = (value: string): null | number => {
 export const normalizeIncomeForm = (
   values: IncomeFormValues,
 ): NormalizedIncomeForm | null => {
+  /** APIへ送信できる収入金額 */
   const amount = normalizeAmount(values.amount);
+  /** 前後空白を除いた入金日 */
   const incomeDate = values.incomeDate.trim();
 
   if (amount === null || incomeDate === "") {
     return null;
   }
 
+  /** 前後空白を除いた収入メモ */
   const memo = values.memo.trim();
 
   return {

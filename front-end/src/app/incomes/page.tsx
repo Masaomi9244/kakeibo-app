@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 
 import { AppShell } from "@/components/organisms/AppShell";
-import { IncomePageContent } from "@/features/incomes/components/IncomePageContent";
+import { IncomePageContent } from "@/components/templates/IncomePageContent/IncomePageContent";
 
 /**
  * @description 収入管理画面のNext.jsルートとして共通レイアウトと画面本体を接続する。

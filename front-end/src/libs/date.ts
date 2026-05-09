@@ -7,8 +7,11 @@ const ASIA_TOKYO_TIME_ZONE = "Asia/Tokyo";
  * 日付format結果から取り出す年月日part。
  */
 type DateParts = {
+  /** 2桁の日 */
   readonly day: string;
+  /** 2桁の月 */
   readonly month: string;
+  /** 4桁の年 */
   readonly year: string;
 };
 
@@ -20,6 +23,7 @@ type DateParts = {
  * getAsiaTokyoDateParts(new Date("2026-05-01T00:00:00+09:00"));
  */
 const getAsiaTokyoDateParts = (date: Date): DateParts => {
+  /** Intl.DateTimeFormatで分解したAsia/Tokyo基準の年月日part一覧 */
   const parts = new Intl.DateTimeFormat("en-CA", {
     day: "2-digit",
     month: "2-digit",
@@ -27,8 +31,11 @@ const getAsiaTokyoDateParts = (date: Date): DateParts => {
     year: "numeric",
   }).formatToParts(date);
 
+  /** Asia/Tokyo基準の年 */
   const year = parts.find((part) => part.type === "year")?.value ?? "";
+  /** Asia/Tokyo基準の月 */
   const month = parts.find((part) => part.type === "month")?.value ?? "";
+  /** Asia/Tokyo基準の日 */
   const day = parts.find((part) => part.type === "day")?.value ?? "";
 
   return { day, month, year };
@@ -42,6 +49,7 @@ const getAsiaTokyoDateParts = (date: Date): DateParts => {
  * formatAsiaTokyoMonth(new Date("2026-05-01T00:00:00+09:00"));
  */
 export const formatAsiaTokyoMonth = (date: Date): string => {
+  /** Asia/Tokyo基準の年月日part */
   const parts = getAsiaTokyoDateParts(date);
 
   return `${parts.year}-${parts.month}`;
@@ -55,6 +63,7 @@ export const formatAsiaTokyoMonth = (date: Date): string => {
  * formatAsiaTokyoDate(new Date("2026-05-01T00:00:00+09:00"));
  */
 export const formatAsiaTokyoDate = (date: Date): string => {
+  /** Asia/Tokyo基準の年月日part */
   const parts = getAsiaTokyoDateParts(date);
 
   return `${parts.year}-${parts.month}-${parts.day}`;

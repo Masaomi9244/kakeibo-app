@@ -17,8 +17,11 @@ import {
  * クイック出費登録hookに渡すparams。
  */
 type UseCreateQuickExpenseParams = {
+  /** 出費登録日 */
   readonly date: string;
+  /** 出費登録月 */
   readonly month: string;
+  /** 出費登録年 */
   readonly year: number;
 };
 
@@ -32,10 +35,12 @@ type UseCreateQuickExpenseParams = {
 export function useCreateQuickExpense(
   params: UseCreateQuickExpenseParams,
 ): UseMutationResult<Expense, Error, number> {
+  /** 出費登録後に関連cacheを更新するQueryClient */
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (amount) => {
+      /** 出費登録APIのresponse */
       const response = await createExpense({ amount });
 
       return mapExpenseDto(response.expense);

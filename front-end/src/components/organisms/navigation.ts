@@ -2,11 +2,15 @@
  * アプリ共通ナビゲーションに表示するリンク情報。
  */
 export type NavigationItem = {
+  /** 遷移先パス */
   readonly href: string;
+  /** ナビゲーションに表示するラベル */
   readonly label: string;
+  /** ナビゲーションに表示する短い記号 */
   readonly mark: string;
 };
 
+/** アプリ共通ナビゲーションに表示するリンク一覧。 */
 export const appNavigationItems: readonly NavigationItem[] = [
   {
     href: "/",

@@ -14,8 +14,11 @@ import {
  * Undo hookに渡すparams。
  */
 type UseUndoExpenseParams = {
+  /** 出費登録日 */
   readonly date: string;
+  /** 出費登録月 */
   readonly month: string;
+  /** 出費登録年 */
   readonly year: number;
 };
 
@@ -29,6 +32,7 @@ type UseUndoExpenseParams = {
 export function useUndoExpense(
   params: UseUndoExpenseParams,
 ): UseMutationResult<void, Error, string> {
+  /** 出費削除後に関連cacheを更新するQueryClient */
   const queryClient = useQueryClient();
 
   return useMutation({

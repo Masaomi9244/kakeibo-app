@@ -2,11 +2,15 @@
  * Next.jsがclient bundleへ静的展開する公開環境変数。
  */
 type ClientProcessEnv = {
+  /** API base URL */
   readonly NEXT_PUBLIC_API_BASE_URL: string | undefined;
+  /** Supabase anon key */
   readonly NEXT_PUBLIC_SUPABASE_ANON_KEY: string | undefined;
+  /** Supabase project URL */
   readonly NEXT_PUBLIC_SUPABASE_URL: string | undefined;
 };
 
+/** Next.js client bundleに展開される公開環境変数。 */
 const clientProcessEnv = process.env as unknown as ClientProcessEnv;
 
 /**

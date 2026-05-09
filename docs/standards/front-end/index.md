@@ -42,13 +42,13 @@
 
 この規約では、実装者とAIエージェントが同じ判断をできるように、以下の意味で用語を使う。
 
-| 表現 | 意味 |
-|---|---|
-| 必須 | 守らない実装は完了不可 |
-| 禁止 | 例外申請なしで使ってはいけない |
-| 原則禁止 | 例外申請を同じPRまたは同じ変更単位に残した場合のみ許可 |
-| 推奨 | 迷った場合は従う。従わない場合は理由を説明できる状態にする |
-| 許可 | 使ってよいが、責務分離と型安全性を崩してはいけない |
+| 表現     | 意味                                                       |
+| -------- | ---------------------------------------------------------- |
+| 必須     | 守らない実装は完了不可                                     |
+| 禁止     | 例外申請なしで使ってはいけない                             |
+| 原則禁止 | 例外申請を同じPRまたは同じ変更単位に残した場合のみ許可     |
+| 推奨     | 迷った場合は従う。従わない場合は理由を説明できる状態にする |
+| 許可     | 使ってよいが、責務分離と型安全性を崩してはいけない         |
 
 「必要に応じて」は、以下のいずれかに該当する場合を指す。
 
@@ -72,6 +72,8 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 - コンポーネントにAPI通信、入力正規化、複雑な状態管理を詰め込まない
 - `page.tsx` を薄く保つ
 - `features/` 単位で機能を分離する
+- `features/` にはReactコンポーネントを置かない
+- 画面テンプレートは `components/templates/`、表示部品は `components/atoms|molecules|organisms/` に置く
 - featureをまたぐ状態や処理を、特定feature配下に隠さない
 - API DTOとdomain型を混ぜない
 - DTOからdomain型への変換はmapperまたはusecaseに分離する
@@ -90,6 +92,8 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 - 複雑な型ガードは型定義ファイルに置かず `*.guard.ts` に分離する
 - 型だけをimportする場合は `import type` を使う
 - barrel exportは原則禁止する
+- `sx` のstyle objectはすべて `*.styles.ts` に置く
+- `const` で定義する値には、その値が何を表すかを日本語コメントで書く
 - テスト対象ごとに責務を分け、複数観点を1つのテストに詰め込まない
 - `npm run check` に含まれる `doc:check`、typecheck、lint、format、test、build checkを弱めない
 
@@ -144,6 +148,24 @@ AIエージェントは、曖昧な判断を実装で勝手に補完しない。
 引数がない関数でも、`@param` には `なし` と書く。
 
 type、interfaceには `/** */` 形式でコメントを書く。props型、DTO型、domain型、private helper用の型も例外なく対象にする。
+type、interfaceの各propertyにも、その値が何を表すかを日本語コメントで書く。
+
+`const` で定義する値には、直前に `/** */` 形式または1行TSDoc形式の日本語コメントを書く。
+コメントは「処理内容」ではなく「その定数に格納されたデータが何を表すか」を書く。
+
+良い例:
+
+```ts
+/** 今日の日付 */
+const todayDate = useMemo(() => formatAsiaTokyoDate(new Date()), []);
+```
+
+悪い例:
+
+```ts
+/** 今日の日付をフォーマットする */
+const todayDate = useMemo(() => formatAsiaTokyoDate(new Date()), []);
+```
 
 この規約は `npm run doc:check` で機械検証する。
 `npm run check` は `doc:check` を含むため、TSDoc不足がある状態で完了してはいけない。
@@ -178,7 +200,9 @@ export const normalizeExpenseAmount = (input: string): number => {
  * @example
  * <ExpenseAmountInput onCommit={handleCommit} />
  */
-export const ExpenseAmountInput = (props: ExpenseAmountInputProps): ReactElement => {
+export const ExpenseAmountInput = (
+  props: ExpenseAmountInputProps,
+): ReactElement => {
   // ...
 };
 ```
@@ -188,6 +212,7 @@ export const ExpenseAmountInput = (props: ExpenseAmountInputProps): ReactElement
  * 出費登録フォームから受け取るprops。
  */
 type ExpenseAmountInputProps = {
+  /** 保存する出費金額 */
   readonly onCommit: (amount: number) => void;
 };
 ```
@@ -209,7 +234,7 @@ export const useCreateExpenseOnBlur = (): UseCreateExpenseOnBlurResult => {
 
 ```ts
 // inputをreplaceする
-const normalized = input.replace(',', '');
+const normalized = input.replace(",", "");
 ```
 
 ```tsx
@@ -239,7 +264,7 @@ front-end/
 
 Next.js App Routerのルーティングを配置する。
 
-`page.tsx` は画面の骨組みとfeature componentの配置を主責務とする。
+`page.tsx` は共通レイアウトとtemplate componentの配置を主責務とする。
 
 `page.tsx` に以下を書きすぎない。
 
@@ -278,7 +303,7 @@ React依存、API通信、hooksは置かない。
 ```txt
 features/{featureName}/
   api/
-  components/
+  domain/
   hooks/
   usecases/
   mappers/
@@ -297,16 +322,11 @@ HTTP通信のみを担当する。
 
 UI表示、React state管理、DTOからdomain型への変換は置かない。
 
-### `features/*/components/`
+### `features/*/domain/`
 
-feature固有のUIコンポーネントを置く。
+feature固有でまだ `domains/` に昇格しない型を置く。
 
-API通信を直接書かない。
-
-必要なデータやイベントハンドラはpropsまたはhooksから受け取る。
-
-長い `sx` や画面固有styleは、同じdirectoryの `*.styles.ts` に切り出す。
-component fileはJSX構造、props受け取り、最小限のイベント接続に集中させる。
+Reactコンポーネント、hooks、API通信、MUI styleは置かない。
 
 ### `features/*/hooks/`
 
@@ -316,9 +336,15 @@ Reactの状態管理、TanStack Query、イベント処理をまとめる。
 
 - API取得状態
 - mutation処理
+- フォーム入力state
+- 保存可否判断
+- API request組み立て
 - Undo制御
 - blur / Enterの二重送信防止
 - Snackbar表示制御
+
+画面単位で複数のhook、mutation、フォームstate、Snackbar制御を束ねる場合は `useXxxPageViewModel` を作る。
+templateはそのview modelを受け取り、表示componentへpropsを渡すことに集中する。
 
 hooksが肥大化した場合は、入力正規化、DTO変換、表示用整形を `usecases/`、`mappers/`、`libs/` に分ける。
 
@@ -351,13 +377,14 @@ features/income/mappers/incomeMapper.ts
 
 ### `components/`
 
-複数featureで利用する汎用UIを置く。
+Reactコンポーネントを置く。
 
 Atomic Design寄りに以下のディレクトリで分ける。
 
 - `components/atoms/`
 - `components/molecules/`
 - `components/organisms/`
+- `components/templates/`
 
 特定featureの業務ロジックを混ぜない。
 
@@ -365,11 +392,31 @@ Atomic Design寄りに以下のディレクトリで分ける。
 
 - `atoms/`: `AppButton`、`AppTextField`、`AmountText` など、アプリ全体で見た目や挙動を統一する最小UI
 - `molecules/`: `StatCard`、`PageHeader`、`EmptyState`、`ErrorMessage` など、atomsやMUIを組み合わせた小さな汎用UI
-- `organisms/`: `AppShell`、`AppSideNav`、`AppBottomNav` など、複数featureで使う大きめの共通UI
+- `organisms/`: `AppShell`、`AppSideNav`、`BudgetHero`、`IncomeForm` など、画面の主要ブロック
+- `templates/`: `HomePageContent`、`IncomePageContent` など、routeに接続する画面単位の組み立て
 
-feature固有の画面部品はAtomic Design分類へ寄せず、`features/{feature}/components/` に置く。
+feature固有の画面部品も `features/{feature}/components/` には置かず、Atomic Designの責務に合わせて `components/` 配下へ置く。
 
-`components/` 配下はshared UIであるため、`features/`、API DTO、TanStack Query、Supabase Clientをimportしない。
+`atoms/`、`molecules/`、`organisms/` は表示を主責務にし、TanStack Query、API DTO、Supabase Clientをimportしない。
+ただし、feature固有organismがprops型のために `features/*/domain` の型をimportすることは許可する。
+
+`templates/` はrouteとfeature hookを接続する場所である。
+ただし、フォーム制御、保存判断、API mutation呼び出し、Snackbar / Undo制御を直接書かない。
+これらは `features/*/hooks/useXxxPageViewModel.ts` などへ寄せ、templateはview modelを表示componentへpropsとして渡す。
+
+templateで許可する処理:
+
+- feature hookまたはpage view model hookの呼び出し
+- loading / error / Snackbarなどの表示部品配置
+- organisms / moleculesへのprops受け渡し
+
+templateで禁止する処理:
+
+- API DTOをJSXへ直接渡す
+- API requestを組み立てる
+- mutationを直接呼び出す
+- 入力値を正規化する
+- Undo対象やSnackbar開閉状態を直接持つ
 
 ### `libs/`
 
@@ -393,24 +440,27 @@ MUI themeを配置する。
 
 実装場所で迷った場合は、以下の表で判断する。
 
-| 置きたいもの | 配置先 | 置いてはいけない場所 |
-|---|---|---|
-| ルーティング、ページ骨組み | `app/` | `features/*/components/` |
-| feature固有UI | `features/{feature}/components/` | `components/` |
-| 複数featureで使う最小UI | `components/atoms/` | 特定feature配下 |
-| 複数featureで使う小さな組み合わせUI | `components/molecules/` | 特定feature配下 |
-| 複数featureで使う大きめの共通UI | `components/organisms/` | 特定feature配下 |
-| React state、query、mutation | `features/{feature}/hooks/` | `page.tsx`、API関数 |
-| 入力正規化、画面都合の処理手順 | `features/{feature}/usecases/` または `libs/` | component、hook内の長い分岐 |
-| DTOとdomain型の変換 | `features/{feature}/mappers/` | component、hook、api関数 |
-| HTTP通信 | `features/{feature}/api/` | component、page、hookの中の直書き |
-| domain型 | `domains/{domain}/` | API DTO、props型ファイル |
-| API DTO | `features/{feature}/api/*Dto.ts` | domain型ファイル |
-| 汎用format関数 | `libs/` | feature固有component |
-| MUI theme設定 | `theme/` | component内の大量`sx` |
-| component固有style | 同directoryの `*.styles.ts` | JSX内の長い`sx` |
+| 置きたいもの                        | 配置先                                        | 置いてはいけない場所                 |
+| ----------------------------------- | --------------------------------------------- | ------------------------------------ | ----------- | -------------------------------- |
+| ルーティング、ページ骨組み          | `app/`                                        | `features/*/components/`             |
+| 画面単位の組み立て                  | `components/templates/`                       | `page.tsx`、`features/*/components/` |
+| feature固有UI                       | `components/atoms                             | molecules                            | organisms/` | `features/{feature}/components/` |
+| 複数featureで使う最小UI             | `components/atoms/`                           | 特定feature配下                      |
+| 複数featureで使う小さな組み合わせUI | `components/molecules/`                       | 特定feature配下                      |
+| 複数featureで使う大きめの共通UI     | `components/organisms/`                       | 特定feature配下                      |
+| React state、query、mutation        | `features/{feature}/hooks/`                   | `page.tsx`、API関数                  |
+| 入力正規化、画面都合の処理手順      | `features/{feature}/usecases/` または `libs/` | component、hook内の長い分岐          |
+| DTOとdomain型の変換                 | `features/{feature}/mappers/`                 | component、hook、api関数             |
+| HTTP通信                            | `features/{feature}/api/`                     | component、page、hookの中の直書き    |
+| feature固有domain型                 | `features/{feature}/domain/`                  | component、API DTO                   |
+| 横断domain型                        | `domains/{domain}/`                           | API DTO、props型ファイル             |
+| API DTO                             | `features/{feature}/api/*Dto.ts`              | domain型ファイル                     |
+| 汎用format関数                      | `libs/`                                       | feature固有component                 |
+| MUI theme設定                       | `theme/`                                      | component内の大量`sx`                |
+| component固有style                  | 同directoryの `*.styles.ts`                   | JSX内の長い`sx`                      |
 
-判断に迷うものは、より依存が少ない場所へ置く。feature固有か共通か判断できない段階では、まずfeature配下に置き、2つ以上のfeatureから実利用された時点で共通化を検討する。
+判断に迷うものは、より依存が少ない場所へ置く。
+UIである時点で `features/` には置かず、Atomic Designの責務に合わせて `components/` 配下へ置く。
 
 ### ファイル作成単位
 
@@ -419,6 +469,7 @@ MUI themeを配置する。
 以下は禁止する。
 
 - 1ファイルに複数の大きなReactコンポーネントを置く
+- 1ファイルに複数のexported Reactコンポーネントを置く
 - API関数とDTOとmapperを1ファイルにまとめる
 - hookとcomponentを1ファイルにまとめる
 - test helper以外で、無関係な関数を便利置き場として集める
@@ -428,6 +479,9 @@ MUI themeを配置する。
 - そのファイル内でしか使わない小さなprivate helper
 - そのコンポーネント専用の小さなprops型
 - test file内のfixtureまたはrender helper
+
+Reactコンポーネントは、原則として1ファイル1コンポーネントにする。
+画面内の大きな表示ブロックは `components/organisms/{ComponentName}/{ComponentName}.tsx` へ分離する。
 
 責務別に切り出す場合の拡張子・suffixは以下へ寄せる。
 

@@ -48,9 +48,9 @@ Next.js App Routerを使用する。
 
 ルーティングは `src/app` 配下に定義する。
 
-`page.tsx` は、画面全体のレイアウトとfeature componentの配置を中心にする。
+`page.tsx` は、共通レイアウトとtemplate componentの配置を中心にする。
 
-複雑な入力処理やAPI呼び出しの詳細は `features/` 配下に寄せる。
+複雑な入力処理やAPI呼び出しの詳細は `features/` 配下のhooks / usecasesに寄せる。
 
 ---
 
@@ -104,11 +104,13 @@ Next.js App Routerのルーティングを配置する。
 
 ### `features/`
 
-機能単位の実装を配置する。
+機能単位のhooks、API、mapper、usecase、feature固有domain型を配置する。
+
+Reactコンポーネントは配置しない。
 
 ### `components/`
 
-複数featureで利用する汎用UIを置く。
+Reactコンポーネントを置く。
 
 ### `libs/`
 
@@ -167,8 +169,9 @@ MUI themeを利用する。
 - `components/atoms/`: 最小UI
 - `components/molecules/`: 小さな組み合わせUI
 - `components/organisms/`: 大きめの共通UI
+- `components/templates/`: routeとfeature hooksを接続する画面単位UI
 
-feature固有の画面部品は `features/{feature}/components/` に置く。
+feature固有の画面部品も `features/{feature}/components/` には置かず、Atomic Design分類に従って `components/` 配下へ置く。
 
 ---
 

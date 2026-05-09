@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import { Paper, Stack, Typography } from "@mui/material";
 
 import { AmountText } from "@/components/atoms/AmountText";
+import { statCardStyles } from "@/components/molecules/StatCard.styles";
 
 /**
  * 統計カードで使う金額の意味色。
@@ -13,9 +14,13 @@ type StatTone = "default" | "expense" | "fixedCost" | "income";
  * 統計カードコンポーネントに渡すprops。
  */
 type StatCardProps = {
+  /** 統計カードで強調する金額 */
   readonly amount: number;
+  /** 金額の上に表示するラベル */
   readonly label: string;
+  /** 金額の下に表示する補足テキスト */
   readonly subtitle?: string;
+  /** 金額が表す意味色 */
   readonly tone?: StatTone;
 };
 
@@ -33,14 +38,7 @@ export function StatCard({
   tone = "default",
 }: StatCardProps): ReactElement {
   return (
-    <Paper
-      variant="outlined"
-      sx={{
-        borderRadius: 1,
-        minHeight: 104,
-        p: 2,
-      }}
-    >
+    <Paper variant="outlined" sx={statCardStyles.root}>
       <Stack spacing={0.75}>
         <Typography color="text.secondary" variant="body2">
           {label}

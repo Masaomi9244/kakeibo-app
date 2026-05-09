@@ -18,6 +18,7 @@ import { monthlySummaryKeys } from "@/libs/queryKeys";
 export function useMonthlySummary(month: string): UseQueryResult<MonthlySummary> {
   return useQuery({
     queryFn: async () => {
+      /** 月次サマリー取得APIのresponse */
       const response = await getMonthlySummary(month);
 
       return mapMonthlySummaryDto(response.monthlySummary);

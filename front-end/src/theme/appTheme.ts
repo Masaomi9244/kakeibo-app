@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-// MVP全体の色、余白、角丸、Typographyの基準を管理する。
+/** MVP全体の色、余白、角丸、Typographyの基準。 */
 export const appTheme = createTheme({
   palette: {
     mode: "light",
