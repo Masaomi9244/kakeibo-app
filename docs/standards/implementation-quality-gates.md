@@ -20,6 +20,7 @@
 - 既存実装の慣習がdocsと矛盾する場合、既存実装を正として扱っていない
 - コメント、責務分離、style、型、テストの規約を確認している
 - 規約で機械チェックできるものは `check` コマンドへ組み込まれている
+- DB、API、Frontendをまたぐ変更では、ローカルで実データ確認できる起動導線が `Makefile` またはREADMEに存在する
 
 どれか1つでも満たせない場合は、先にdocsまたは検証scriptを更新する。
 
@@ -114,6 +115,35 @@ UI、API、DBのいずれかを触る場合は、以下を確認する。
 - 日次、月次、年次の集計はAsia/Tokyo基準で説明できる
 - mutation後の再取得またはcache更新対象が明確である
 - DB制約とバックエンドvalidationが矛盾していない
+
+---
+
+## ローカル起動ゲート
+
+API、DB、Frontendをまたぐ実装では、完了前に以下のどちらかを実行する。
+
+```bash
+make dev
+```
+
+または、terminalを分けて以下を実行する。
+
+```bash
+make dev-setup
+make api
+make web
+```
+
+`http://localhost:3000` を開き、対象画面が実データで表示されることを確認する。
+
+DB接続に失敗した場合は、以下を確認する。
+
+- Docker Desktopが起動しているか
+- `localhost:5433` がこのprojectのPostgreSQLを指しているか
+- `DATABASE_URL` が `Makefile` と `.env.example` で一致しているか
+- migrationが適用済みか
+- seedが投入済みか
+- APIの `/health` が成功するか
 
 ---
 

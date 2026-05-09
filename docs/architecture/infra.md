@@ -37,3 +37,49 @@ Backendのデプロイ先はMVPではRenderを正とする。
 本番環境ではデプロイ済みフロントエンドURLのみ許可する。
 
 ワイルドカード `*` は使わない。
+
+---
+
+## ローカル開発Runtime
+
+ローカル開発では、実装前にDB、API、Frontendを同じ手順で起動できる状態を用意する。
+
+```txt
+Frontend:
+  http://localhost:3000
+
+Backend:
+  http://localhost:8080
+
+PostgreSQL:
+  localhost:5433
+```
+
+PostgreSQLのhost portは `5433` を標準とする。
+
+既存の別projectやローカルPostgreSQLが `5432` を使っている場合でも、このprojectの起動確認が止まらないようにするため。
+
+ローカル開発の起動手順はroot `Makefile` を正とする。
+
+```bash
+make dev
+```
+
+`make dev` は以下を順番に満たす。
+
+1. PostgreSQL containerを起動する
+2. PostgreSQLのreadyを待つ
+3. migrationを適用する
+4. seedを投入する
+5. APIを起動する
+6. Frontendを起動する
+
+DBだけを準備する場合は以下を使う。
+
+```bash
+make dev-setup
+```
+
+ローカル開発用seedは、本番データや個人情報を含めない。
+
+ホーム、収入、固定費、カレンダー、年間サマリーの主要画面が空ではなく実データで確認できる最小データだけを入れる。

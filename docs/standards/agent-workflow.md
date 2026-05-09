@@ -40,6 +40,7 @@ AIエージェントが実装依頼を受けたときに、読む順番、判断
 - 仕様にない判断が必要な場合は、コードではなくdocsを先に更新する
 - コメント、責務分離、style、DTO/domain/DB model境界を `implementation-quality-gates.md` で確認している
 - 機械チェックが存在する規約は、対象の `check` コマンドに含まれている
+- API、DB、Frontendをまたぐ実装では、ローカル起動方法、migration適用、seed投入、API起動、Frontend起動、health checkがdocsまたはMakefileで決まっている
 
 この条件を満たさない場合は、最小のdocs修正を行ってから実装する。
 

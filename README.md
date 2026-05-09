@@ -45,6 +45,16 @@ DBを初期状態から作り直したい場合は以下を使います。
 make db-reset
 ```
 
+### アプリ全体を起動
+
+DB準備、API起動、Frontend起動をまとめて行う場合は以下を使います。
+
+```bash
+make dev
+```
+
+起動後、`http://localhost:3000` を開きます。
+
 ### API起動
 
 ```bash
@@ -104,6 +114,7 @@ go run ./cmd/api
 | コマンド | 内容 |
 |---|---|
 | `make dev-setup` | PostgreSQL起動、migration適用、seed投入 |
+| `make dev` | DB準備後、APIとFrontendをまとめて起動 |
 | `make db-up` | PostgreSQL containerを起動 |
 | `make db-migrate` | 未適用migrationを適用 |
 | `make db-seed` | ローカル開発用seedを投入 |
