@@ -6,12 +6,14 @@ DATABASE_URL ?= postgres://postgres:postgres@localhost:5433/kakeibo?sslmode=disa
 DEV_USER_ID ?= 00000000-0000-0000-0000-000000000001
 FRONTEND_ORIGIN ?= http://localhost:3000
 NEXT_PUBLIC_API_BASE_URL ?= http://localhost:8080
+E2E_API_BASE_URL ?= $(NEXT_PUBLIC_API_BASE_URL)
+E2E_BASE_URL ?= $(FRONTEND_ORIGIN)
 GOCACHE := $(CURDIR)/$(BACKEND_DIR)/.cache/go-build
 GOMODCACHE := $(CURDIR)/$(BACKEND_DIR)/.cache/go-mod
 GOLANGCI_LINT_CACHE := $(CURDIR)/$(BACKEND_DIR)/.cache/golangci-lint
 GO_ENV := GOCACHE=$(GOCACHE) GOMODCACHE=$(GOMODCACHE) GOLANGCI_LINT_CACHE=$(GOLANGCI_LINT_CACHE)
 
-.PHONY: api check db-down db-migrate db-reset db-seed db-up db-wait dev dev-setup qa-mvp web
+.PHONY: api check db-down db-migrate db-reset db-seed db-up db-wait dev dev-setup e2e-mvp qa-mvp web
 
 dev: dev-setup
 	@trap 'kill $$(jobs -p) 2>/dev/null || true' INT TERM EXIT; \
@@ -59,6 +61,9 @@ check:
 
 qa-mvp:
 	node scripts/mvp-cross-screen-qa.mjs
+
+e2e-mvp:
+	cd $(FRONTEND_DIR) && E2E_API_BASE_URL="$(E2E_API_BASE_URL)" E2E_BASE_URL="$(E2E_BASE_URL)" npm run e2e:mvp
 
 db-down:
 	docker compose down

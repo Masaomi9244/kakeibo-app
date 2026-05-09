@@ -61,66 +61,82 @@ export function IncomeList({
             <Typography color="text.secondary">収入はまだありません</Typography>
           </Box>
         ) : null}
-        {incomes.map((income) => (
-          <Box key={income.id} sx={incomeListStyles.row}>
-            <Stack spacing={0.75}>
-              <Stack direction="row" spacing={1} sx={incomeListStyles.nameRow}>
-                <Typography sx={incomeListStyles.strongText}>
-                  {income.memo ?? "名称未設定"}
-                </Typography>
-                {income.includedInBalance ? (
-                  <Typography
-                    color="success.main"
-                    sx={incomeListStyles.badge}
-                    variant="caption"
-                  >
-                    予算に含む
-                  </Typography>
-                ) : null}
-              </Stack>
-              <Typography color="text.secondary" variant="body2">
-                {income.incomeDate}
-              </Typography>
-            </Stack>
-            <Typography
-              color="success.main"
-              sx={incomeListStyles.strongText}
-              variant="h6"
+        {incomes.map((income) => {
+          /** 収入一覧行の操作名に使う表示名 */
+          const incomeLabel = income.memo ?? "名称未設定";
+
+          return (
+            <Box
+              data-testid="income-list-item"
+              key={income.id}
+              sx={incomeListStyles.row}
             >
-              {formatYen(income.amount)}
-            </Typography>
-            <Stack direction="row" spacing={1} sx={incomeListStyles.controlRow}>
-              <Checkbox
-                checked={income.includedInBalance}
-                disabled={isUpdating}
-                onChange={() => {
-                  onToggleIncludedInBalance(income);
-                }}
-              />
-              <Button
-                disabled={isUpdating}
-                onClick={() => {
-                  onEdit(income);
-                }}
-                size="small"
-                variant="outlined"
+              <Stack spacing={0.75}>
+                <Stack direction="row" spacing={1} sx={incomeListStyles.nameRow}>
+                  <Typography sx={incomeListStyles.strongText}>
+                    {incomeLabel}
+                  </Typography>
+                  {income.includedInBalance ? (
+                    <Typography
+                      color="success.main"
+                      sx={incomeListStyles.badge}
+                      variant="caption"
+                    >
+                      予算に含む
+                    </Typography>
+                  ) : null}
+                </Stack>
+                <Typography color="text.secondary" variant="body2">
+                  {income.incomeDate}
+                </Typography>
+              </Stack>
+              <Typography
+                color="success.main"
+                sx={incomeListStyles.strongText}
+                variant="h6"
               >
-                編集
-              </Button>
-              <Button
-                color="error"
-                disabled={isDeleting}
-                onClick={() => {
-                  onDelete(income.id);
-                }}
-                size="small"
-                variant="outlined"
-              >
-                削除
-              </Button>
-            </Stack>
-          </Box>
-        ))}
+                {formatYen(income.amount)}
+              </Typography>
+              <Stack direction="row" spacing={1} sx={incomeListStyles.controlRow}>
+                <Checkbox
+                  checked={income.includedInBalance}
+                  disabled={isUpdating}
+                  slotProps={{
+                    input: {
+                      "aria-label": `予算対象を切り替え ${incomeLabel}`,
+                    },
+                  }}
+                  onChange={() => {
+                    onToggleIncludedInBalance(income);
+                  }}
+                />
+                <Button
+                  aria-label={`収入を編集 ${incomeLabel}`}
+                  disabled={isUpdating}
+                  onClick={() => {
+                    onEdit(income);
+                  }}
+                  size="small"
+                  variant="outlined"
+                >
+                  編集
+                </Button>
+                <Button
+                  aria-label={`収入を削除 ${incomeLabel}`}
+                  color="error"
+                  disabled={isDeleting}
+                  onClick={() => {
+                    onDelete(income.id);
+                  }}
+                  size="small"
+                  variant="outlined"
+                >
+                  削除
+                </Button>
+              </Stack>
+            </Box>
+          );
+        })}
       </Stack>
     </Paper>
   );
