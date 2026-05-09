@@ -69,6 +69,28 @@ make api
 make web
 ```
 
+### MVP横断QA
+
+DB、API、Frontendを起動した状態で、MVP対象画面の実データ横断QAを実行します。
+
+```bash
+make qa-mvp
+```
+
+`make qa-mvp` は以下を確認します。
+
+1. ホーム、収入、固定費、カレンダー、年間サマリーのrouteが表示できる
+2. 収入の登録、更新、削除、`includedInBalance` 切り替えがホームと年間サマリーの集計へ反映される
+3. 固定費の登録、更新、削除、`isActive` 切り替えがホーム、カレンダー、年間サマリーの集計へ反映される
+4. ホーム相当の出費登録、削除がホーム、カレンダー、年間サマリーの集計へ反映される
+5. QA用データを削除した後、関連集計が検証前の値へ戻る
+
+接続先を変える場合は以下の環境変数を指定します。
+
+```bash
+API_BASE_URL=http://localhost:8080 FRONTEND_BASE_URL=http://localhost:3000 make qa-mvp
+```
+
 ### 個別に起動する場合
 
 Frontend:
@@ -102,23 +124,24 @@ go run ./cmd/api
 
 ## ローカル起動URL
 
-| 対象 | URL |
-|---|---|
-| Frontend | `http://localhost:3000` |
-| Backend | `http://localhost:8080` |
+| 対象         | URL                            |
+| ------------ | ------------------------------ |
+| Frontend     | `http://localhost:3000`        |
+| Backend      | `http://localhost:8080`        |
 | Health Check | `http://localhost:8080/health` |
-| PostgreSQL | `localhost:5433` |
+| PostgreSQL   | `localhost:5433`               |
 
 ## ローカル開発コマンド
 
-| コマンド | 内容 |
-|---|---|
-| `make dev-setup` | PostgreSQL起動、migration適用、seed投入 |
-| `make dev` | DB準備後、APIとFrontendをまとめて起動 |
-| `make db-up` | PostgreSQL containerを起動 |
-| `make db-migrate` | 未適用migrationを適用 |
-| `make db-seed` | ローカル開発用seedを投入 |
-| `make db-reset` | DB schemaを作り直してmigrationとseedを再実行 |
-| `make api` | APIを `http://localhost:8080` で起動 |
-| `make web` | Frontendを `http://localhost:3000` で起動 |
-| `make check` | backend / frontendの総合チェック |
+| コマンド          | 内容                                         |
+| ----------------- | -------------------------------------------- |
+| `make dev-setup`  | PostgreSQL起動、migration適用、seed投入      |
+| `make dev`        | DB準備後、APIとFrontendをまとめて起動        |
+| `make db-up`      | PostgreSQL containerを起動                   |
+| `make db-migrate` | 未適用migrationを適用                        |
+| `make db-seed`    | ローカル開発用seedを投入                     |
+| `make db-reset`   | DB schemaを作り直してmigrationとseedを再実行 |
+| `make api`        | APIを `http://localhost:8080` で起動         |
+| `make web`        | Frontendを `http://localhost:3000` で起動    |
+| `make qa-mvp`     | MVP対象画面の実データ横断QA                  |
+| `make check`      | backend / frontendの総合チェック             |
