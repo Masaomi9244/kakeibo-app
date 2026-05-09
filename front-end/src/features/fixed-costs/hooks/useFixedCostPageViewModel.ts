@@ -1,14 +1,19 @@
 import { useMemo, useState } from "react";
 
+import type { CreateFixedCostRequest } from "@/features/fixed-costs/api/fixedCostDto";
 import type {
   FixedCostFormValues,
   FixedCostItem,
 } from "@/features/fixed-costs/domain/fixedCost";
 import type { FixedCostTotals } from "@/features/fixed-costs/usecases/calculateFixedCostTotals";
 
+import { useCreateFixedCost } from "@/features/fixed-costs/hooks/useCreateFixedCost";
+import { useDeleteFixedCost } from "@/features/fixed-costs/hooks/useDeleteFixedCost";
+import { useFixedCosts } from "@/features/fixed-costs/hooks/useFixedCosts";
+import { useUpdateFixedCost } from "@/features/fixed-costs/hooks/useUpdateFixedCost";
 import { calculateFixedCostTotals } from "@/features/fixed-costs/usecases/calculateFixedCostTotals";
 import { createEmptyFixedCostFormValues } from "@/features/fixed-costs/usecases/createEmptyFixedCostFormValues";
-import { getFixedCostMockData } from "@/features/fixed-costs/usecases/getFixedCostMockData";
+import { mapFixedCostToFormValues } from "@/features/fixed-costs/usecases/mapFixedCostToFormValues";
 import { normalizeFixedCostForm } from "@/features/fixed-costs/usecases/normalizeFixedCostForm";
 import { formatAsiaTokyoMonth } from "@/libs/date";
 
@@ -18,6 +23,8 @@ import { formatAsiaTokyoMonth } from "@/libs/date";
 type EditingFixedCostState = {
   /** 編集対象の固定費ID */
   readonly id: string;
+  /** 編集対象の有効状態 */
+  readonly isActive: boolean;
 };
 
 /**
@@ -50,6 +57,10 @@ export type FixedCostFormViewModel = {
 export type FixedCostPageViewModel = {
   /** 固定費一覧 */
   readonly fixedCosts: readonly FixedCostItem[];
+  /** 固定費一覧取得エラー文言 */
+  readonly fixedCostsErrorMessage: string | undefined;
+  /** 固定費一覧読み込み中か */
+  readonly fixedCostsIsLoading: boolean;
   /** 固定費フォームの状態とevent handler */
   readonly fixedCostForm: FixedCostFormViewModel;
   /** 固定費削除時に呼び出す処理 */
@@ -58,12 +69,16 @@ export type FixedCostPageViewModel = {
   readonly handleEditFixedCost: (fixedCost: FixedCostItem) => void;
   /** 固定費有効状態切り替え時に呼び出す処理 */
   readonly handleToggleFixedCostActive: (fixedCost: FixedCostItem) => void;
+  /** 固定費削除中か */
+  readonly isDeleting: boolean;
+  /** 固定費更新中か */
+  readonly isUpdating: boolean;
   /** 固定費サマリーに表示する合計値 */
   readonly totals: FixedCostTotals;
 };
 
 /**
- * @description 固定費画面のローカルフォーム制御、保存判断、編集、削除、有効切り替えをまとめる。
+ * @description 固定費画面のAPI接続、フォーム制御、保存判断、一覧操作をまとめる。
  * @param なし。
  * @returns 固定費画面templateへ渡すview model。
  * @example
@@ -72,10 +87,8 @@ export type FixedCostPageViewModel = {
 export function useFixedCostPageViewModel(): FixedCostPageViewModel {
   /** 現在の対象月 */
   const currentMonth = useMemo(() => formatAsiaTokyoMonth(new Date()), []);
-  /** 固定費一覧 */
-  const [fixedCosts, setFixedCosts] = useState<readonly FixedCostItem[]>(() =>
-    getFixedCostMockData(),
-  );
+  /** 現在の対象年 */
+  const currentYear = Number(currentMonth.slice(0, 4));
   /** 固定費フォームの入力値 */
   const [formValues, setFormValues] = useState<FixedCostFormValues>(() =>
     createEmptyFixedCostFormValues(currentMonth),
@@ -87,6 +100,28 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
   const [formErrorMessage, setFormErrorMessage] = useState<string | undefined>(
     undefined,
   );
+  /** 固定費一覧取得query */
+  const fixedCostsQuery = useFixedCosts(currentMonth);
+  /** 固定費登録mutation */
+  const createFixedCostMutation = useCreateFixedCost({
+    month: currentMonth,
+    year: currentYear,
+  });
+  /** 固定費更新mutation */
+  const updateFixedCostMutation = useUpdateFixedCost({
+    month: currentMonth,
+    year: currentYear,
+  });
+  /** 固定費削除mutation */
+  const deleteFixedCostMutation = useDeleteFixedCost({
+    month: currentMonth,
+    year: currentYear,
+  });
+  /** 固定費一覧 */
+  const fixedCosts = fixedCostsQuery.data ?? [];
+  /** 固定費登録または更新中か */
+  const isSubmitting =
+    createFixedCostMutation.isPending || updateFixedCostMutation.isPending;
   /** 固定費サマリーに表示する合計値 */
   const totals = calculateFixedCostTotals(fixedCosts);
 
@@ -101,6 +136,29 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
     setFormValues(createEmptyFixedCostFormValues(currentMonth));
     setEditingFixedCost(null);
     setFormErrorMessage(undefined);
+  };
+
+  /**
+   * @description 登録または更新APIへ固定費を保存する。
+   * @param request - APIへ送信する固定費保存request。
+   * @returns なし。
+   * @example
+   * await saveFixedCost({ name: "家賃", amount: 80000, startMonth: "2026-05-01", isActive: true });
+   */
+  const saveFixedCost = async (request: CreateFixedCostRequest): Promise<void> => {
+    if (editingFixedCost === null) {
+      await createFixedCostMutation.mutateAsync(request);
+    } else {
+      await updateFixedCostMutation.mutateAsync({
+        id: editingFixedCost.id,
+        request: {
+          ...request,
+          isActive: editingFixedCost.isActive,
+        },
+      });
+    }
+
+    resetForm();
   };
 
   /**
@@ -137,7 +195,7 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
   };
 
   /**
-   * @description 固定費フォーム入力を検証し、ローカルstateへ保存する。
+   * @description 固定費フォーム入力を検証し、登録または更新APIを呼び出す。
    * @param なし。
    * @returns なし。
    * @example
@@ -152,33 +210,11 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
       return;
     }
 
-    if (editingFixedCost === null) {
-      /** 新規作成する固定費 */
-      const createdFixedCost: FixedCostItem = {
-        amount: normalized.amount,
-        id: `fixed-${Date.now()}`,
-        isActive: true,
-        name: normalized.name,
-        startMonth: normalized.startMonth,
-      };
-
-      setFixedCosts((currentFixedCosts) => [...currentFixedCosts, createdFixedCost]);
-    } else {
-      setFixedCosts((currentFixedCosts) =>
-        currentFixedCosts.map((fixedCost) =>
-          fixedCost.id === editingFixedCost.id
-            ? {
-                ...fixedCost,
-                amount: normalized.amount,
-                name: normalized.name,
-                startMonth: normalized.startMonth,
-              }
-            : fixedCost,
-        ),
+    void saveFixedCost(normalized.request).catch((error: unknown) => {
+      setFormErrorMessage(
+        error instanceof Error ? error.message : "固定費の保存に失敗しました",
       );
-    }
-
-    resetForm();
+    });
   };
 
   /**
@@ -189,12 +225,8 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
    * handleEditFixedCost(fixedCost);
    */
   const handleEditFixedCost = (fixedCost: FixedCostItem): void => {
-    setEditingFixedCost({ id: fixedCost.id });
-    setFormValues({
-      amount: String(fixedCost.amount),
-      name: fixedCost.name,
-      startMonth: fixedCost.startMonth,
-    });
+    setEditingFixedCost({ id: fixedCost.id, isActive: fixedCost.isActive });
+    setFormValues(mapFixedCostToFormValues(fixedCost));
     setFormErrorMessage(undefined);
   };
 
@@ -206,9 +238,11 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
    * handleDeleteFixedCost("fixed-rent");
    */
   const handleDeleteFixedCost = (fixedCostId: string): void => {
-    setFixedCosts((currentFixedCosts) =>
-      currentFixedCosts.filter((fixedCost) => fixedCost.id !== fixedCostId),
-    );
+    void deleteFixedCostMutation.mutateAsync(fixedCostId).catch((error: unknown) => {
+      setFormErrorMessage(
+        error instanceof Error ? error.message : "固定費の削除に失敗しました",
+      );
+    });
   };
 
   /**
@@ -219,13 +253,24 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
    * handleToggleFixedCostActive(fixedCost);
    */
   const handleToggleFixedCostActive = (fixedCost: FixedCostItem): void => {
-    setFixedCosts((currentFixedCosts) =>
-      currentFixedCosts.map((currentFixedCost) =>
-        currentFixedCost.id === fixedCost.id
-          ? { ...currentFixedCost, isActive: !currentFixedCost.isActive }
-          : currentFixedCost,
-      ),
-    );
+    /** 有効状態を反転した固定費更新request */
+    const updateRequest: CreateFixedCostRequest = {
+      amount: fixedCost.amount,
+      isActive: !fixedCost.isActive,
+      name: fixedCost.name,
+      startMonth: fixedCost.startMonth,
+    };
+
+    void updateFixedCostMutation
+      .mutateAsync({
+        id: fixedCost.id,
+        request: updateRequest,
+      })
+      .catch((error: unknown) => {
+        setFormErrorMessage(
+          error instanceof Error ? error.message : "固定費の更新に失敗しました",
+        );
+      });
   };
 
   return {
@@ -237,13 +282,19 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
       handleStartMonthChange,
       handleSubmit,
       isEditing: editingFixedCost !== null,
-      isSubmitting: false,
+      isSubmitting,
       values: formValues,
     },
     fixedCosts,
+    fixedCostsErrorMessage: fixedCostsQuery.isError
+      ? fixedCostsQuery.error.message
+      : undefined,
+    fixedCostsIsLoading: fixedCostsQuery.isLoading,
     handleDeleteFixedCost,
     handleEditFixedCost,
     handleToggleFixedCostActive,
+    isDeleting: deleteFixedCostMutation.isPending,
+    isUpdating: updateFixedCostMutation.isPending,
     totals,
   };
 }

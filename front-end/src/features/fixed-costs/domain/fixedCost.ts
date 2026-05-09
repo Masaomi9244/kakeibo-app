@@ -10,7 +10,7 @@ export type FixedCostItem = {
   readonly isActive: boolean;
   /** 固定費名 */
   readonly name: string;
-  /** 固定費の開始月 */
+  /** YYYY-MM-DD形式の固定費開始月 */
   readonly startMonth: string;
 };
 

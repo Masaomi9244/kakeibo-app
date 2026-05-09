@@ -13,6 +13,8 @@ import { formatYen } from "@/libs/money";
 type FixedCostListItemProps = {
   /** 表示対象の固定費 */
   readonly fixedCost: FixedCostItem;
+  /** 操作を無効化するか */
+  readonly isOperationDisabled: boolean;
   /** 削除ボタン押下時に呼び出す処理 */
   readonly onDelete: (fixedCostId: string) => void;
   /** 編集ボタン押下時に呼び出す処理 */
@@ -30,6 +32,7 @@ type FixedCostListItemProps = {
  */
 export function FixedCostListItem({
   fixedCost,
+  isOperationDisabled,
   onDelete,
   onEdit,
   onToggleActive,
@@ -92,13 +95,25 @@ export function FixedCostListItem({
       <Stack direction="row" spacing={1} sx={fixedCostListStyles.controlRow}>
         <Switch
           checked={fixedCost.isActive}
+          disabled={isOperationDisabled}
           onChange={handleToggleActive}
           size="small"
         />
-        <Button onClick={handleEdit} size="small" variant="outlined">
+        <Button
+          disabled={isOperationDisabled}
+          onClick={handleEdit}
+          size="small"
+          variant="outlined"
+        >
           編集
         </Button>
-        <Button color="error" onClick={handleDelete} size="small" variant="outlined">
+        <Button
+          color="error"
+          disabled={isOperationDisabled}
+          onClick={handleDelete}
+          size="small"
+          variant="outlined"
+        >
           削除
         </Button>
       </Stack>

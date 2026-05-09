@@ -258,10 +258,18 @@ features/incomes/usecases/mapIncomeToFormValues.ts
 features/incomes/usecases/calculateIncomeTotals.ts
 
 features/fixed-costs/domain/fixedCost.ts
+features/fixed-costs/api/fixedCostDto.ts
+features/fixed-costs/api/fixedCostsApi.ts
 features/fixed-costs/hooks/useFixedCostPageViewModel.ts
+features/fixed-costs/hooks/useFixedCosts.ts
+features/fixed-costs/hooks/useCreateFixedCost.ts
+features/fixed-costs/hooks/useUpdateFixedCost.ts
+features/fixed-costs/hooks/useDeleteFixedCost.ts
+features/fixed-costs/hooks/invalidateFixedCostCaches.ts
+features/fixed-costs/mappers/fixedCostMapper.ts
 features/fixed-costs/usecases/calculateFixedCostTotals.ts
 features/fixed-costs/usecases/createEmptyFixedCostFormValues.ts
-features/fixed-costs/usecases/getFixedCostMockData.ts
+features/fixed-costs/usecases/mapFixedCostToFormValues.ts
 features/fixed-costs/usecases/normalizeFixedCostForm.ts
 
 features/calendar/domain/calendar.ts

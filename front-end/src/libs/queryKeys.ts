@@ -76,3 +76,17 @@ export const incomesKeys = {
    */
   byMonth: (month: string) => ["incomes", "month", month] as const,
 };
+
+/**
+ * 固定費query keyを生成するfactory。
+ */
+export const fixedCostsKeys = {
+  /**
+   * @description 対象月の固定費一覧query keyを生成する。
+   * @param month - YYYY-MM形式の対象月。
+   * @returns TanStack Queryで利用するquery key。
+   * @example
+   * fixedCostsKeys.byMonth("2026-05");
+   */
+  byMonth: (month: string) => ["fixedCosts", "month", month] as const,
+};

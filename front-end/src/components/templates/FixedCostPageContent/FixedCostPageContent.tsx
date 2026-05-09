@@ -2,7 +2,7 @@
 
 import type { ReactElement } from "react";
 
-import { Box, Stack } from "@mui/material";
+import { Alert, Box, Stack } from "@mui/material";
 
 import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
@@ -26,6 +26,9 @@ export function FixedCostPageContent(): ReactElement {
   return (
     <Stack spacing={3}>
       <PageHeader subtitle="毎月の固定費を管理する" title="固定費管理" />
+      {fixedCostPage.fixedCostsErrorMessage === undefined ? null : (
+        <Alert severity="error">{fixedCostPage.fixedCostsErrorMessage}</Alert>
+      )}
       <FixedCostGuide />
       <Box sx={fixedCostPageContentStyles.statGrid}>
         <StatCard
@@ -53,6 +56,8 @@ export function FixedCostPageContent(): ReactElement {
       />
       <FixedCostList
         fixedCosts={fixedCostPage.fixedCosts}
+        isLoading={fixedCostPage.fixedCostsIsLoading}
+        isOperationDisabled={fixedCostPage.isDeleting || fixedCostPage.isUpdating}
         onDelete={fixedCostPage.handleDeleteFixedCost}
         onEdit={fixedCostPage.handleEditFixedCost}
         onToggleActive={fixedCostPage.handleToggleFixedCostActive}

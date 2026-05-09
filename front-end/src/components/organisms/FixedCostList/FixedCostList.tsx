@@ -13,6 +13,10 @@ import { FixedCostListItem } from "@/components/organisms/FixedCostList/FixedCos
 type FixedCostListProps = {
   /** 固定費一覧 */
   readonly fixedCosts: readonly FixedCostItem[];
+  /** 固定費一覧読み込み中か */
+  readonly isLoading: boolean;
+  /** 一覧操作を無効化するか */
+  readonly isOperationDisabled: boolean;
   /** 削除ボタン押下時に呼び出す処理 */
   readonly onDelete: (fixedCostId: string) => void;
   /** 編集ボタン押下時に呼び出す処理 */
@@ -30,10 +34,15 @@ type FixedCostListProps = {
  */
 export function FixedCostList({
   fixedCosts,
+  isLoading,
+  isOperationDisabled,
   onDelete,
   onEdit,
   onToggleActive,
 }: FixedCostListProps): ReactElement {
+  /** 一覧に固定費が存在しないか */
+  const isEmpty = fixedCosts.length === 0;
+
   return (
     <Paper variant="outlined" sx={fixedCostListStyles.root}>
       <Box sx={fixedCostListStyles.header}>
@@ -41,17 +50,30 @@ export function FixedCostList({
           固定費一覧
         </Typography>
       </Box>
-      <Stack divider={<Box sx={fixedCostListStyles.divider} />}>
-        {fixedCosts.map((fixedCost) => (
-          <FixedCostListItem
-            fixedCost={fixedCost}
-            key={fixedCost.id}
-            onDelete={onDelete}
-            onEdit={onEdit}
-            onToggleActive={onToggleActive}
-          />
-        ))}
-      </Stack>
+      {isLoading ? (
+        <Typography color="text.secondary" sx={fixedCostListStyles.emptyText}>
+          固定費を読み込んでいます
+        </Typography>
+      ) : null}
+      {!isLoading && isEmpty ? (
+        <Typography color="text.secondary" sx={fixedCostListStyles.emptyText}>
+          固定費はまだありません
+        </Typography>
+      ) : null}
+      {!isLoading && !isEmpty ? (
+        <Stack divider={<Box sx={fixedCostListStyles.divider} />}>
+          {fixedCosts.map((fixedCost) => (
+            <FixedCostListItem
+              fixedCost={fixedCost}
+              isOperationDisabled={isOperationDisabled}
+              key={fixedCost.id}
+              onDelete={onDelete}
+              onEdit={onEdit}
+              onToggleActive={onToggleActive}
+            />
+          ))}
+        </Stack>
+      ) : null}
     </Paper>
   );
 }
