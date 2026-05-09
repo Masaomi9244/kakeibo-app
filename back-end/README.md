@@ -13,6 +13,23 @@ go run ./cmd/api
 `DATABASE_URL` は起動時に必須です。
 ローカルでAPIを起動する前に、PostgreSQLまたはSupabase PostgreSQLへ接続できるURLを `.env` に設定してください。
 
+リポジトリrootからは、Docker PostgreSQL、migration、seedをまとめて準備できます。
+
+```bash
+make dev-setup
+make api
+```
+
+DBだけを操作する場合は、rootから以下を使います。
+
+```bash
+make db-migrate
+make db-seed
+make db-reset
+```
+
+`make db-reset` はローカルDBの `public` schemaを作り直すため、開発用DB以外には使わないでください。
+
 起動後は以下でヘルスチェックできます。
 
 ```bash
