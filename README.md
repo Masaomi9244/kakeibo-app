@@ -15,7 +15,53 @@ kakeibo-app/
 
 ## 初期セットアップ
 
-### Frontend
+### 依存関係
+
+```bash
+cd front-end
+npm install
+cd ../back-end
+go mod download
+```
+
+### ローカルDB準備
+
+Docker Desktopを起動したうえで、リポジトリrootから実行します。
+
+```bash
+make dev-setup
+```
+
+`make dev-setup` は以下を順番に行います。
+
+1. PostgreSQL containerを起動する
+2. PostgreSQLの起動完了を待つ
+3. `back-end/migrations/` を適用する
+4. `back-end/seeds/local.sql` を投入する
+
+DBを初期状態から作り直したい場合は以下を使います。
+
+```bash
+make db-reset
+```
+
+### API起動
+
+```bash
+make api
+```
+
+### Frontend起動
+
+別terminalで実行します。
+
+```bash
+make web
+```
+
+### 個別に起動する場合
+
+Frontend:
 
 ```bash
 cd front-end
@@ -24,7 +70,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-### Backend
+Backend:
 
 ```bash
 cd back-end
@@ -51,4 +97,17 @@ go run ./cmd/api
 | Frontend | `http://localhost:3000` |
 | Backend | `http://localhost:8080` |
 | Health Check | `http://localhost:8080/health` |
+| PostgreSQL | `localhost:5433` |
 
+## ローカル開発コマンド
+
+| コマンド | 内容 |
+|---|---|
+| `make dev-setup` | PostgreSQL起動、migration適用、seed投入 |
+| `make db-up` | PostgreSQL containerを起動 |
+| `make db-migrate` | 未適用migrationを適用 |
+| `make db-seed` | ローカル開発用seedを投入 |
+| `make db-reset` | DB schemaを作り直してmigrationとseedを再実行 |
+| `make api` | APIを `http://localhost:8080` で起動 |
+| `make web` | Frontendを `http://localhost:3000` で起動 |
+| `make check` | backend / frontendの総合チェック |
