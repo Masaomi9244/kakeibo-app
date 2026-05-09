@@ -62,3 +62,17 @@ export const annualSummaryKeys = {
    */
   byYear: (year: number) => ["annualSummary", year] as const,
 };
+
+/**
+ * 収入query keyを生成するfactory。
+ */
+export const incomesKeys = {
+  /**
+   * @description 対象月の収入一覧query keyを生成する。
+   * @param month - YYYY-MM形式の対象月。
+   * @returns TanStack Queryで利用するquery key。
+   * @example
+   * incomesKeys.byMonth("2026-05");
+   */
+  byMonth: (month: string) => ["incomes", "month", month] as const,
+};
