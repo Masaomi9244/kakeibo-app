@@ -1,15 +1,12 @@
+import type { CreateFixedCostRequest } from "@/features/fixed-costs/api/fixedCostDto";
 import type { FixedCostFormValues } from "@/features/fixed-costs/domain/fixedCost";
 
 /**
  * 固定費フォーム正規化結果。
  */
 export type NormalizedFixedCostForm = {
-  /** 保存する固定費金額 */
-  readonly amount: number;
-  /** 保存する固定費名 */
-  readonly name: string;
-  /** YYYY-MM形式の開始月 */
-  readonly startMonth: string;
+  /** APIへ送信する固定費登録または更新request */
+  readonly request: CreateFixedCostRequest;
 };
 
 /**
@@ -50,9 +47,9 @@ const normalizeAmount = (value: string): null | number => {
 };
 
 /**
- * @description 固定費フォーム入力を保存可能な値へ正規化する。
+ * @description 固定費フォーム入力をAPI requestへ正規化する。
  * @param values - 固定費フォームの入力値。
- * @returns 保存可能な固定費入力。保存できない入力の場合はnull。
+ * @returns API request。保存できない入力の場合はnull。
  * @example
  * normalizeFixedCostForm({ name: "家賃", amount: "80000", startMonth: "2026-05" });
  */
@@ -63,12 +60,19 @@ export const normalizeFixedCostForm = (
   const amount = normalizeAmount(values.amount);
   /** 前後空白を除いた固定費名 */
   const name = values.name.trim();
-  /** 前後空白を除いた開始月 */
-  const startMonth = values.startMonth.trim();
+  /** YYYY-MM形式の開始月 */
+  const startMonthMonth = values.startMonth.trim();
 
-  if (amount === null || name === "" || startMonth === "") {
+  if (amount === null || name === "" || !/^\d{4}-\d{2}$/.test(startMonthMonth)) {
     return null;
   }
 
-  return { amount, name, startMonth };
+  return {
+    request: {
+      amount,
+      isActive: true,
+      name,
+      startMonth: `${startMonthMonth}-01`,
+    },
+  };
 };

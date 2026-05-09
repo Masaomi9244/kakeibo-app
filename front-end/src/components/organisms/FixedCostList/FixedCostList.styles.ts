@@ -10,6 +10,8 @@ type FixedCostListStyles = {
   readonly controlRow: SxProps<Theme>;
   /** 区切り線 */
   readonly divider: SxProps<Theme>;
+  /** 空状態または読み込み中の文言 */
+  readonly emptyText: SxProps<Theme>;
   /** 一覧見出し */
   readonly header: SxProps<Theme>;
   /** 固定費名とバッジの行 */
@@ -35,6 +37,9 @@ export const fixedCostListStyles = {
   divider: {
     borderColor: "divider",
     borderTop: 1,
+  },
+  emptyText: {
+    p: { sm: 3, xs: 2.5 },
   },
   header: {
     p: { sm: 3, xs: 2.5 },
