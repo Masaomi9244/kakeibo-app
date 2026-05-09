@@ -2,8 +2,11 @@
  * 今日使える目安の計算に必要な値。
  */
 export type DailySpendingGuideInput = {
+  /** YYYY-MM-DD形式の対象日 */
   readonly date: string;
+  /** YYYY-MM形式の対象月 */
   readonly month: string;
+  /** 今月の残り予算 */
   readonly remainingAmount: number;
 };
 
@@ -60,6 +63,7 @@ const calculateRemainingDays = (input: DailySpendingGuideInput): number => {
     );
   }
 
+  /** 対象月の月末日 */
   const lastDay = getLastDayOfMonth(
     getYearFromMonth(input.month),
     getMonthNumberFromMonth(input.month),

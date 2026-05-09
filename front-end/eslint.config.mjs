@@ -10,6 +10,7 @@ import sonarjs from "eslint-plugin-sonarjs";
 import unusedImports from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
 
+/** TypeScriptとして検査するソースファイルのglob。 */
 const typeScriptFiles = ["**/*.{ts,tsx}"];
 
 export default tseslint.config(
@@ -289,8 +290,40 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["@/app/*", "@/features/*", "../*"],
-              message: "Shared components must not depend on app or feature layers.",
+              group: [
+                "@/app/*",
+                "@/features/*/api/*",
+                "@/features/*/hooks/*",
+                "@/features/*/mappers/*",
+                "@/features/*/usecases/*",
+                "../*",
+              ],
+              message:
+                "Components must not depend on app or feature logic layers. Use feature domain types only when a feature-specific UI needs them.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/components/templates/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              message:
+                "Templates must use feature hooks/api wrappers instead of the low-level API client.",
+              name: "@/libs/apiClient",
+            },
+          ],
+          patterns: [
+            {
+              group: ["@/app/*", "../*"],
+              message:
+                "Templates may compose feature hooks and UI, but must not depend on app or parent relative imports.",
             },
           ],
         },

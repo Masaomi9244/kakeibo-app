@@ -1,4 +1,4 @@
-import type { TypographyProps } from "@mui/material";
+import type { SxProps, Theme, TypographyProps } from "@mui/material";
 
 /**
  * 金額表示が使う色の意味。
@@ -14,11 +14,15 @@ export type AmountSize = "large" | "medium" | "small";
  * 金額テキスト本体に適用するstyle定義。
  */
 export type AmountTextRootSx = {
+  /** 金額テキストの太さ */
   readonly fontWeight: number;
+  /** 金額テキストの文字間隔 */
   readonly letterSpacing: number;
+  /** 金額テキストの行高 */
   readonly lineHeight: number;
 };
 
+/** 金額テキスト本体の共通style。 */
 export const amountTextRootSx: AmountTextRootSx = {
   fontWeight: 700,
   letterSpacing: 0,
@@ -46,6 +50,18 @@ export const getAmountColor = (tone: AmountTone): string => {
       return "text.primary";
   }
 };
+
+/**
+ * @description 金額表示の意味色を含めたTypography用sxを作成する。
+ * @param tone - 金額が表す意味。
+ * @returns Typographyへ渡すsx。
+ * @example
+ * getAmountTextSx("income");
+ */
+export const getAmountTextSx = (tone: AmountTone): SxProps<Theme> => ({
+  ...amountTextRootSx,
+  color: getAmountColor(tone),
+});
 
 /**
  * @description 金額表示のサイズ指定をTypography variantへ変換する。

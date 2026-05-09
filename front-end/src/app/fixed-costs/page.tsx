@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 
 import { AppShell } from "@/components/organisms/AppShell";
-import { FixedCostPageContent } from "@/features/fixed-costs/components/FixedCostPageContent";
+import { FixedCostPageContent } from "@/components/templates/FixedCostPageContent/FixedCostPageContent";
 
 /**
  * @description 固定費管理画面のNext.jsルートとして共通レイアウトと画面本体を接続する。

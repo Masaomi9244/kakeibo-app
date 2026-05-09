@@ -13,7 +13,9 @@ import { mapIncomeDto } from "@/features/incomes/mappers/incomeMapper";
  * 収入更新mutationに渡すvariables。
  */
 export type UpdateIncomeVariables = {
+  /** 更新対象の収入ID */
   readonly id: string;
+  /** 更新する収入情報 */
   readonly request: UpdateIncomeRequest;
 };
 
@@ -21,7 +23,9 @@ export type UpdateIncomeVariables = {
  * 収入更新hookに渡すparams。
  */
 type UseUpdateIncomeParams = {
+  /** 収入更新月 */
   readonly month: string;
+  /** 収入更新年 */
   readonly year: number;
 };
 
@@ -35,10 +39,12 @@ type UseUpdateIncomeParams = {
 export function useUpdateIncome(
   params: UseUpdateIncomeParams,
 ): UseMutationResult<Income, Error, UpdateIncomeVariables> {
+  /** 収入更新後に関連cacheを更新するQueryClient */
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (variables) => {
+      /** 収入更新APIのresponse */
       const response = await updateIncome(variables.id, variables.request);
 
       return mapIncomeDto(response.income);

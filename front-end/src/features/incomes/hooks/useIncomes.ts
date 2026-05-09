@@ -18,6 +18,7 @@ import { incomesKeys } from "@/libs/queryKeys";
 export function useIncomes(month: string): UseQueryResult<Income[]> {
   return useQuery({
     queryFn: async () => {
+      /** 収入一覧取得APIのresponse */
       const response = await getIncomes(month);
 
       return mapListIncomesResponse(response);

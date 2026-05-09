@@ -2,6 +2,7 @@
  * 金額入力の正規化結果。
  */
 export type NormalizedExpenseAmount = {
+  /** APIへ送信できる出費金額 */
   readonly amount: number;
 };
 
@@ -27,12 +28,14 @@ const normalizeFullWidthDigits = (value: string): string =>
 export const normalizeExpenseAmountInput = (
   value: string,
 ): NormalizedExpenseAmount | null => {
+  /** 全角数字、カンマ、前後空白を正規化した入力値 */
   const normalizedValue = normalizeFullWidthDigits(value).replaceAll(",", "").trim();
 
   if (normalizedValue === "" || !/^\d+$/.test(normalizedValue)) {
     return null;
   }
 
+  /** 数値化した出費金額 */
   const amount = Number(normalizedValue);
 
   if (!Number.isSafeInteger(amount) || amount <= 0) {

@@ -18,6 +18,7 @@ import { expensesKeys } from "@/libs/queryKeys";
 export function useTodayExpenses(date: string): UseQueryResult<Expense[]> {
   return useQuery({
     queryFn: async () => {
+      /** 指定日の出費一覧取得APIのresponse */
       const response = await getExpensesByDate(date);
 
       return mapListExpensesResponse(response);

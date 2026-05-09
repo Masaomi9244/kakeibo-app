@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 
 import { AppShell } from "@/components/organisms/AppShell";
-import { CalendarPageContent } from "@/features/calendar/components/CalendarPageContent";
+import { CalendarPageContent } from "@/components/templates/CalendarPageContent/CalendarPageContent";
 
 /**
  * @description 月間カレンダー画面のNext.jsルートとして共通レイアウトと画面本体を接続する。

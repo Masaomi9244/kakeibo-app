@@ -5,8 +5,7 @@ import { Typography } from "@mui/material";
 import type { AmountSize, AmountTone } from "@/components/atoms/AmountText.styles";
 
 import {
-  amountTextRootSx,
-  getAmountColor,
+  getAmountTextSx,
   getAmountVariant,
 } from "@/components/atoms/AmountText.styles";
 import { formatYen } from "@/libs/money";
@@ -15,8 +14,11 @@ import { formatYen } from "@/libs/money";
  * 金額表示コンポーネントに渡すprops。
  */
 type AmountTextProps = {
+  /** 表示する金額 */
   readonly amount: number;
+  /** 金額テキストのサイズ */
   readonly size?: AmountSize;
+  /** 金額が表す意味色 */
   readonly tone?: AmountTone;
 };
 
@@ -36,7 +38,7 @@ export function AmountText({
     <Typography
       component="p"
       variant={getAmountVariant(size)}
-      sx={[amountTextRootSx, { color: getAmountColor(tone) }]}
+      sx={getAmountTextSx(tone)}
     >
       {formatYen(amount)}
     </Typography>

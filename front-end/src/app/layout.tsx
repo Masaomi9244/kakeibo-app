@@ -6,15 +6,17 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import "./globals.css";
 import { AppProviders } from "./providers";
 
+/** Next.jsが利用するアプリ全体のメタデータ。 */
 export const metadata: Metadata = {
-  title: "Kakeibo",
   description: "Personal kakeibo app",
+  title: "Kakeibo",
 };
 
 /**
  * ルートレイアウトコンポーネントに渡すprops。
  */
 type RootLayoutProps = {
+  /** 全ページ共通で描画する画面 */
   children: ReactNode;
 };
 

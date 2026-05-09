@@ -1,6 +1,7 @@
 import type {
   CreateExpenseRequest,
   CreateExpenseResponse,
+  DeleteExpenseResponse,
   ListExpensesResponse,
 } from "@/features/home/api/expenseDto";
 
@@ -31,6 +32,7 @@ export const createExpense = async (
 export const getExpensesByDate = async (
   date: string,
 ): Promise<ListExpensesResponse> => {
+  /** 指定日の出費一覧取得に使うquery string */
   const params = new URLSearchParams({ date });
 
   return requestApi<ListExpensesResponse>(`/api/expenses?${params.toString()}`);
@@ -44,7 +46,7 @@ export const getExpensesByDate = async (
  * await deleteExpense("expense-id");
  */
 export const deleteExpense = async (expenseId: string): Promise<void> => {
-  await requestApi<{ readonly message: string }>(
+  await requestApi<DeleteExpenseResponse>(
     `/api/expenses/${encodeURIComponent(expenseId)}`,
     { method: "DELETE" },
   );

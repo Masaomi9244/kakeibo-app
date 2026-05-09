@@ -1,5 +1,6 @@
 import type {
   CreateIncomeRequest,
+  DeleteIncomeResponse,
   IncomeResponse,
   ListIncomesResponse,
   UpdateIncomeRequest,
@@ -15,6 +16,7 @@ import { requestApi } from "@/libs/apiClient";
  * await getIncomes("2026-05");
  */
 export const getIncomes = async (month: string): Promise<ListIncomesResponse> => {
+  /** 指定月の収入一覧取得に使うquery string */
   const params = new URLSearchParams({ month });
 
   return requestApi<ListIncomesResponse>(`/api/incomes?${params.toString()}`);
@@ -60,7 +62,7 @@ export const updateIncome = async (
  * await deleteIncome("income-id");
  */
 export const deleteIncome = async (incomeId: string): Promise<void> => {
-  await requestApi<{ readonly message: string }>(
+  await requestApi<DeleteIncomeResponse>(
     `/api/incomes/${encodeURIComponent(incomeId)}`,
     { method: "DELETE" },
   );
