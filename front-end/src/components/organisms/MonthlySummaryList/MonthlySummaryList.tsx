@@ -52,6 +52,7 @@ export function MonthlySummaryList({
             <Typography color="warning.main">{formatYen(summary.fixedCost)}</Typography>
             <Typography color="error.main">{formatYen(summary.expense)}</Typography>
             <Typography>{formatYen(summary.remainingBalance)}</Typography>
+            <Typography>{formatYen(summary.actualBalance)}</Typography>
           </Box>
         ))}
       </Stack>

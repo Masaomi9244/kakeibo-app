@@ -33,7 +33,7 @@ export const monthlySummaryListStyles = {
     display: "grid",
     gap: 2,
     gridTemplateColumns: {
-      md: "96px repeat(6, minmax(0, 1fr))",
+      md: "96px repeat(7, minmax(0, 1fr))",
       xs: "1fr 1fr",
     },
     p: { sm: 2.5, xs: 2 },

@@ -7,23 +7,37 @@ import type {
   BarMetric,
 } from "@/features/annual-summary/domain/annualSummary";
 
+import { useAnnualSummary } from "@/features/annual-summary/hooks/useAnnualSummary";
 import { calculateAnnualSummaryTotals } from "@/features/annual-summary/usecases/calculateAnnualSummaryTotals";
+import { createAnnualMonthlySummaries } from "@/features/annual-summary/usecases/createAnnualMonthlySummaries";
+import {
+  createAnnualBreakdownMetrics,
+  createMonthlyExpenseTrendMetrics,
+} from "@/features/annual-summary/usecases/createAnnualSummaryChartMetrics";
 import { createAnnualSummaryStatCards } from "@/features/annual-summary/usecases/createAnnualSummaryStatCards";
 import { findHighestExpenseMonth } from "@/features/annual-summary/usecases/findHighestExpenseMonth";
-import { getAnnualSummaryMockData } from "@/features/annual-summary/usecases/getAnnualSummaryMockData";
+import { formatAsiaTokyoMonth } from "@/libs/date";
 
 /**
  * 年間サマリー画面templateへ渡すview model。
  */
 export type AnnualSummaryPageViewModel = {
-  /** 収支内訳グラフの指標一覧 */
-  readonly chartMetrics: readonly BarMetric[];
-  /** 収支内訳グラフの見出し */
-  readonly chartTitle: string;
+  /** 年間収支内訳グラフの指標一覧 */
+  readonly annualBreakdownMetrics: readonly BarMetric[];
+  /** 年間収支内訳グラフの見出し */
+  readonly annualBreakdownTitle: string;
+  /** 年間サマリー取得エラー文言 */
+  readonly annualSummaryErrorMessage: string | undefined;
+  /** 年間サマリー読み込み中か */
+  readonly annualSummaryIsLoading: boolean;
   /** 最多支出月カードに表示する値 */
   readonly highestExpenseMonth: AnnualSummaryHighlight;
   /** 月別サマリー一覧 */
   readonly monthlySummaries: readonly AnnualMonthlySummary[];
+  /** 月別出費推移グラフの指標一覧 */
+  readonly monthlyTrendMetrics: readonly BarMetric[];
+  /** 月別出費推移グラフの見出し */
+  readonly monthlyTrendTitle: string;
   /** 画面見出しの補足文 */
   readonly subtitle: string;
   /** 統計カード一覧 */
@@ -40,26 +54,57 @@ export type AnnualSummaryPageViewModel = {
  * const annualSummaryPage = useAnnualSummaryPageViewModel();
  */
 export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
-  /** 年間サマリー画面に表示するモックデータ */
-  const annualSummaryMockData = useMemo(() => getAnnualSummaryMockData(), []);
-  /** 年間サマリー画面で利用する年間集計値 */
-  const annualSummaryTotals = calculateAnnualSummaryTotals(
-    annualSummaryMockData.monthlySummaries,
+  /** 今年 */
+  const currentYear = useMemo(
+    () => Number(formatAsiaTokyoMonth(new Date()).slice(0, 4)),
+    [],
   );
+  /** 年間サマリー取得query */
+  const annualSummaryQuery = useAnnualSummary(currentYear);
+  /** APIから取得した年間サマリー */
+  const annualSummary = annualSummaryQuery.data;
+  /** 月別サマリー一覧 */
+  const monthlySummaries =
+    annualSummary === undefined
+      ? []
+      : createAnnualMonthlySummaries(annualSummary.months);
+  /** 年間サマリー画面で利用する年間集計値 */
+  const annualSummaryTotals =
+    annualSummary === undefined
+      ? {
+          actualBalance: 0,
+          availableIncome: 0,
+          expense: 0,
+          fixedCost: 0,
+          remainingBalance: 0,
+          reservedIncome: 0,
+          totalIncome: 0,
+        }
+      : calculateAnnualSummaryTotals(annualSummary);
   /** 統計カード一覧 */
   const statCards = createAnnualSummaryStatCards(annualSummaryTotals);
   /** 最多支出月カードに表示する値 */
-  const highestExpenseMonth = findHighestExpenseMonth(
-    annualSummaryMockData.monthlySummaries,
-  );
+  const highestExpenseMonth = findHighestExpenseMonth(monthlySummaries);
+  /** 月別出費推移グラフの指標一覧 */
+  const monthlyTrendMetrics =
+    annualSummary === undefined ? [] : createMonthlyExpenseTrendMetrics(annualSummary);
+  /** 年間収支内訳グラフの指標一覧 */
+  const annualBreakdownMetrics =
+    annualSummary === undefined ? [] : createAnnualBreakdownMetrics(annualSummary);
 
   return {
-    chartMetrics: annualSummaryMockData.chartMetrics,
-    chartTitle: "5月の収支内訳",
+    annualBreakdownMetrics,
+    annualBreakdownTitle: "年間収支内訳",
+    annualSummaryErrorMessage: annualSummaryQuery.isError
+      ? annualSummaryQuery.error.message
+      : undefined,
+    annualSummaryIsLoading: annualSummaryQuery.isLoading,
     highestExpenseMonth,
-    monthlySummaries: annualSummaryMockData.monthlySummaries,
+    monthlySummaries,
+    monthlyTrendMetrics,
+    monthlyTrendTitle: "月別出費推移",
     statCards,
     subtitle: "年間の収支をざっくり確認する",
-    title: "2026年 年間サマリー",
+    title: `${currentYear}年 年間サマリー`,
   };
 }
