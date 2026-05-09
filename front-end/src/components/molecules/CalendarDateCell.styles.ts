@@ -48,10 +48,12 @@ export const getCalendarDateCellRootSx = (
   borderColor: "primary.main",
   borderRadius: 1,
   color: isCurrentMonth ? "text.primary" : "text.disabled",
+  cursor: "pointer",
   display: "flex",
   flexDirection: "column",
   gap: 0.5,
   justifyContent: "center",
   minHeight: { sm: 104, xs: 72 },
   p: 0.75,
+  textTransform: "none",
 });

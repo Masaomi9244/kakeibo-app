@@ -13,6 +13,8 @@ import { formatYen } from "@/libs/money";
 type SelectedDayExpensesProps = {
   /** 選択日の出費一覧 */
   readonly expenses: readonly SelectedExpense[];
+  /** 選択日の表示ラベル */
+  readonly selectedDateLabel: string;
   /** 選択日の出費合計 */
   readonly total: number;
 };
@@ -22,17 +24,18 @@ type SelectedDayExpensesProps = {
  * @param props - 選択日の出費一覧と合計金額。
  * @returns 選択日の支出一覧UI。
  * @example
- * <SelectedDayExpenses expenses={expenses} total={2140} />
+ * <SelectedDayExpenses expenses={expenses} selectedDateLabel="2026年5月6日" total={2140} />
  */
 export function SelectedDayExpenses({
   expenses,
+  selectedDateLabel,
   total,
 }: SelectedDayExpensesProps): ReactElement {
   return (
     <Paper variant="outlined" sx={selectedDayExpensesStyles.root}>
       <Box sx={selectedDayExpensesStyles.header}>
         <Typography component="h2" sx={selectedDayExpensesStyles.value} variant="h6">
-          2026年5月6日の支出
+          {selectedDateLabel}の支出
         </Typography>
       </Box>
       <Box sx={selectedDayExpensesStyles.amountSummary}>

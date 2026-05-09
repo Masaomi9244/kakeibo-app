@@ -51,6 +51,8 @@ Reactコンポーネントは `components/` 配下にのみ置く。
 - type / interface とそのpropertyには日本語コメントを書く
 - API DTOをcomponentへ直接渡さない
 - TanStack Query、mutation、フォーム制御、保存判断、Snackbar / Undo制御はfeature hookに寄せる
+- 日付選択、編集対象、表示用集計などの画面状態は `useXxxPageViewModel` に寄せる
+- 入力正規化、初期値生成、表示用の静的データ整形は `features/*/usecases/` に寄せる
 
 ## Atoms
 
@@ -156,6 +158,7 @@ front-end/src/components/organisms/IncomeList/IncomeList.tsx
 front-end/src/components/organisms/FixedCostGuide/FixedCostGuide.tsx
 front-end/src/components/organisms/FixedCostForm/FixedCostForm.tsx
 front-end/src/components/organisms/FixedCostList/FixedCostList.tsx
+front-end/src/components/organisms/FixedCostList/FixedCostListItem.tsx
 ```
 
 役割:
@@ -163,6 +166,7 @@ front-end/src/components/organisms/FixedCostList/FixedCostList.tsx
 - `FixedCostGuide`: 固定費の意味と予算反映ルールを補足する
 - `FixedCostForm`: 固定費登録フォームを表示する
 - `FixedCostList`: 固定費一覧、編集、削除、有効切り替えを表示する
+- `FixedCostListItem`: 固定費一覧の1行分と行操作を表示する
 
 表示しないもの:
 
@@ -254,12 +258,23 @@ features/incomes/usecases/mapIncomeToFormValues.ts
 features/incomes/usecases/calculateIncomeTotals.ts
 
 features/fixed-costs/domain/fixedCost.ts
+features/fixed-costs/hooks/useFixedCostPageViewModel.ts
+features/fixed-costs/usecases/calculateFixedCostTotals.ts
+features/fixed-costs/usecases/createEmptyFixedCostFormValues.ts
 features/fixed-costs/usecases/getFixedCostMockData.ts
+features/fixed-costs/usecases/normalizeFixedCostForm.ts
 
 features/calendar/domain/calendar.ts
+features/calendar/hooks/useCalendarPageViewModel.ts
+features/calendar/usecases/calculateCalendarMonthStats.ts
+features/calendar/usecases/formatCalendarDateLabel.ts
 features/calendar/usecases/getCalendarMockData.ts
 
 features/annual-summary/domain/annualSummary.ts
+features/annual-summary/hooks/useAnnualSummaryPageViewModel.ts
+features/annual-summary/usecases/calculateAnnualSummaryTotals.ts
+features/annual-summary/usecases/createAnnualSummaryStatCards.ts
+features/annual-summary/usecases/findHighestExpenseMonth.ts
 features/annual-summary/usecases/getAnnualSummaryMockData.ts
 ```
 

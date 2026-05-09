@@ -13,3 +13,15 @@ export type FixedCostItem = {
   /** 固定費の開始月 */
   readonly startMonth: string;
 };
+
+/**
+ * 固定費フォームの入力値。
+ */
+export type FixedCostFormValues = {
+  /** 入力中の固定費金額 */
+  readonly amount: string;
+  /** 入力中の固定費名 */
+  readonly name: string;
+  /** YYYY-MM形式の開始月 */
+  readonly startMonth: string;
+};

@@ -16,6 +16,8 @@ import { formatYen } from "@/libs/money";
 type CalendarDateCellProps = {
   /** 表示する1日分のカレンダーセル */
   readonly cell: CalendarCell;
+  /** 日付セル選択時に呼び出す処理 */
+  readonly onSelectDate: (dateKey: string) => void;
 };
 
 /**
@@ -23,11 +25,30 @@ type CalendarDateCellProps = {
  * @param props - 1日分のカレンダーセル情報。
  * @returns カレンダー日付セルUI。
  * @example
- * <CalendarDateCell cell={cell} />
+ * <CalendarDateCell cell={cell} onSelectDate={handleSelectDate} />
  */
-export function CalendarDateCell({ cell }: CalendarDateCellProps): ReactElement {
+export function CalendarDateCell({
+  cell,
+  onSelectDate,
+}: CalendarDateCellProps): ReactElement {
+  /**
+   * @description 日付セル選択時に選択対象の日付キーを親へ通知する。
+   * @param なし。
+   * @returns なし。
+   * @example
+   * handleClick();
+   */
+  const handleClick = (): void => {
+    onSelectDate(cell.dateKey);
+  };
+
   return (
-    <Box sx={getCalendarDateCellRootSx(cell.isSelected, cell.isCurrentMonth)}>
+    <Box
+      component="button"
+      onClick={handleClick}
+      sx={getCalendarDateCellRootSx(cell.isSelected, cell.isCurrentMonth)}
+      type="button"
+    >
       <Typography sx={calendarDateCellStyles.day}>{cell.day}</Typography>
       {cell.expenseTotal !== undefined ? (
         <Typography color="text.secondary" sx={calendarDateCellStyles.expenseTotal}>

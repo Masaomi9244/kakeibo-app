@@ -15,6 +15,8 @@
 - hookはdomain型または画面用view modelを返す
 - templateは画面用view model hookを呼び出し、componentsへpropsを渡すだけに寄せる
 - フォーム制御、保存判断、API mutation呼び出し、Snackbar / Undo制御はtemplateに置かずfeature hookへ寄せる
+- 日付選択、一覧編集、削除、有効切り替え、画面内集計などの画面状態は `useXxxPageViewModel` に集約する
+- 入力正規化、初期値生成、表示用の静的データ整形、集計補助は `features/{feature}/usecases/` に分離する
 - query keyはfactoryで定義し、componentに直書きしない
 - 残額、固定費対象月、日別残額、年間集計の正計算はバックエンドに任せる
 
@@ -257,6 +259,41 @@ mapperで行わないこと:
 
 query keyはfactoryで定義する。
 componentやhook内に配列を直書きしない。
+
+## Page View Model Hook方針
+
+画面templateは、原則としてfeature hookの `useXxxPageViewModel` を1つ呼び出し、返ってきた値をorganismへpropsとして渡す。
+
+対象:
+
+- `features/home/hooks/useHomePageViewModel.ts`
+- `features/incomes/hooks/useIncomePageViewModel.ts`
+- `features/fixed-costs/hooks/useFixedCostPageViewModel.ts`
+- `features/calendar/hooks/useCalendarPageViewModel.ts`
+- `features/annual-summary/hooks/useAnnualSummaryPageViewModel.ts`
+
+`useXxxPageViewModel` に置くもの:
+
+- フォーム入力state
+- 保存可否判断
+- API mutation呼び出し
+- 編集対象、選択日などの画面内状態
+- Snackbar / Undo制御
+- componentへ渡す表示用view model
+
+`useXxxPageViewModel` に置かずusecaseへ分けるもの:
+
+- 入力値の正規化
+- form初期値生成
+- domain値から表示用集計値への変換
+- モックや静的データの整形
+
+Templatesの禁止事項:
+
+- `useState` でフォームや選択状態を持つ
+- API mutationを直接呼び出す
+- `reduce` などで画面集計を直接行う
+- 入力値の正規化やrequest組み立てを行う
 
 候補:
 
