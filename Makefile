@@ -11,7 +11,7 @@ GOMODCACHE := $(CURDIR)/$(BACKEND_DIR)/.cache/go-mod
 GOLANGCI_LINT_CACHE := $(CURDIR)/$(BACKEND_DIR)/.cache/golangci-lint
 GO_ENV := GOCACHE=$(GOCACHE) GOMODCACHE=$(GOMODCACHE) GOLANGCI_LINT_CACHE=$(GOLANGCI_LINT_CACHE)
 
-.PHONY: api check db-down db-migrate db-reset db-seed db-up db-wait dev dev-setup web
+.PHONY: api check db-down db-migrate db-reset db-seed db-up db-wait dev dev-setup qa-mvp web
 
 dev: dev-setup
 	@trap 'kill $$(jobs -p) 2>/dev/null || true' INT TERM EXIT; \
@@ -56,6 +56,9 @@ web:
 check:
 	$(MAKE) -C $(BACKEND_DIR) check
 	cd $(FRONTEND_DIR) && npm run check
+
+qa-mvp:
+	node scripts/mvp-cross-screen-qa.mjs
 
 db-down:
 	docker compose down
