@@ -246,3 +246,28 @@ MVPでは最低限、以下をテスト対象とする。
 Supabase Auth連携後は、アクセストークンから取得したユーザーIDに置き換える。
 
 開発途中で固定 `user_id` を利用する場合は、`DEV_USER_ID` 環境変数で指定する。
+
+ローカルAPIを実データで確認する場合は、root `Makefile` のDB準備手順を先に実行する。
+
+```bash
+make dev-setup
+make api
+```
+
+Frontendも同時に確認する場合は、以下を使う。
+
+```bash
+make dev
+```
+
+バックエンド実装前の設計では、`DATABASE_URL` だけでなく以下も決める。
+
+- PostgreSQLの起動方法
+- host port
+- migration適用方法
+- seed投入方法
+- API起動方法
+- FrontendからAPIへ接続する環境変数
+- ヘルスチェック方法
+
+これらが未定義のままAPIやDB実装に入らない。

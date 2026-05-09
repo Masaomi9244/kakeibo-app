@@ -20,6 +20,12 @@ make dev-setup
 make api
 ```
 
+Frontendも含めてまとめて起動する場合は、rootから以下を使います。
+
+```bash
+make dev
+```
+
 DBだけを操作する場合は、rootから以下を使います。
 
 ```bash
