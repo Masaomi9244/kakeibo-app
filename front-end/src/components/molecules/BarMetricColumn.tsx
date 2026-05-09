@@ -18,9 +18,6 @@ type BarMetricColumnProps = {
   readonly metric: BarMetric;
 };
 
-/** 棒グラフの高さ計算に使う最大金額。 */
-const maxBarAmount = 315_000;
-
 /**
  * @description 年間サマリーの1指標を縦棒として表示する。
  * @param props - 表示する指標。
@@ -29,13 +26,10 @@ const maxBarAmount = 315_000;
  * <BarMetricColumn metric={metric} />
  */
 export function BarMetricColumn({ metric }: BarMetricColumnProps): ReactElement {
-  /** 指標金額から算出した棒の高さ */
-  const height = Math.max(6, Math.round((metric.value / maxBarAmount) * 180));
-
   return (
     <Stack spacing={1} sx={barMetricColumnStyles.root}>
       <Box sx={barMetricColumnStyles.barArea}>
-        <Box sx={getBarSx(metric.color, height)} />
+        <Box sx={getBarSx(metric.color, metric.height)} />
       </Box>
       <Typography sx={barMetricColumnStyles.label} variant="body2">
         {metric.label}

@@ -287,11 +287,16 @@ features/calendar/usecases/getCalendarWeekDays.ts
 features/calendar/usecases/shiftCalendarMonth.ts
 
 features/annual-summary/domain/annualSummary.ts
+features/annual-summary/api/annualSummaryApi.ts
+features/annual-summary/api/annualSummaryDto.ts
 features/annual-summary/hooks/useAnnualSummaryPageViewModel.ts
+features/annual-summary/hooks/useAnnualSummary.ts
+features/annual-summary/mappers/annualSummaryMapper.ts
 features/annual-summary/usecases/calculateAnnualSummaryTotals.ts
+features/annual-summary/usecases/createAnnualMonthlySummaries.ts
+features/annual-summary/usecases/createAnnualSummaryChartMetrics.ts
 features/annual-summary/usecases/createAnnualSummaryStatCards.ts
 features/annual-summary/usecases/findHighestExpenseMonth.ts
-features/annual-summary/usecases/getAnnualSummaryMockData.ts
 ```
 
 ## 実装時に作らないコンポーネント

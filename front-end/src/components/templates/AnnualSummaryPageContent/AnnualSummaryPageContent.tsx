@@ -2,7 +2,7 @@
 
 import type { ReactElement } from "react";
 
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Alert, Box, Paper, Stack, Typography } from "@mui/material";
 
 import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
@@ -29,6 +29,12 @@ export function AnnualSummaryPageContent(): ReactElement {
         subtitle={annualSummaryPage.subtitle}
         title={annualSummaryPage.title}
       />
+      {annualSummaryPage.annualSummaryErrorMessage !== undefined ? (
+        <Alert severity="error">{annualSummaryPage.annualSummaryErrorMessage}</Alert>
+      ) : null}
+      {annualSummaryPage.annualSummaryIsLoading ? (
+        <Alert severity="info">年間サマリーを読み込んでいます</Alert>
+      ) : null}
       <Box sx={annualSummaryPageContentStyles.statGrid}>
         {annualSummaryPage.statCards.map((statCard) => (
           <StatCard
@@ -49,8 +55,12 @@ export function AnnualSummaryPageContent(): ReactElement {
         </Typography>
       </Paper>
       <SummaryChart
-        metrics={annualSummaryPage.chartMetrics}
-        title={annualSummaryPage.chartTitle}
+        metrics={annualSummaryPage.monthlyTrendMetrics}
+        title={annualSummaryPage.monthlyTrendTitle}
+      />
+      <SummaryChart
+        metrics={annualSummaryPage.annualBreakdownMetrics}
+        title={annualSummaryPage.annualBreakdownTitle}
       />
       <MonthlySummaryList summaries={annualSummaryPage.monthlySummaries} />
     </Stack>
