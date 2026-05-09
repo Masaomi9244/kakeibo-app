@@ -13,6 +13,8 @@ import { formatYen } from "@/libs/money";
 type SelectedDayExpensesProps = {
   /** 選択日の出費一覧 */
   readonly expenses: readonly SelectedExpense[];
+  /** 選択日の出費一覧読み込み中か */
+  readonly isLoading: boolean;
   /** 選択日の表示ラベル */
   readonly selectedDateLabel: string;
   /** 選択日の出費合計 */
@@ -24,13 +26,17 @@ type SelectedDayExpensesProps = {
  * @param props - 選択日の出費一覧と合計金額。
  * @returns 選択日の支出一覧UI。
  * @example
- * <SelectedDayExpenses expenses={expenses} selectedDateLabel="2026年5月6日" total={2140} />
+ * <SelectedDayExpenses expenses={expenses} isLoading={false} selectedDateLabel="2026年5月6日" total={2140} />
  */
 export function SelectedDayExpenses({
   expenses,
+  isLoading,
   selectedDateLabel,
   total,
 }: SelectedDayExpensesProps): ReactElement {
+  /** 選択日の出費一覧が空か */
+  const isEmpty = expenses.length === 0;
+
   return (
     <Paper variant="outlined" sx={selectedDayExpensesStyles.root}>
       <Box sx={selectedDayExpensesStyles.header}>
@@ -51,6 +57,16 @@ export function SelectedDayExpenses({
         </Typography>
       </Box>
       <Stack divider={<Box sx={selectedDayExpensesStyles.divider} />}>
+        {isLoading ? (
+          <Typography color="text.secondary" sx={selectedDayExpensesStyles.emptyText}>
+            出費を読み込んでいます
+          </Typography>
+        ) : null}
+        {!isLoading && isEmpty ? (
+          <Typography color="text.secondary" sx={selectedDayExpensesStyles.emptyText}>
+            この日の出費はありません
+          </Typography>
+        ) : null}
         {expenses.map((expense) => (
           <Box key={expense.id} sx={selectedDayExpensesStyles.item}>
             <Typography color="text.secondary">{expense.time}</Typography>

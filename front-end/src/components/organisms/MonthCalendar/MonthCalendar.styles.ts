@@ -10,6 +10,8 @@ type MonthCalendarStyles = {
   readonly footerGrid: SxProps<Theme>;
   /** カード上部 */
   readonly header: SxProps<Theme>;
+  /** 読み込み中メッセージ */
+  readonly loadingText: SxProps<Theme>;
   /** 月表示 */
   readonly monthTitle: SxProps<Theme>;
   /** カレンダーカード全体 */
@@ -41,6 +43,9 @@ export const monthCalendarStyles = {
   header: {
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  loadingText: {
+    textAlign: "center",
   },
   monthTitle: {
     fontWeight: 700,

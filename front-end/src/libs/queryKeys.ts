@@ -47,6 +47,17 @@ export const expenseCalendarKeys = {
    * expenseCalendarKeys.byMonth("2026-05");
    */
   byMonth: (month: string) => ["expenseCalendar", month] as const,
+
+  /**
+   * @description 対象月と選択日のカレンダーquery keyを生成する。
+   * @param month - YYYY-MM形式の対象月。
+   * @param selectedDate - YYYY-MM-DD形式の選択日。
+   * @returns TanStack Queryで利用するquery key。
+   * @example
+   * expenseCalendarKeys.byMonthAndDate("2026-05", "2026-05-06");
+   */
+  byMonthAndDate: (month: string, selectedDate: string) =>
+    ["expenseCalendar", month, "date", selectedDate] as const,
 };
 
 /**

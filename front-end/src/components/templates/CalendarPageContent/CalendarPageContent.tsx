@@ -2,7 +2,7 @@
 
 import type { ReactElement } from "react";
 
-import { Stack } from "@mui/material";
+import { Alert, Stack } from "@mui/material";
 
 import { PageHeader } from "@/components/molecules/PageHeader";
 import { MonthCalendar } from "@/components/organisms/MonthCalendar/MonthCalendar";
@@ -23,15 +23,23 @@ export function CalendarPageContent(): ReactElement {
   return (
     <Stack spacing={3}>
       <PageHeader subtitle="日別の支出を確認する" title="月間カレンダー" />
+      {calendarPage.calendarErrorMessage !== undefined ? (
+        <Alert severity="error">{calendarPage.calendarErrorMessage}</Alert>
+      ) : null}
       <MonthCalendar
         calendarCells={calendarPage.calendarCells}
+        isLoading={calendarPage.calendarIsLoading}
         monthLabel={calendarPage.monthLabel}
+        onGoToCurrentMonth={calendarPage.handleGoToCurrentMonth}
+        onGoToNextMonth={calendarPage.handleGoToNextMonth}
+        onGoToPreviousMonth={calendarPage.handleGoToPreviousMonth}
         onSelectDate={calendarPage.handleSelectDate}
         stats={calendarPage.stats}
         weekDays={calendarPage.weekDays}
       />
       <SelectedDayExpenses
         expenses={calendarPage.selectedExpenses}
+        isLoading={calendarPage.calendarIsLoading}
         selectedDateLabel={calendarPage.selectedDateLabel}
         total={calendarPage.selectedDayTotal}
       />

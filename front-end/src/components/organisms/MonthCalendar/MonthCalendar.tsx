@@ -20,6 +20,14 @@ import { formatYen } from "@/libs/money";
 type MonthCalendarProps = {
   /** カレンダーセル一覧 */
   readonly calendarCells: readonly CalendarCell[];
+  /** 月間カレンダー読み込み中か */
+  readonly isLoading: boolean;
+  /** 今月ボタン押下時に呼び出す処理 */
+  readonly onGoToCurrentMonth: () => void;
+  /** 翌月ボタン押下時に呼び出す処理 */
+  readonly onGoToNextMonth: () => void;
+  /** 前月ボタン押下時に呼び出す処理 */
+  readonly onGoToPreviousMonth: () => void;
   /** 日付セル選択時に呼び出す処理 */
   readonly onSelectDate: (dateKey: string) => void;
   /** 月間カレンダーに表示する対象月 */
@@ -38,14 +46,22 @@ type MonthCalendarProps = {
  * <MonthCalendar
  *   weekDays={weekDays}
  *   calendarCells={calendarCells}
+ *   isLoading={false}
  *   monthLabel="2026年5月"
  *   stats={stats}
+ *   onGoToPreviousMonth={handleGoToPreviousMonth}
+ *   onGoToCurrentMonth={handleGoToCurrentMonth}
+ *   onGoToNextMonth={handleGoToNextMonth}
  *   onSelectDate={handleSelectDate}
  * />
  */
 export function MonthCalendar({
   calendarCells,
+  isLoading,
   monthLabel,
+  onGoToCurrentMonth,
+  onGoToNextMonth,
+  onGoToPreviousMonth,
   onSelectDate,
   stats,
   weekDays,
@@ -58,11 +74,15 @@ export function MonthCalendar({
             {monthLabel}
           </Typography>
           <Stack direction="row" spacing={1} sx={monthCalendarStyles.switcher}>
-            <Button size="small">前月</Button>
-            <Button size="small" variant="outlined">
+            <Button onClick={onGoToPreviousMonth} size="small">
+              前月
+            </Button>
+            <Button onClick={onGoToCurrentMonth} size="small" variant="outlined">
               今月
             </Button>
-            <Button size="small">翌月</Button>
+            <Button onClick={onGoToNextMonth} size="small">
+              翌月
+            </Button>
           </Stack>
         </Stack>
         <Box sx={monthCalendarStyles.calendarGrid}>
@@ -83,6 +103,11 @@ export function MonthCalendar({
             />
           ))}
         </Box>
+        {isLoading ? (
+          <Typography color="text.secondary" sx={monthCalendarStyles.loadingText}>
+            カレンダーを読み込んでいます
+          </Typography>
+        ) : null}
         <Box sx={monthCalendarStyles.footerGrid}>
           <Stack spacing={0.5}>
             <Typography color="text.secondary">今月の支出</Typography>
