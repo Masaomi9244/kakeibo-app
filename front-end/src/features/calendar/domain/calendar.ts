@@ -39,3 +39,15 @@ export type CalendarMockData = {
   /** 曜日ラベル一覧 */
   readonly weekDays: readonly string[];
 };
+
+/**
+ * 月間カレンダー下部に表示する月次集計。
+ */
+export type CalendarMonthStats = {
+  /** 1日の目安 */
+  readonly dailySpendingGuide: number;
+  /** 平均支出/日 */
+  readonly averageExpensePerDay: number;
+  /** 今月の支出 */
+  readonly monthlyExpenseTotal: number;
+};

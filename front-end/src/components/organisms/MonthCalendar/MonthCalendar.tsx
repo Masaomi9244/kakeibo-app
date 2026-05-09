@@ -2,7 +2,10 @@ import type { ReactElement } from "react";
 
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 
-import type { CalendarCell } from "@/features/calendar/domain/calendar";
+import type {
+  CalendarCell,
+  CalendarMonthStats,
+} from "@/features/calendar/domain/calendar";
 
 import { CalendarDateCell } from "@/components/molecules/CalendarDateCell";
 import {
@@ -17,6 +20,12 @@ import { formatYen } from "@/libs/money";
 type MonthCalendarProps = {
   /** カレンダーセル一覧 */
   readonly calendarCells: readonly CalendarCell[];
+  /** 日付セル選択時に呼び出す処理 */
+  readonly onSelectDate: (dateKey: string) => void;
+  /** 月間カレンダーに表示する対象月 */
+  readonly monthLabel: string;
+  /** 月間カレンダー下部に表示する月次集計 */
+  readonly stats: CalendarMonthStats;
   /** 曜日ラベル一覧 */
   readonly weekDays: readonly string[];
 };
@@ -26,10 +35,19 @@ type MonthCalendarProps = {
  * @param props - 曜日ラベルと日別カレンダーセル。
  * @returns 月間カレンダーUI。
  * @example
- * <MonthCalendar weekDays={weekDays} calendarCells={calendarCells} />
+ * <MonthCalendar
+ *   weekDays={weekDays}
+ *   calendarCells={calendarCells}
+ *   monthLabel="2026年5月"
+ *   stats={stats}
+ *   onSelectDate={handleSelectDate}
+ * />
  */
 export function MonthCalendar({
   calendarCells,
+  monthLabel,
+  onSelectDate,
+  stats,
   weekDays,
 }: MonthCalendarProps): ReactElement {
   return (
@@ -37,7 +55,7 @@ export function MonthCalendar({
       <Stack spacing={3}>
         <Stack direction="row" sx={monthCalendarStyles.header}>
           <Typography component="h2" sx={monthCalendarStyles.monthTitle} variant="h6">
-            2026年5月
+            {monthLabel}
           </Typography>
           <Stack direction="row" spacing={1} sx={monthCalendarStyles.switcher}>
             <Button size="small">前月</Button>
@@ -58,26 +76,30 @@ export function MonthCalendar({
             </Typography>
           ))}
           {calendarCells.map((cell) => (
-            <CalendarDateCell cell={cell} key={cell.dateKey} />
+            <CalendarDateCell
+              cell={cell}
+              key={cell.dateKey}
+              onSelectDate={onSelectDate}
+            />
           ))}
         </Box>
         <Box sx={monthCalendarStyles.footerGrid}>
           <Stack spacing={0.5}>
             <Typography color="text.secondary">今月の支出</Typography>
             <Typography color="error.main" sx={monthCalendarStyles.value} variant="h6">
-              {formatYen(5960)}
+              {formatYen(stats.monthlyExpenseTotal)}
             </Typography>
           </Stack>
           <Stack spacing={0.5}>
             <Typography color="text.secondary">1日の目安</Typography>
             <Typography sx={monthCalendarStyles.value} variant="h6">
-              {formatYen(7090)}
+              {formatYen(stats.dailySpendingGuide)}
             </Typography>
           </Stack>
           <Stack spacing={0.5}>
             <Typography color="text.secondary">平均支出/日</Typography>
             <Typography sx={monthCalendarStyles.value} variant="h6">
-              {formatYen(1192)}
+              {formatYen(stats.averageExpensePerDay)}
             </Typography>
           </Stack>
         </Box>
