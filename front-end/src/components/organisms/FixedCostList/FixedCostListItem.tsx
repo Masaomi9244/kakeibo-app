@@ -71,7 +71,7 @@ export function FixedCostListItem({
   };
 
   return (
-    <Box sx={fixedCostListStyles.row}>
+    <Box data-testid="fixed-cost-list-item" sx={fixedCostListStyles.row}>
       <Stack spacing={0.75}>
         <Stack direction="row" spacing={1} sx={fixedCostListStyles.nameRow}>
           <Typography sx={fixedCostListStyles.strongText}>{fixedCost.name}</Typography>
@@ -96,10 +96,16 @@ export function FixedCostListItem({
         <Switch
           checked={fixedCost.isActive}
           disabled={isOperationDisabled}
+          slotProps={{
+            input: {
+              "aria-label": `固定費の有効状態を切り替え ${fixedCost.name}`,
+            },
+          }}
           onChange={handleToggleActive}
           size="small"
         />
         <Button
+          aria-label={`固定費を編集 ${fixedCost.name}`}
           disabled={isOperationDisabled}
           onClick={handleEdit}
           size="small"
@@ -108,6 +114,7 @@ export function FixedCostListItem({
           編集
         </Button>
         <Button
+          aria-label={`固定費を削除 ${fixedCost.name}`}
           color="error"
           disabled={isOperationDisabled}
           onClick={handleDelete}

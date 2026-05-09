@@ -91,6 +91,29 @@ make qa-mvp
 API_BASE_URL=http://localhost:8080 FRONTEND_BASE_URL=http://localhost:3000 make qa-mvp
 ```
 
+### MVP E2E
+
+DB、API、Frontendを起動した状態で、ブラウザ操作ベースのE2Eを実行します。
+
+```bash
+make e2e-mvp
+```
+
+`make e2e-mvp` はPlaywrightで以下を確認します。
+
+1. ホーム、収入、固定費、カレンダー、年間サマリーをブラウザで開ける
+2. ホームで出費を登録し、ホーム、カレンダー、年間サマリーへ反映される
+3. 収入の登録、編集、削除、`includedInBalance` 切り替えが画面操作で動く
+4. 固定費の登録、編集、削除、`isActive` 切り替えが画面操作で動く
+5. ローディング表示やエラー表示が残り続けない
+6. QA用データを削除した後、関連集計が検証前の値へ戻る
+
+接続先を変える場合は以下の環境変数を指定します。
+
+```bash
+E2E_API_BASE_URL=http://localhost:8080 E2E_BASE_URL=http://localhost:3000 make e2e-mvp
+```
+
 ### 個別に起動する場合
 
 Frontend:
@@ -144,4 +167,5 @@ go run ./cmd/api
 | `make api`        | APIを `http://localhost:8080` で起動         |
 | `make web`        | Frontendを `http://localhost:3000` で起動    |
 | `make qa-mvp`     | MVP対象画面の実データ横断QA                  |
+| `make e2e-mvp`    | MVP対象画面のブラウザ操作E2E                 |
 | `make check`      | backend / frontendの総合チェック             |

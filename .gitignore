@@ -6,6 +6,7 @@ node_modules/
 front-end/.next/
 front-end/out/
 front-end/coverage/
+front-end/test-results/
 front-end/.npm-cache/
 front-end/tsconfig.tsbuildinfo
 front-end/.env.local
