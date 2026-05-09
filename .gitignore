@@ -7,6 +7,7 @@ front-end/.next/
 front-end/out/
 front-end/coverage/
 front-end/test-results/
+front-end/playwright-report/
 front-end/.npm-cache/
 front-end/tsconfig.tsbuildinfo
 front-end/.env.local

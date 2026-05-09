@@ -6,6 +6,18 @@ const baseURL = process.env["E2E_BASE_URL"] ?? "http://localhost:3000";
 /** API E2Eの接続先URL。 */
 const apiBaseURL = process.env["E2E_API_BASE_URL"] ?? "http://localhost:8080";
 
+/** E2Eで利用するPlaywrightのブラウザchannel。 */
+const browserChannel = (process.env["E2E_BROWSER_CHANNEL"] ?? "chrome") as
+  | "chrome"
+  | "chrome-beta"
+  | "chrome-canary"
+  | "chrome-dev"
+  | "chromium"
+  | "msedge"
+  | "msedge-beta"
+  | "msedge-canary"
+  | "msedge-dev";
+
 export default defineConfig({
   expect: {
     timeout: 10_000,
@@ -17,11 +29,11 @@ export default defineConfig({
       name: "chrome",
       use: {
         ...devices["Desktop Chrome"],
-        channel: "chrome",
+        channel: browserChannel,
       },
     },
   ],
-  reporter: [["list"]],
+  reporter: [["list"], ["html", { open: "never", outputFolder: "playwright-report" }]],
   retries: 0,
   testDir: "./e2e",
   timeout: 60_000,

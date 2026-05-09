@@ -1,0 +1,117 @@
+name: MVP E2E
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  e2e-mvp:
+    name: MVP browser E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: kakeibo
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d kakeibo"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5433/kakeibo?sslmode=disable
+      DEV_USER_ID: 00000000-0000-0000-0000-000000000001
+      E2E_API_BASE_URL: http://localhost:8080
+      E2E_BASE_URL: http://localhost:3000
+      E2E_BROWSER_CHANNEL: chromium
+      FRONTEND_ORIGIN: http://localhost:3000
+      GOTOOLCHAIN: auto
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          cache-dependency-path: front-end/package-lock.json
+          node-version: 22
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          cache-dependency-path: back-end/go.sum
+          go-version-file: back-end/go.mod
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix front-end
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+        working-directory: front-end
+
+      - name: Apply database migrations
+        run: make db-migrate
+
+      - name: Seed database
+        run: make db-seed
+
+      - name: Start API
+        run: |
+          make api > api.log 2>&1 &
+          echo $! > api.pid
+
+      - name: Wait for API
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:8080/health > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat api.log
+          exit 1
+
+      - name: Start frontend
+        run: |
+          make web > web.log 2>&1 &
+          echo $! > web.pid
+
+      - name: Wait for frontend
+        run: |
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://localhost:3000 > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat web.log
+          exit 1
+
+      - name: Run MVP E2E
+        run: make e2e-mvp
+
+      - name: Upload E2E artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mvp-e2e-artifacts
+          path: |
+            api.log
+            web.log
+            front-end/test-results
+            front-end/playwright-report
+          if-no-files-found: ignore

@@ -114,6 +114,25 @@ make e2e-mvp
 E2E_API_BASE_URL=http://localhost:8080 E2E_BASE_URL=http://localhost:3000 make e2e-mvp
 ```
 
+### CI / PRゲート
+
+GitHub Actionsでは、Pull Requestと`main`へのpush時にMVP E2Eを実行します。
+
+CIは以下を順番に行います。
+
+1. PostgreSQL 16 serviceを起動する
+2. Frontend依存関係とPlaywright browserを準備する
+3. DB migrationとseedを適用する
+4. APIとFrontendを起動する
+5. `make e2e-mvp` を実行する
+6. 失敗時にAPI log、Frontend log、Playwright trace、test-resultsをartifactへ保存する
+
+CIではPlaywrightのbrowser channelに`chromium`を使います。ローカルで同じ条件を再現したい場合は以下を実行します。
+
+```bash
+E2E_BROWSER_CHANNEL=chromium make e2e-mvp
+```
+
 ### 個別に起動する場合
 
 Frontend:
