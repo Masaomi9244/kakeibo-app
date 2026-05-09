@@ -304,6 +304,7 @@ expensesKeys.byDate(date);
 incomesKeys.byMonth(month);
 fixedCostsKeys.byMonth(month);
 expenseCalendarKeys.byMonth(month);
+expenseCalendarKeys.byMonthAndDate(month, date);
 annualSummaryKeys.byYear(year);
 ```
 
@@ -456,14 +457,15 @@ mutation後の更新:
 
 ```txt
 features/calendar/hooks/useExpenseCalendar.ts
-features/calendar/hooks/useSelectedDayExpenses.ts
+features/calendar/hooks/useCalendarPageViewModel.ts
 ```
 
 責務:
 
 - 対象月のカレンダーを取得する
-- 選択日の出費明細を取得する
+- 選択日の出費明細を同じカレンダーAPI responseから取得する
 - 月移動時にquery keyを切り替える
+- 選択日変更時に `expenseCalendarKeys.byMonthAndDate(month, date)` でquery keyを切り替える
 
 禁止:
 
@@ -534,7 +536,7 @@ libs/date.ts
 | ----------------------------- | -------------------- | -------------------------------------------- | ----------------- |
 | `POST /api/expenses`          | `createExpense`      | `useCreateQuickExpense`                      | `Expense`         |
 | `GET /api/expenses?month=`    | `getExpensesByMonth` | 必要になった時点で追加                       | `Expense[]`       |
-| `GET /api/expenses?date=`     | `getExpensesByDate`  | `useTodayExpenses`, `useSelectedDayExpenses` | `Expense[]`       |
+| `GET /api/expenses?date=`     | `getExpensesByDate`  | `useTodayExpenses`                           | `Expense[]`       |
 | `DELETE /api/expenses/:id`    | `deleteExpense`      | `useUndoExpense`                             | none              |
 | `GET /api/monthly-summary`    | `getMonthlySummary`  | `useMonthlySummary`                          | `MonthlySummary`  |
 | `GET /api/incomes`            | `getIncomes`         | `useIncomes`                                 | `Income[]`        |

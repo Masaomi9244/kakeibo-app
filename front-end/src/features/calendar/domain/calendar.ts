@@ -1,3 +1,5 @@
+import type { Expense } from "@/domains/expense";
+
 /**
  * 月間カレンダーの1日分セルに表示する値。
  */
@@ -17,6 +19,38 @@ export type CalendarCell = {
 };
 
 /**
+ * APIから取得した対象月の1日分集計。
+ */
+export type ExpenseCalendarDay = {
+  /** YYYY-MM-DD形式の日付 */
+  readonly date: string;
+  /** その日の出費合計 */
+  readonly expenseTotal: number;
+  /** その日終了時点の生活費残り */
+  readonly remainingAmount: number;
+};
+
+/**
+ * APIから取得した月間カレンダー集計。
+ */
+export type ExpenseCalendar = {
+  /** 対象月の使える収入合計 */
+  readonly availableIncome: number;
+  /** カレンダーに表示する日別集計 */
+  readonly days: readonly ExpenseCalendarDay[];
+  /** 対象月の出費合計 */
+  readonly expenseTotal: number;
+  /** 対象月の固定費合計 */
+  readonly fixedCostTotal: number;
+  /** YYYY-MM形式の対象月 */
+  readonly month: string;
+  /** 対象月の生活費残り */
+  readonly remainingAmount: number;
+  /** 選択日の出費明細 */
+  readonly selectedDateExpenses: readonly Expense[];
+};
+
+/**
  * 選択日の支出一覧に表示する出費。
  */
 export type SelectedExpense = {
@@ -26,18 +60,6 @@ export type SelectedExpense = {
   readonly id: string;
   /** HH:mm形式の出費時刻 */
   readonly time: string;
-};
-
-/**
- * 月間カレンダー画面モックで利用するデータ。
- */
-export type CalendarMockData = {
-  /** カレンダーセル一覧 */
-  readonly calendarCells: readonly CalendarCell[];
-  /** 選択日の出費一覧 */
-  readonly selectedExpenses: readonly SelectedExpense[];
-  /** 曜日ラベル一覧 */
-  readonly weekDays: readonly string[];
 };
 
 /**

@@ -1,44 +1,60 @@
 import type {
-  CalendarCell,
   CalendarMonthStats,
+  ExpenseCalendar,
 } from "@/features/calendar/domain/calendar";
+
+import { calculateDailySpendingGuide } from "@/features/home/usecases/calculateDailySpendingGuide";
 
 /**
  * 月次カレンダー集計に必要な入力値。
  */
 export type CalendarMonthStatsInput = {
-  /** 1日の目安 */
-  readonly dailySpendingGuide: number;
-  /** カレンダーセル一覧 */
-  readonly calendarCells: readonly CalendarCell[];
+  /** APIから取得した月間カレンダー集計 */
+  readonly expenseCalendar: ExpenseCalendar;
+  /** YYYY-MM-DD形式の集計基準日 */
+  readonly targetDate: string;
 };
 
 /**
- * @description カレンダーセル一覧から月次支出合計と平均支出を算出する。
- * @param input - カレンダーセル一覧と1日の目安。
+ * @description 対象月の日別集計から平均支出の分母に使う日数を算出する。
+ * @param input - APIから取得した月間カレンダー集計と集計基準日。
+ * @returns 平均支出計算に使う日数。
+ * @example
+ * calculateAverageExpenseDayCount({ expenseCalendar, targetDate: "2026-05-06" });
+ */
+const calculateAverageExpenseDayCount = (input: CalendarMonthStatsInput): number => {
+  if (!input.targetDate.startsWith(`${input.expenseCalendar.month}-`)) {
+    return Math.max(input.expenseCalendar.days.length, 1);
+  }
+
+  /** 集計基準日の日 */
+  const targetDay = Number(input.targetDate.slice(8, 10));
+
+  return Math.max(targetDay, 1);
+};
+
+/**
+ * @description APIから取得した月間カレンダー集計から画面下部の月次集計を算出する。
+ * @param input - APIから取得した月間カレンダー集計と集計基準日。
  * @returns 月間カレンダー下部に表示する月次集計。
  * @example
- * calculateCalendarMonthStats({ calendarCells, dailySpendingGuide: 7090 });
+ * calculateCalendarMonthStats({ expenseCalendar, targetDate: "2026-05-06" });
  */
 export const calculateCalendarMonthStats = (
   input: CalendarMonthStatsInput,
 ): CalendarMonthStats => {
-  /** 表示対象月の日付セル一覧 */
-  const currentMonthCells = input.calendarCells.filter((cell) => cell.isCurrentMonth);
-  /** 表示対象月の出費がある日付セル一覧 */
-  const spentCells = currentMonthCells.filter(
-    (cell) => cell.expenseTotal !== undefined,
-  );
-  /** 表示対象月の支出合計 */
-  const monthlyExpenseTotal = currentMonthCells.reduce(
-    (total, cell) => total + (cell.expenseTotal ?? 0),
-    0,
-  );
+  /** 平均支出計算に使う日数 */
+  const averageExpenseDayCount = calculateAverageExpenseDayCount(input);
 
   return {
-    averageExpensePerDay:
-      spentCells.length === 0 ? 0 : Math.floor(monthlyExpenseTotal / spentCells.length),
-    dailySpendingGuide: input.dailySpendingGuide,
-    monthlyExpenseTotal,
+    averageExpensePerDay: Math.floor(
+      input.expenseCalendar.expenseTotal / averageExpenseDayCount,
+    ),
+    dailySpendingGuide: calculateDailySpendingGuide({
+      date: input.targetDate,
+      month: input.expenseCalendar.month,
+      remainingAmount: input.expenseCalendar.remainingAmount,
+    }),
+    monthlyExpenseTotal: input.expenseCalendar.expenseTotal,
   };
 };

@@ -273,10 +273,18 @@ features/fixed-costs/usecases/mapFixedCostToFormValues.ts
 features/fixed-costs/usecases/normalizeFixedCostForm.ts
 
 features/calendar/domain/calendar.ts
+features/calendar/api/expenseCalendarApi.ts
+features/calendar/api/expenseCalendarDto.ts
 features/calendar/hooks/useCalendarPageViewModel.ts
+features/calendar/hooks/useExpenseCalendar.ts
+features/calendar/mappers/expenseCalendarMapper.ts
 features/calendar/usecases/calculateCalendarMonthStats.ts
+features/calendar/usecases/createCalendarCells.ts
+features/calendar/usecases/createSelectedExpenseItems.ts
 features/calendar/usecases/formatCalendarDateLabel.ts
-features/calendar/usecases/getCalendarMockData.ts
+features/calendar/usecases/formatCalendarMonthLabel.ts
+features/calendar/usecases/getCalendarWeekDays.ts
+features/calendar/usecases/shiftCalendarMonth.ts
 
 features/annual-summary/domain/annualSummary.ts
 features/annual-summary/hooks/useAnnualSummaryPageViewModel.ts
