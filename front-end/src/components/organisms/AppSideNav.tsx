@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 
+import { AppIcon } from "@/components/atoms/AppIcon/AppIcon";
 import {
   appSideNavStyles,
   getSideNavItemSx,
@@ -27,9 +28,14 @@ export function AppSideNav({ currentPath }: AppSideNavProps): ReactElement {
   return (
     <Box component="aside" sx={appSideNavStyles.root}>
       <Stack spacing={0.5} sx={appSideNavStyles.userBlock}>
-        <Typography component="p" sx={appSideNavStyles.appName} variant="h6">
-          家計簿
-        </Typography>
+        <Box sx={appSideNavStyles.brandRow}>
+          <Box component="span" sx={appSideNavStyles.brandIcon}>
+            <AppIcon name="brand" size={24} />
+          </Box>
+          <Typography component="p" sx={appSideNavStyles.appName} variant="h6">
+            家計簿
+          </Typography>
+        </Box>
         <Typography color="text.secondary" variant="body2">
           mario8masa9244
         </Typography>
@@ -48,8 +54,8 @@ export function AppSideNav({ currentPath }: AppSideNavProps): ReactElement {
               sx={getSideNavItemSx(isActive)}
               variant={isActive ? "contained" : "text"}
             >
-              <Box component="span" sx={appSideNavStyles.itemMark}>
-                {item.mark}
+              <Box component="span" sx={appSideNavStyles.itemIcon}>
+                <AppIcon name={item.iconName} size={22} />
               </Box>
               {item.label}
             </Button>
@@ -57,7 +63,12 @@ export function AppSideNav({ currentPath }: AppSideNavProps): ReactElement {
         })}
       </Stack>
       <Box sx={appSideNavStyles.logoutArea}>
-        <Button color="error" size="large" sx={appSideNavStyles.logoutButton}>
+        <Button
+          color="error"
+          size="large"
+          startIcon={<AppIcon name="logout" size={22} />}
+          sx={appSideNavStyles.logoutButton}
+        >
           ログアウト
         </Button>
       </Box>

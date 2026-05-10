@@ -4,6 +4,12 @@ import type { SxProps, Theme } from "@mui/material/styles";
  * アプリ共通レイアウトで利用するstyle定義。
  */
 type AppShellStyles = {
+  /** SPヘッダーのブランド表示 */
+  readonly mobileHeaderBrand: SxProps<Theme>;
+  /** SPヘッダーのブランドアイコン */
+  readonly mobileHeaderIcon: SxProps<Theme>;
+  /** SPヘッダーのログアウトボタン */
+  readonly mobileHeaderLogoutButton: SxProps<Theme>;
   /** SPヘッダー */
   readonly mobileHeader: SxProps<Theme>;
   /** SPヘッダーのアプリ名 */
@@ -25,6 +31,26 @@ export const appShellStyles = {
     height: 64,
     justifyContent: "space-between",
     px: 2,
+  },
+  mobileHeaderBrand: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: 1.25,
+  },
+  mobileHeaderIcon: {
+    alignItems: "center",
+    bgcolor: "primary.main",
+    borderRadius: 1.25,
+    color: "primary.contrastText",
+    display: "inline-flex",
+    height: 34,
+    justifyContent: "center",
+    width: 34,
+  },
+  mobileHeaderLogoutButton: {
+    minWidth: 40,
+    px: 1,
   },
   mobileHeaderTitle: {
     fontWeight: 700,

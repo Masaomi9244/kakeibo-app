@@ -6,8 +6,8 @@ import type { SxProps, Theme } from "@mui/material/styles";
 type AppBottomNavStyles = {
   /** ナビ項目の中身 */
   readonly itemContent: SxProps<Theme>;
-  /** ナビ項目の記号 */
-  readonly itemMark: SxProps<Theme>;
+  /** ナビ項目のアイコン */
+  readonly itemIcon: SxProps<Theme>;
   /** ナビ一覧 */
   readonly navGrid: SxProps<Theme>;
   /** 下部ナビ全体 */
@@ -19,15 +19,12 @@ export const appBottomNavStyles = {
   itemContent: {
     alignItems: "center",
   },
-  itemMark: {
-    border: 1,
-    borderColor: "currentColor",
-    borderRadius: 1,
-    fontSize: 12,
-    fontWeight: 700,
-    height: 22,
-    lineHeight: "20px",
-    width: 22,
+  itemIcon: {
+    alignItems: "center",
+    display: "inline-flex",
+    height: 24,
+    justifyContent: "center",
+    width: 24,
   },
   navGrid: {
     display: "grid",
