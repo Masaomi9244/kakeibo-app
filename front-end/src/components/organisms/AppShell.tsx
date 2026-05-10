@@ -2,6 +2,7 @@ import type { ReactElement, ReactNode } from "react";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
+import { AppIcon } from "@/components/atoms/AppIcon/AppIcon";
 import { AppBottomNav } from "@/components/organisms/AppBottomNav";
 import { appShellStyles } from "@/components/organisms/AppShell.styles";
 import { AppSideNav } from "@/components/organisms/AppSideNav";
@@ -28,13 +29,21 @@ export function AppShell({ children, currentPath }: AppShellProps): ReactElement
     <Box sx={appShellStyles.root}>
       <AppSideNav currentPath={currentPath} />
       <Box component="header" sx={appShellStyles.mobileHeader}>
-        <Stack spacing={0}>
+        <Stack spacing={0} sx={appShellStyles.mobileHeaderBrand}>
+          <Box component="span" sx={appShellStyles.mobileHeaderIcon}>
+            <AppIcon name="brand" size={23} />
+          </Box>
           <Typography component="p" sx={appShellStyles.mobileHeaderTitle} variant="h6">
             家計簿
           </Typography>
         </Stack>
-        <Button color="error" size="small">
-          ログアウト
+        <Button
+          aria-label="ログアウト"
+          color="error"
+          size="small"
+          sx={appShellStyles.mobileHeaderLogoutButton}
+        >
+          <AppIcon name="logout" size={24} />
         </Button>
       </Box>
       <Box component="main" sx={appShellStyles.pageMain}>

@@ -1,40 +1,42 @@
+import type { AppIconName } from "@/components/atoms/AppIcon/AppIcon";
+
 /**
  * アプリ共通ナビゲーションに表示するリンク情報。
  */
 export type NavigationItem = {
   /** 遷移先パス */
   readonly href: string;
+  /** ナビゲーションに表示するアイコン名 */
+  readonly iconName: AppIconName;
   /** ナビゲーションに表示するラベル */
   readonly label: string;
-  /** ナビゲーションに表示する短い記号 */
-  readonly mark: string;
 };
 
 /** アプリ共通ナビゲーションに表示するリンク一覧。 */
 export const appNavigationItems: readonly NavigationItem[] = [
   {
     href: "/",
+    iconName: "home",
     label: "ホーム",
-    mark: "H",
   },
   {
     href: "/incomes",
+    iconName: "income",
     label: "収入",
-    mark: "I",
   },
   {
     href: "/fixed-costs",
+    iconName: "fixedCost",
     label: "固定費",
-    mark: "F",
   },
   {
     href: "/calendar",
+    iconName: "calendar",
     label: "カレンダー",
-    mark: "C",
   },
   {
     href: "/annual-summary",
+    iconName: "annualSummary",
     label: "年間",
-    mark: "Y",
   },
 ];

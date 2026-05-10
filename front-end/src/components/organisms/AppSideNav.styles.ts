@@ -6,8 +6,12 @@ import type { SxProps, Theme } from "@mui/material/styles";
 type AppSideNavStyles = {
   /** アプリ名 */
   readonly appName: SxProps<Theme>;
-  /** ナビリンク内の記号 */
-  readonly itemMark: SxProps<Theme>;
+  /** ブランドアイコン */
+  readonly brandIcon: SxProps<Theme>;
+  /** アプリ名とブランドアイコンの行 */
+  readonly brandRow: SxProps<Theme>;
+  /** ナビリンク内のアイコン */
+  readonly itemIcon: SxProps<Theme>;
   /** ログアウト領域 */
   readonly logoutArea: SxProps<Theme>;
   /** ログアウトボタン */
@@ -25,17 +29,34 @@ export const appSideNavStyles = {
   appName: {
     fontWeight: 700,
   },
-  itemMark: {
+  brandIcon: {
+    alignItems: "center",
+    bgcolor: "primary.main",
+    borderRadius: 1.5,
+    color: "primary.contrastText",
     display: "inline-flex",
-    fontWeight: 700,
+    height: 36,
+    justifyContent: "center",
+    width: 36,
+  },
+  brandRow: {
+    alignItems: "center",
+    display: "flex",
+    gap: 1.5,
+  },
+  itemIcon: {
+    alignItems: "center",
+    display: "inline-flex",
+    justifyContent: "center",
     mr: 1.5,
-    width: 20,
+    width: 22,
   },
   logoutArea: {
     p: 2,
   },
   logoutButton: {
     justifyContent: "flex-start",
+    textTransform: "none",
   },
   navList: {
     flex: 1,

@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 
 import { Box, ButtonBase, Paper, Stack, Typography } from "@mui/material";
 
+import { AppIcon } from "@/components/atoms/AppIcon/AppIcon";
 import {
   appBottomNavStyles,
   getBottomNavItemSx,
@@ -40,13 +41,9 @@ export function AppBottomNav({ currentPath }: AppBottomNavProps): ReactElement {
               sx={getBottomNavItemSx(isActive)}
             >
               <Stack spacing={0.25} sx={appBottomNavStyles.itemContent}>
-                <Typography
-                  aria-hidden="true"
-                  component="span"
-                  sx={appBottomNavStyles.itemMark}
-                >
-                  {item.mark}
-                </Typography>
+                <Box component="span" sx={appBottomNavStyles.itemIcon}>
+                  <AppIcon name={item.iconName} size={23} />
+                </Box>
                 <Typography component="span" sx={getBottomNavLabelSx(isActive)}>
                   {item.label}
                 </Typography>
