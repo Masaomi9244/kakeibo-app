@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 
-import { Box, Button, Stack, Switch, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 
 import type { FixedCostItem } from "@/features/fixed-costs/domain/fixedCost";
 
@@ -93,17 +93,16 @@ export function FixedCostListItem({
         {formatYen(fixedCost.amount)}
       </Typography>
       <Stack direction="row" spacing={1} sx={fixedCostListStyles.controlRow}>
-        <Switch
-          checked={fixedCost.isActive}
+        <Button
+          aria-label={`固定費の有効状態を切り替え ${fixedCost.name}`}
+          color={fixedCost.isActive ? "warning" : "success"}
           disabled={isOperationDisabled}
-          slotProps={{
-            input: {
-              "aria-label": `固定費の有効状態を切り替え ${fixedCost.name}`,
-            },
-          }}
-          onChange={handleToggleActive}
+          onClick={handleToggleActive}
           size="small"
-        />
+          variant="text"
+        >
+          {fixedCost.isActive ? "無効にする" : "有効にする"}
+        </Button>
         <Button
           aria-label={`固定費を編集 ${fixedCost.name}`}
           disabled={isOperationDisabled}

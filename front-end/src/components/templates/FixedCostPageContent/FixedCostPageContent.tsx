@@ -6,7 +6,6 @@ import { Alert, Box, Stack } from "@mui/material";
 
 import { StatCard } from "@/components/molecules/StatCard";
 import { FixedCostForm } from "@/components/organisms/FixedCostForm/FixedCostForm";
-import { FixedCostGuide } from "@/components/organisms/FixedCostGuide/FixedCostGuide";
 import { FixedCostList } from "@/components/organisms/FixedCostList/FixedCostList";
 import { fixedCostPageContentStyles } from "@/components/templates/FixedCostPageContent/FixedCostPageContent.styles";
 import { useFixedCostPageViewModel } from "@/features/fixed-costs/hooks/useFixedCostPageViewModel";
@@ -27,18 +26,12 @@ export function FixedCostPageContent(): ReactElement {
       {fixedCostPage.fixedCostsErrorMessage === undefined ? null : (
         <Alert severity="error">{fixedCostPage.fixedCostsErrorMessage}</Alert>
       )}
-      <FixedCostGuide />
       <Box sx={fixedCostPageContentStyles.statGrid}>
         <StatCard
           amount={fixedCostPage.totals.activeFixedCostTotal}
           label="今月の固定費"
           subtitle={fixedCostPage.totals.fixedCostCountLabel}
           tone="fixedCost"
-        />
-        <StatCard
-          amount={fixedCostPage.totals.fixedCostTotal}
-          label="全固定費の合計"
-          subtitle={fixedCostPage.totals.fixedCostCountLabel}
         />
       </Box>
       <FixedCostForm
