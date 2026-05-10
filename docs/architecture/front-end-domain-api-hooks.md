@@ -199,7 +199,7 @@ export type AnnualSummary = {
 
 補足:
 
-- `availableBalance` は年間生活費残りとして表示する
+- `availableBalance` は年間生活費残りとして保持するが、年間サマリー上部カードには表示しない
 - `総貯蓄` という表示名は使わない
 - カテゴリ別支出は持たない
 
