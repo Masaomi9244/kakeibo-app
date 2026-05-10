@@ -37,7 +37,8 @@ export const todayExpensesCardStyles = {
     px: 2,
   },
   list: {
-    p: { sm: 3, xs: 2.5 },
+    pb: { sm: 2.25, xs: 2 },
+    px: { sm: 3, xs: 2.5 },
     pt: 1,
   },
   root: {
@@ -50,6 +51,7 @@ export const todayExpensesCardStyles = {
     borderTop: 1,
     display: "flex",
     justifyContent: "space-between",
+    px: 2,
     pt: 2,
   },
 } satisfies TodayExpensesCardStyles;
