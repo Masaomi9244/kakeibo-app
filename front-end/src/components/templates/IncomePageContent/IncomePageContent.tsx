@@ -4,7 +4,6 @@ import type { ReactElement } from "react";
 
 import { Alert, Stack } from "@mui/material";
 
-import { PageHeader } from "@/components/molecules/PageHeader";
 import { IncomeForm } from "@/components/organisms/IncomeForm/IncomeForm";
 import { IncomeList } from "@/components/organisms/IncomeList/IncomeList";
 import { IncomeSummary } from "@/components/organisms/IncomeSummary/IncomeSummary";
@@ -23,7 +22,6 @@ export function IncomePageContent(): ReactElement {
 
   return (
     <Stack spacing={3}>
-      <PageHeader subtitle="収入を追加・管理する" title="収入管理" />
       {incomePage.incomesErrorMessage === undefined ? null : (
         <Alert severity="error">{incomePage.incomesErrorMessage}</Alert>
       )}

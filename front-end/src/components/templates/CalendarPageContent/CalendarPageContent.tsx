@@ -4,7 +4,6 @@ import type { ReactElement } from "react";
 
 import { Alert, Stack } from "@mui/material";
 
-import { PageHeader } from "@/components/molecules/PageHeader";
 import { MonthCalendar } from "@/components/organisms/MonthCalendar/MonthCalendar";
 import { SelectedDayExpenses } from "@/components/organisms/SelectedDayExpenses/SelectedDayExpenses";
 import { useCalendarPageViewModel } from "@/features/calendar/hooks/useCalendarPageViewModel";
@@ -22,7 +21,6 @@ export function CalendarPageContent(): ReactElement {
 
   return (
     <Stack spacing={3}>
-      <PageHeader subtitle="日別の支出を確認する" title="月間カレンダー" />
       {calendarPage.calendarErrorMessage !== undefined ? (
         <Alert severity="error">{calendarPage.calendarErrorMessage}</Alert>
       ) : null}

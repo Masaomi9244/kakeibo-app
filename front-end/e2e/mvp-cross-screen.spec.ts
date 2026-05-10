@@ -572,18 +572,13 @@ async function expectPageReady(page: Page): Promise<void> {
  * @description 指定pathを開いて画面が利用可能になるまで待つ。
  * @param page - Playwright page。
  * @param path - 遷移先path。
- * @param heading - 表示確認に使う見出し。
  * @returns なし。
  * @example
- * await openPage(page, "/incomes", "収入管理");
+ * await openPage(page, "/incomes");
  */
-async function openPage(
-  page: Page,
-  path: string,
-  heading: RegExp | string,
-): Promise<void> {
+async function openPage(page: Page, path: string): Promise<void> {
   await page.goto(path);
-  await expect(page.getByRole("heading", { name: heading }).first()).toBeVisible();
+  await expect(page).toHaveURL(new RegExp(`${path === "/" ? "/" : path}$`));
   await expectPageReady(page);
 }
 
@@ -757,7 +752,7 @@ test.describe("MVP主要画面の実データE2E", () => {
     /** 年内で固定費が有効になる月数。 */
     const activeMonthCount = getRemainingMonthCountInYear();
 
-    await openPage(page, "/", "ホーム");
+    await openPage(page, "/");
     await expect(
       page.getByText(formatYen(baselineMonthly.remainingAmount)).first(),
     ).toBeVisible();
@@ -796,18 +791,18 @@ test.describe("MVP主要画面の実データE2E", () => {
       baselineCalendarDay.expenseTotal + expenseAmount,
     );
 
-    await openPage(page, "/calendar", "月間カレンダー");
+    await openPage(page, "/calendar");
     await expect(
       page.getByText(formatYen(afterExpenseCalendar.expenseTotal)).first(),
     ).toBeVisible();
     await expect(page.getByText("合計")).toBeVisible();
 
-    await openPage(page, "/annual-summary", /年間サマリー/);
+    await openPage(page, "/annual-summary");
     await expect(
       page.getByText(formatYen(afterExpenseAnnual.expenseTotal)).first(),
     ).toBeVisible();
 
-    await openPage(page, "/incomes", "収入管理");
+    await openPage(page, "/incomes");
     await submitIncomeForm(page, incomeName, incomeAmount);
     await expect(incomeRow(page, incomeName)).toContainText(formatYen(incomeAmount));
     createdIds.incomeId = await findIncomeIdByMemo(apiContext, incomeName);
@@ -876,23 +871,23 @@ test.describe("MVP主要画面の実データE2E", () => {
       afterExpenseAnnual.availableIncome,
     );
 
-    await openPage(page, "/", "ホーム");
+    await openPage(page, "/");
     await expect(
       page.getByText(formatYen(afterIncomeToggleMonthly.availableIncome)).first(),
     ).toBeVisible();
-    await openPage(page, "/annual-summary", /年間サマリー/);
+    await openPage(page, "/annual-summary");
     await expect(
       page.getByText(formatYen(afterIncomeToggleAnnual.reservedIncome)).first(),
     ).toBeVisible();
 
-    await openPage(page, "/incomes", "収入管理");
+    await openPage(page, "/incomes");
     await incomeRow(page, updatedIncomeName)
       .getByRole("button", { name: `収入を削除 ${updatedIncomeName}` })
       .click();
     await expect(incomeRow(page, updatedIncomeName)).toHaveCount(0);
     createdIds.incomeId = undefined;
 
-    await openPage(page, "/fixed-costs", "固定費管理");
+    await openPage(page, "/fixed-costs");
     await submitFixedCostForm(page, fixedCostName, fixedCostAmount);
     await expect(fixedCostRow(page, fixedCostName)).toContainText(
       formatYen(fixedCostAmount),
@@ -966,20 +961,20 @@ test.describe("MVP主要画面の実データE2E", () => {
       afterExpenseCalendar.fixedCostTotal,
     );
 
-    await openPage(page, "/", "ホーム");
+    await openPage(page, "/");
     await expect(
       page.getByText(formatYen(afterFixedCostToggleMonthly.fixedCostTotal)).first(),
     ).toBeVisible();
-    await openPage(page, "/calendar", "月間カレンダー");
+    await openPage(page, "/calendar");
     await expect(
       page.getByText(formatYen(afterFixedCostToggleCalendar.expenseTotal)).first(),
     ).toBeVisible();
-    await openPage(page, "/annual-summary", /年間サマリー/);
+    await openPage(page, "/annual-summary");
     await expect(
       page.getByText(formatYen(afterFixedCostToggleAnnual.fixedCostTotal)).first(),
     ).toBeVisible();
 
-    await openPage(page, "/fixed-costs", "固定費管理");
+    await openPage(page, "/fixed-costs");
     await submitFixedCostForm(page, deletableFixedCostName, fixedCostAmount);
     await expect(fixedCostRow(page, deletableFixedCostName)).toContainText(
       formatYen(fixedCostAmount),

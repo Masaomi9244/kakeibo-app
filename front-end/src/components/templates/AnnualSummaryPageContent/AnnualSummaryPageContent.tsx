@@ -4,7 +4,6 @@ import type { ReactElement } from "react";
 
 import { Alert, Box, Paper, Stack, Typography } from "@mui/material";
 
-import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { MonthlySummaryList } from "@/components/organisms/MonthlySummaryList/MonthlySummaryList";
 import { SummaryChart } from "@/components/organisms/SummaryChart/SummaryChart";
@@ -25,10 +24,6 @@ export function AnnualSummaryPageContent(): ReactElement {
 
   return (
     <Stack spacing={3}>
-      <PageHeader
-        subtitle={annualSummaryPage.subtitle}
-        title={annualSummaryPage.title}
-      />
       {annualSummaryPage.annualSummaryErrorMessage !== undefined ? (
         <Alert severity="error">{annualSummaryPage.annualSummaryErrorMessage}</Alert>
       ) : null}

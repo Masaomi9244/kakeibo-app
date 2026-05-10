@@ -126,7 +126,6 @@
 - `AppBottomNav`
 - `UserMenu`
 - `StatCard`
-- `PageHeader`
 - `EmptyState`
 - `ErrorMessage`
 - `LoadingState`
