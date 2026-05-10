@@ -10,7 +10,7 @@ import { HomeSummaryCards } from "@/components/organisms/HomeSummaryCards/HomeSu
 import { QuickExpenseInput } from "@/components/organisms/QuickExpenseInput/QuickExpenseInput";
 import { TodayExpensesCard } from "@/components/organisms/TodayExpensesCard/TodayExpensesCard";
 import {
-  buildHomeSummaryCardsProps,
+  buildOptionalHomeSummaryCardsProps,
   buildQuickExpenseInputProps,
 } from "@/components/templates/HomePageContent/HomePageContent.props";
 import { homePageContentStyles } from "@/components/templates/HomePageContent/HomePageContent.styles";
@@ -33,10 +33,10 @@ export function HomePageContent(): ReactElement {
   /** 月次サマリー */
   const monthlySummary = homePage.monthlySummary;
   /** ホーム画面の収支カード一覧componentへ渡すprops */
-  const summaryCardsProps =
-    monthlySummary === undefined
-      ? undefined
-      : buildHomeSummaryCardsProps(monthlySummary, homePage.summaryCardsDisclosure);
+  const summaryCardsProps = buildOptionalHomeSummaryCardsProps(
+    monthlySummary,
+    homePage.summaryCardsDisclosure,
+  );
 
   return (
     <Stack spacing={3}>

@@ -32,7 +32,7 @@ export function buildQuickExpenseInputProps(
  * @example
  * const props = buildHomeSummaryCardsProps(monthlySummary, disclosure);
  */
-export function buildHomeSummaryCardsProps(
+function buildHomeSummaryCardsProps(
   monthlySummary: MonthlySummary,
   disclosure: HomeSummaryCardsDisclosure,
 ): HomeSummaryCardsProps {
@@ -43,4 +43,23 @@ export function buildHomeSummaryCardsProps(
     isExpanded: disclosure.isExpanded,
     onToggle: disclosure.handleToggle,
   };
+}
+
+/**
+ * @description 月次サマリーが取得済みの場合だけHomeSummaryCardsのpropsへ変換する。
+ * @param monthlySummary - 月次サマリー。
+ * @param disclosure - 収支カードの表示状態。
+ * @returns 月次サマリー取得済みなら収支カードprops、未取得ならundefined。
+ * @example
+ * const props = buildOptionalHomeSummaryCardsProps(monthlySummary, disclosure);
+ */
+export function buildOptionalHomeSummaryCardsProps(
+  monthlySummary: MonthlySummary | undefined,
+  disclosure: HomeSummaryCardsDisclosure,
+): HomeSummaryCardsProps | undefined {
+  if (monthlySummary === undefined) {
+    return undefined;
+  }
+
+  return buildHomeSummaryCardsProps(monthlySummary, disclosure);
 }
