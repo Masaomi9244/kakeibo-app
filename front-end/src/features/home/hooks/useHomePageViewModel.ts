@@ -31,6 +31,16 @@ export type HomeExpenseUndoSnackbar = {
 };
 
 /**
+ * ホーム画面の収支カード表示状態。
+ */
+export type HomeSummaryCardsDisclosure = {
+  /** SP幅で収支カードを展開中か */
+  readonly isExpanded: boolean;
+  /** SP幅で収支カードの表示を切り替える処理 */
+  readonly handleToggle: () => void;
+};
+
+/**
  * ホーム画面templateへ渡すview model。
  */
 export type HomePageViewModel = {
@@ -46,6 +56,8 @@ export type HomePageViewModel = {
   readonly quickExpenseInput: UseQuickExpenseInputResult;
   /** 出費登録後のUndo通知状態 */
   readonly snackbar: HomeExpenseUndoSnackbar;
+  /** 収支カードの表示状態 */
+  readonly summaryCardsDisclosure: HomeSummaryCardsDisclosure;
   /** 今日の出費一覧 */
   readonly todayExpenses: readonly Expense[];
   /** 今日の出費取得エラー文言 */
@@ -94,6 +106,8 @@ export function useHomePageViewModel(): HomePageViewModel {
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   /** 出費登録通知に表示する文言 */
   const [snackbarMessage, setSnackbarMessage] = useState("出費を記録しました");
+  /** SP幅で収支カードを展開中か */
+  const [isSummaryCardsExpanded, setIsSummaryCardsExpanded] = useState(false);
   /** 今日の出費一覧 */
   const todayExpenses = todayExpensesQuery.data ?? [];
   /** 今日の出費合計 */
@@ -138,6 +152,17 @@ export function useHomePageViewModel(): HomePageViewModel {
   };
 
   /**
+   * @description SP幅で収支カードの表示状態を切り替える。
+   * @param なし。
+   * @returns なし。
+   * @example
+   * handleSummaryCardsToggle();
+   */
+  const handleSummaryCardsToggle = (): void => {
+    setIsSummaryCardsExpanded((currentIsExpanded) => !currentIsExpanded);
+  };
+
+  /**
    * @description 最後に登録した出費をAPI経由で取り消す。
    * @param なし。
    * @returns なし。
@@ -176,6 +201,10 @@ export function useHomePageViewModel(): HomePageViewModel {
       isOpen: isSnackbarOpen,
       isUndoing: undoExpenseMutation.isPending,
       message: snackbarMessage,
+    },
+    summaryCardsDisclosure: {
+      handleToggle: handleSummaryCardsToggle,
+      isExpanded: isSummaryCardsExpanded,
     },
     todayExpenses,
     todayExpensesErrorMessage: todayExpensesQuery.isError

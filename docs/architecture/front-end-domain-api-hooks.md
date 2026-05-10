@@ -362,6 +362,7 @@ template側の責務:
 - organismへ渡すprops mappingは、template隣接の `*.props.ts` にある型付き変換関数へ寄せる
 - feature hookの戻り値をJSX propsへ直接展開しない
 - template内に3項目以上のprops objectを直接定義しない
+- `undefined` を含む値からpropsを作る条件分岐はtemplateへ置かず、`*.props.ts` の変換関数へ寄せる
 
 ### Auth
 

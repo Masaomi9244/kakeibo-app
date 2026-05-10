@@ -43,31 +43,21 @@ export function QuickExpenseInput({
         <Typography component="h2" sx={quickExpenseInputStyles.heading} variant="h6">
           出費を記録
         </Typography>
-        <Stack direction="row" spacing={1.5} sx={quickExpenseInputStyles.inputRow}>
-          <Typography
-            color="text.secondary"
-            component="span"
-            sx={quickExpenseInputStyles.currencyMark}
-            variant="h5"
-          >
-            ¥
-          </Typography>
-          <TextField
-            disabled={isSubmitting}
-            error={errorMessage !== undefined}
-            fullWidth
-            helperText={
-              errorMessage ??
-              "金額を入力してEnterキーを押すか、フォーカスを外すと記録されます"
-            }
-            inputMode="numeric"
-            onBlur={onAmountBlur}
-            onChange={onAmountChange}
-            onKeyDown={onAmountKeyDown}
-            placeholder="金額を入力"
-            value={amountInput}
-          />
-        </Stack>
+        <TextField
+          disabled={isSubmitting}
+          error={errorMessage !== undefined}
+          fullWidth
+          helperText={
+            errorMessage ??
+            "金額を入力してEnterキーを押すか、フォーカスを外すと記録されます"
+          }
+          inputMode="numeric"
+          onBlur={onAmountBlur}
+          onChange={onAmountChange}
+          onKeyDown={onAmountKeyDown}
+          placeholder="金額を入力"
+          value={amountInput}
+        />
       </Stack>
     </Paper>
   );

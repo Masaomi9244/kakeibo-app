@@ -2,14 +2,17 @@
 
 import type { ReactElement } from "react";
 
-import { Alert, Box, Button, Paper, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Button, Paper, Snackbar, Stack, Typography } from "@mui/material";
 
 import { PageHeader } from "@/components/molecules/PageHeader";
-import { StatCard } from "@/components/molecules/StatCard";
 import { BudgetHero } from "@/components/organisms/BudgetHero/BudgetHero";
+import { HomeSummaryCards } from "@/components/organisms/HomeSummaryCards/HomeSummaryCards";
 import { QuickExpenseInput } from "@/components/organisms/QuickExpenseInput/QuickExpenseInput";
 import { TodayExpensesCard } from "@/components/organisms/TodayExpensesCard/TodayExpensesCard";
-import { buildQuickExpenseInputProps } from "@/components/templates/HomePageContent/HomePageContent.props";
+import {
+  buildOptionalHomeSummaryCardsProps,
+  buildQuickExpenseInputProps,
+} from "@/components/templates/HomePageContent/HomePageContent.props";
 import { homePageContentStyles } from "@/components/templates/HomePageContent/HomePageContent.styles";
 import { useHomePageViewModel } from "@/features/home/hooks/useHomePageViewModel";
 
@@ -27,6 +30,13 @@ export function HomePageContent(): ReactElement {
   const quickExpenseInputProps = buildQuickExpenseInputProps(
     homePage.quickExpenseInput,
   );
+  /** 月次サマリー */
+  const monthlySummary = homePage.monthlySummary;
+  /** ホーム画面の収支カード一覧componentへ渡すprops */
+  const summaryCardsProps = buildOptionalHomeSummaryCardsProps(
+    monthlySummary,
+    homePage.summaryCardsDisclosure,
+  );
 
   return (
     <Stack spacing={3}>
@@ -37,30 +47,14 @@ export function HomePageContent(): ReactElement {
       {homePage.todayExpensesErrorMessage === undefined ? null : (
         <Alert severity="error">{homePage.todayExpensesErrorMessage}</Alert>
       )}
-      {homePage.monthlySummary === undefined ? (
+      {monthlySummary === undefined || summaryCardsProps === undefined ? (
         <Paper variant="outlined" sx={homePageContentStyles.loadingCard}>
           <Typography color="text.secondary">月次サマリーを読み込んでいます</Typography>
         </Paper>
       ) : (
         <>
-          <BudgetHero remainingAmount={homePage.monthlySummary.remainingAmount} />
-          <Box sx={homePageContentStyles.statGrid}>
-            <StatCard
-              amount={homePage.monthlySummary.availableIncome}
-              label="収入"
-              tone="income"
-            />
-            <StatCard
-              amount={homePage.monthlySummary.fixedCostTotal}
-              label="固定費"
-              tone="fixedCost"
-            />
-            <StatCard
-              amount={homePage.monthlySummary.expenseTotal}
-              label="出費"
-              tone="expense"
-            />
-          </Box>
+          <BudgetHero remainingAmount={monthlySummary.remainingAmount} />
+          <HomeSummaryCards {...summaryCardsProps} />
         </>
       )}
       <QuickExpenseInput {...quickExpenseInputProps} />
