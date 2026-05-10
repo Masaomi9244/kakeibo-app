@@ -23,7 +23,7 @@ export function createAnnualSummaryStatCards(
     {
       amount: totals.availableIncome,
       id: "available-income",
-      label: "使える収入",
+      label: "収入",
       tone: "income",
     },
     {

@@ -4,8 +4,6 @@ import type { SxProps, Theme } from "@mui/material/styles";
  * 予算ヒーローで利用するstyle定義。
  */
 type BudgetHeroStyles = {
-  /** 今日使える目安を表示する下部行 */
-  readonly footer: SxProps<Theme>;
   /** 強調ラベル */
   readonly label: SxProps<Theme>;
   /** 予算ヒーロー全体 */
@@ -14,10 +12,6 @@ type BudgetHeroStyles = {
 
 /** 予算ヒーローで利用するstyle群。 */
 export const budgetHeroStyles = {
-  footer: {
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
   label: {
     fontWeight: 700,
   },

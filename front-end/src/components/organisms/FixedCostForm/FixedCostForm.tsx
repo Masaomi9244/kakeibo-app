@@ -102,7 +102,7 @@ export function FixedCostForm({
     >
       <Stack spacing={2.5}>
         <Typography component="h2" sx={fixedCostFormStyles.title} variant="h6">
-          {isEditing ? "固定費を編集" : "+ 新しい固定費"}
+          {isEditing ? "固定費を編集" : "新しい固定費"}
         </Typography>
         {errorMessage === undefined ? null : (
           <Alert severity="error">{errorMessage}</Alert>
@@ -126,20 +126,26 @@ export function FixedCostForm({
             value={values.amount}
           />
         </Box>
-        <TextField
-          fullWidth
-          label="開始月"
-          onChange={handleStartMonthChange}
-          required
-          slotProps={{ inputLabel: { shrink: true } }}
-          type="month"
-          value={values.startMonth}
-        />
-        <Typography color="text.secondary" variant="body2">
-          この月から毎月の予算計算に含まれます
-        </Typography>
+        <Box sx={fixedCostFormStyles.startMonthField}>
+          <TextField
+            fullWidth
+            label="開始月"
+            onChange={handleStartMonthChange}
+            required
+            slotProps={{ inputLabel: { shrink: true } }}
+            type="month"
+            value={values.startMonth}
+          />
+          <Typography
+            color="text.secondary"
+            sx={fixedCostFormStyles.startMonthHelpText}
+            variant="body2"
+          >
+            この月から毎月の予算計算に含まれます
+          </Typography>
+        </Box>
         <Button disabled={isSubmitting} size="large" type="submit" variant="contained">
-          {isEditing ? "更新する" : "+ 登録する"}
+          {isEditing ? "更新する" : "登録する"}
         </Button>
         {isEditing ? (
           <Button disabled={isSubmitting} onClick={onCancelEdit} size="small">

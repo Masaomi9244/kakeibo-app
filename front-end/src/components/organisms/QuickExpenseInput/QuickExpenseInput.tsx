@@ -44,7 +44,12 @@ export function QuickExpenseInput({
           出費を記録
         </Typography>
         <Stack direction="row" spacing={1.5} sx={quickExpenseInputStyles.inputRow}>
-          <Typography color="text.secondary" component="span" variant="h5">
+          <Typography
+            color="text.secondary"
+            component="span"
+            sx={quickExpenseInputStyles.currencyMark}
+            variant="h5"
+          >
             ¥
           </Typography>
           <TextField

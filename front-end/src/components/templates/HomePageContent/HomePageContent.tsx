@@ -38,14 +38,11 @@ export function HomePageContent(): ReactElement {
         </Paper>
       ) : (
         <>
-          <BudgetHero
-            dailySpendingGuide={homePage.dailySpendingGuide}
-            remainingAmount={homePage.monthlySummary.remainingAmount}
-          />
+          <BudgetHero remainingAmount={homePage.monthlySummary.remainingAmount} />
           <Box sx={homePageContentStyles.statGrid}>
             <StatCard
               amount={homePage.monthlySummary.availableIncome}
-              label="使える収入"
+              label="収入"
               tone="income"
             />
             <StatCard

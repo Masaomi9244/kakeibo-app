@@ -116,12 +116,6 @@ export function MonthCalendar({
             </Typography>
           </Stack>
           <Stack spacing={0.5}>
-            <Typography color="text.secondary">1日の目安</Typography>
-            <Typography sx={monthCalendarStyles.value} variant="h6">
-              {formatYen(stats.dailySpendingGuide)}
-            </Typography>
-          </Stack>
-          <Stack spacing={0.5}>
             <Typography color="text.secondary">平均支出/日</Typography>
             <Typography sx={monthCalendarStyles.value} variant="h6">
               {formatYen(stats.averageExpensePerDay)}

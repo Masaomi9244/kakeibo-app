@@ -37,7 +37,7 @@ export const incomeListStyles = {
     borderTop: 1,
   },
   header: {
-    p: { sm: 3, xs: 2.5 },
+    p: { sm: 2.5, xs: 2 },
   },
   nameRow: {
     alignItems: "center",

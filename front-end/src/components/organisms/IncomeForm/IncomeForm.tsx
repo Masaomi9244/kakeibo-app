@@ -128,7 +128,7 @@ export function IncomeForm({
       <Stack spacing={2.5}>
         <Stack direction="row" spacing={2} sx={incomeFormStyles.titleRow}>
           <Typography component="h2" sx={incomeFormStyles.title} variant="h6">
-            {isEditing ? "収入を編集" : "+ 新しい収入"}
+            {isEditing ? "収入を編集" : "新しい収入"}
           </Typography>
           {isEditing ? (
             <Button disabled={isSubmitting} onClick={onCancelEdit} size="small">
@@ -183,7 +183,7 @@ export function IncomeForm({
           </Stack>
         </Paper>
         <Button disabled={isSubmitting} size="large" type="submit" variant="contained">
-          {isEditing ? "更新する" : "+ 登録する"}
+          {isEditing ? "更新する" : "登録する"}
         </Button>
       </Stack>
     </Paper>
