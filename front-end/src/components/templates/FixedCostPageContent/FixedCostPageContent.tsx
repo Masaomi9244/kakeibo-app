@@ -4,7 +4,6 @@ import type { ReactElement } from "react";
 
 import { Alert, Box, Stack } from "@mui/material";
 
-import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { FixedCostForm } from "@/components/organisms/FixedCostForm/FixedCostForm";
 import { FixedCostGuide } from "@/components/organisms/FixedCostGuide/FixedCostGuide";
@@ -25,7 +24,6 @@ export function FixedCostPageContent(): ReactElement {
 
   return (
     <Stack spacing={3}>
-      <PageHeader subtitle="毎月の固定費を管理する" title="固定費管理" />
       {fixedCostPage.fixedCostsErrorMessage === undefined ? null : (
         <Alert severity="error">{fixedCostPage.fixedCostsErrorMessage}</Alert>
       )}

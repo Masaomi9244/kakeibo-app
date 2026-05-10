@@ -4,7 +4,6 @@ import type { ReactElement } from "react";
 
 import { Alert, Button, Paper, Snackbar, Stack, Typography } from "@mui/material";
 
-import { PageHeader } from "@/components/molecules/PageHeader";
 import { BudgetHero } from "@/components/organisms/BudgetHero/BudgetHero";
 import { HomeSummaryCards } from "@/components/organisms/HomeSummaryCards/HomeSummaryCards";
 import { QuickExpenseInput } from "@/components/organisms/QuickExpenseInput/QuickExpenseInput";
@@ -40,7 +39,6 @@ export function HomePageContent(): ReactElement {
 
   return (
     <Stack spacing={3}>
-      <PageHeader subtitle={homePage.currentMonthLabel} title="ホーム" />
       {homePage.monthlySummaryErrorMessage === undefined ? null : (
         <Alert severity="error">{homePage.monthlySummaryErrorMessage}</Alert>
       )}

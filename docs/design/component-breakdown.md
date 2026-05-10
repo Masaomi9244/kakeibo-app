@@ -80,7 +80,6 @@ Moleculesは、atomsやMUIを組み合わせた小さなUI。
 
 ```txt
 front-end/src/components/molecules/StatCard.tsx
-front-end/src/components/molecules/PageHeader.tsx
 front-end/src/components/molecules/CalendarDateCell.tsx
 front-end/src/components/molecules/BarMetricColumn.tsx
 ```
@@ -88,7 +87,6 @@ front-end/src/components/molecules/BarMetricColumn.tsx
 役割:
 
 - `StatCard`: 金額や件数などの概要値を表示する
-- `PageHeader`: 画面タイトルと補足説明を表示する
 - `CalendarDateCell`: カレンダーの1日セルを表示する
 - `BarMetricColumn`: 年間サマリーの棒グラフ1指標を表示する
 

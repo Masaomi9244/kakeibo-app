@@ -391,7 +391,7 @@ Atomic Design寄りに以下のディレクトリで分ける。
 分類基準:
 
 - `atoms/`: `AppButton`、`AppTextField`、`AmountText` など、アプリ全体で見た目や挙動を統一する最小UI
-- `molecules/`: `StatCard`、`PageHeader`、`EmptyState`、`ErrorMessage` など、atomsやMUIを組み合わせた小さな汎用UI
+- `molecules/`: `StatCard`、`EmptyState`、`ErrorMessage` など、atomsやMUIを組み合わせた小さな汎用UI
 - `organisms/`: `AppShell`、`AppSideNav`、`BudgetHero`、`IncomeForm` など、画面の主要ブロック
 - `templates/`: `HomePageContent`、`IncomePageContent` など、routeに接続する画面単位の組み立て
 

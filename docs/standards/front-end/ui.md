@@ -67,7 +67,7 @@ MUI themeは `src/theme/theme.ts` に定義する。
 
 atomsより大きい共通UIは、責務に応じて以下に置く。
 
-- `components/molecules/`: `StatCard`、`PageHeader`、`EmptyState` などの小さな組み合わせUI
+- `components/molecules/`: `StatCard`、`EmptyState` などの小さな組み合わせUI
 - `components/organisms/`: `AppShell`、`AppSideNav`、`BudgetHero`、`IncomeForm` などの大きめのUI
 - `components/templates/`: `HomePageContent`、`IncomePageContent` などrouteに接続する画面単位UI
 

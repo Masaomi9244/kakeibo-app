@@ -38,12 +38,8 @@ export type AnnualSummaryPageViewModel = {
   readonly monthlyTrendMetrics: readonly BarMetric[];
   /** 月別出費推移グラフの見出し */
   readonly monthlyTrendTitle: string;
-  /** 画面見出しの補足文 */
-  readonly subtitle: string;
   /** 統計カード一覧 */
   readonly statCards: readonly AnnualSummaryStatCard[];
-  /** 画面見出し */
-  readonly title: string;
 };
 
 /**
@@ -104,7 +100,5 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
     monthlyTrendMetrics,
     monthlyTrendTitle: "月別出費推移",
     statCards,
-    subtitle: "年間の収支をざっくり確認する",
-    title: `${currentYear}年 年間サマリー`,
   };
 }
