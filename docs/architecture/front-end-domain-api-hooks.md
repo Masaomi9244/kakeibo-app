@@ -359,6 +359,8 @@ template側の責務:
 - organisms / moleculesへpropsを渡す
 - loading / error / Snackbarなどの表示部品を配置する
 - 保存可否判断やrequest組み立てをしない
+- organismへ渡すpropsは、component props型に対して `satisfies` で検証したprops objectを作ってから渡す
+- feature hookの戻り値をJSX propsへ直接展開しない
 
 ### Auth
 

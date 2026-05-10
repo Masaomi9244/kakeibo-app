@@ -7,7 +7,7 @@ import { quickExpenseInputStyles } from "@/components/organisms/QuickExpenseInpu
 /**
  * 出費クイック入力componentに渡すprops。
  */
-type QuickExpenseInputProps = {
+export type QuickExpenseInputProps = {
   /** 入力中の金額文字列 */
   readonly amountInput: string;
   /** 入力欄のblur時に呼び出す処理 */
