@@ -45,12 +45,6 @@ export function createAnnualSummaryStatCards(
       tone: "expense",
     },
     {
-      amount: totals.remainingBalance,
-      id: "remaining-balance",
-      label: "生活費残り",
-      tone: "default",
-    },
-    {
       amount: totals.actualBalance,
       id: "actual-balance",
       label: "年間実収支",
