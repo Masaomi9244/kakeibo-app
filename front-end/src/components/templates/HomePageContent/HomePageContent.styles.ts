@@ -21,7 +21,8 @@ export const homePageContentStyles = {
     gap: 2,
     gridTemplateColumns: {
       md: "repeat(3, 1fr)",
-      xs: "repeat(3, minmax(0, 1fr))",
+      sm: "repeat(3, minmax(0, 1fr))",
+      xs: "repeat(2, minmax(0, 1fr))",
     },
   },
 } satisfies HomePageContentStyles;

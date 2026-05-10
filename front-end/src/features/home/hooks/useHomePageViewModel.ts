@@ -9,7 +9,6 @@ import { useMonthlySummary } from "@/features/home/hooks/useMonthlySummary";
 import { useQuickExpenseInput } from "@/features/home/hooks/useQuickExpenseInput";
 import { useTodayExpenses } from "@/features/home/hooks/useTodayExpenses";
 import { useUndoExpense } from "@/features/home/hooks/useUndoExpense";
-import { calculateDailySpendingGuide } from "@/features/home/usecases/calculateDailySpendingGuide";
 import { formatAsiaTokyoDate, formatAsiaTokyoMonth } from "@/libs/date";
 import { formatYen } from "@/libs/money";
 
@@ -37,8 +36,6 @@ export type HomeExpenseUndoSnackbar = {
 export type HomePageViewModel = {
   /** 現在の対象月表示 */
   readonly currentMonthLabel: string;
-  /** 今日使える目安 */
-  readonly dailySpendingGuide: number;
   /** 月次サマリー取得エラー文言 */
   readonly monthlySummaryErrorMessage: string | undefined;
   /** 月次サマリー読み込み中か */
@@ -106,15 +103,6 @@ export function useHomePageViewModel(): HomePageViewModel {
   );
   /** 月次サマリー */
   const monthlySummary = monthlySummaryQuery.data;
-  /** 今日使える目安 */
-  const dailySpendingGuide =
-    monthlySummary === undefined
-      ? 0
-      : calculateDailySpendingGuide({
-          date: todayDate,
-          month: monthlySummary.month,
-          remainingAmount: monthlySummary.remainingAmount,
-        });
 
   /**
    * @description 出費登録後にUndo対象と通知文言を更新する。
@@ -175,7 +163,6 @@ export function useHomePageViewModel(): HomePageViewModel {
 
   return {
     currentMonthLabel,
-    dailySpendingGuide,
     monthlySummary,
     monthlySummaryErrorMessage: monthlySummaryQuery.isError
       ? monthlySummaryQuery.error.message

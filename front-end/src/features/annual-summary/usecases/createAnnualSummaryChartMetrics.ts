@@ -10,7 +10,7 @@ const MAX_BAR_HEIGHT = 180;
 /** グラフ棒の最小高さ。 */
 const MIN_BAR_HEIGHT = 6;
 
-/** 使える収入を表す色。 */
+/** 収入を表す色。 */
 const AVAILABLE_INCOME_COLOR = "#059669";
 
 /** 固定費を表す色。 */
@@ -18,9 +18,6 @@ const FIXED_COST_COLOR = "#f59e0b";
 
 /** 出費を表す色。 */
 const EXPENSE_COLOR = "#dc2626";
-
-/** 生活費残りを表す色。 */
-const AVAILABLE_BALANCE_COLOR = "#0d9488";
 
 /**
  * グラフ指標の高さ計算に必要な値。
@@ -103,7 +100,7 @@ export const createAnnualBreakdownMetrics = (
     {
       color: AVAILABLE_INCOME_COLOR,
       id: "available-income",
-      label: "使える収入",
+      label: "収入",
       value: annualSummary.availableIncome,
     },
     {
@@ -117,12 +114,6 @@ export const createAnnualBreakdownMetrics = (
       id: "expense",
       label: "出費",
       value: annualSummary.expenseTotal,
-    },
-    {
-      color: AVAILABLE_BALANCE_COLOR,
-      id: "available-balance",
-      label: "生活費残り",
-      value: annualSummary.availableBalance,
     },
   ];
   /** 年間収支内訳グラフの最大金額 */

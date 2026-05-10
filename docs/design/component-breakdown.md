@@ -124,7 +124,7 @@ front-end/src/components/organisms/TodayExpensesCard/TodayExpensesCard.tsx
 
 役割:
 
-- `BudgetHero`: 今月の残り予算と今日使える目安を表示する
+- `BudgetHero`: 今月の残り予算を表示する
 - `QuickExpenseInput`: 金額のみで出費を登録する入力UIを表示する
 - `TodayExpensesCard`: 今日の出費一覧と今日の合計を表示する
 

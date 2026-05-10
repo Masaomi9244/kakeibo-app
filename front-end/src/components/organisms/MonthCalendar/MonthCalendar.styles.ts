@@ -37,7 +37,7 @@ export const monthCalendarStyles = {
     borderTop: 1,
     display: "grid",
     gap: 2,
-    gridTemplateColumns: { sm: "repeat(3, 1fr)", xs: "1fr 1fr" },
+    gridTemplateColumns: { sm: "repeat(2, 1fr)", xs: "1fr 1fr" },
     pt: 2,
   },
   header: {
