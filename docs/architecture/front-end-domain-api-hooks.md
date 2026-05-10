@@ -359,8 +359,9 @@ template側の責務:
 - organisms / moleculesへpropsを渡す
 - loading / error / Snackbarなどの表示部品を配置する
 - 保存可否判断やrequest組み立てをしない
-- organismへ渡すpropsは、component props型に対して `satisfies` で検証したprops objectを作ってから渡す
+- organismへ渡すprops mappingは、template隣接の `*.props.ts` にある型付き変換関数へ寄せる
 - feature hookの戻り値をJSX propsへ直接展開しない
+- template内に3項目以上のprops objectを直接定義しない
 
 ### Auth
 

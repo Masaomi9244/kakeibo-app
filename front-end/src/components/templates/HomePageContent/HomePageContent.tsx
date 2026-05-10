@@ -4,13 +4,12 @@ import type { ReactElement } from "react";
 
 import { Alert, Box, Button, Paper, Snackbar, Stack, Typography } from "@mui/material";
 
-import type { QuickExpenseInputProps } from "@/components/organisms/QuickExpenseInput/QuickExpenseInput";
-
 import { PageHeader } from "@/components/molecules/PageHeader";
 import { StatCard } from "@/components/molecules/StatCard";
 import { BudgetHero } from "@/components/organisms/BudgetHero/BudgetHero";
 import { QuickExpenseInput } from "@/components/organisms/QuickExpenseInput/QuickExpenseInput";
 import { TodayExpensesCard } from "@/components/organisms/TodayExpensesCard/TodayExpensesCard";
+import { buildQuickExpenseInputProps } from "@/components/templates/HomePageContent/HomePageContent.props";
 import { homePageContentStyles } from "@/components/templates/HomePageContent/HomePageContent.styles";
 import { useHomePageViewModel } from "@/features/home/hooks/useHomePageViewModel";
 
@@ -25,14 +24,9 @@ export function HomePageContent(): ReactElement {
   /** ホーム画面の表示状態とevent handler */
   const homePage = useHomePageViewModel();
   /** 出費クイック入力componentへ渡すprops */
-  const quickExpenseInputProps = {
-    amountInput: homePage.quickExpenseInput.amountInput,
-    errorMessage: homePage.quickExpenseInput.errorMessage,
-    isSubmitting: homePage.quickExpenseInput.isSubmitting,
-    onAmountBlur: homePage.quickExpenseInput.handleAmountBlur,
-    onAmountChange: homePage.quickExpenseInput.handleAmountChange,
-    onAmountKeyDown: homePage.quickExpenseInput.handleAmountKeyDown,
-  } satisfies QuickExpenseInputProps;
+  const quickExpenseInputProps = buildQuickExpenseInputProps(
+    homePage.quickExpenseInput,
+  );
 
   return (
     <Stack spacing={3}>

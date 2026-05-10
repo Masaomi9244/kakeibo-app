@@ -147,18 +147,25 @@ organismは表示とユーザー操作のprops受け取りに寄せる。
 TanStack Query、API DTO、Supabase Clientを直接importしない。
 templateは画面単位の接続役としてpage view model hookを呼び出し、organismへpropsを渡す。
 templateに保存可否判断、request組み立て、mutation呼び出し、Snackbar / Undo制御を書かない。
-templateからorganismへpropsを渡すときは、component props型をexportし、template側で `satisfies ComponentProps` 付きのprops objectを作ってから渡す。
+templateからorganismへpropsを渡すときは、component props型をexportし、template隣接の `*.props.ts` で変換関数を作ってから渡す。
 feature hookの戻り値をJSX内で直接property参照して渡すと、component contractとの境界が曖昧になり、ESLint/TypeScriptのunsafe系エラーを見落としやすくなるため禁止する。
+template内に3項目以上のprops objectを直接定義することも禁止する。
+props mappingはTSXではなく `*.props.ts` に寄せ、関数の引数型と戻り値型を明示する。
 
 推奨する例：
 
 ```tsx
-/** 出費クイック入力componentへ渡すprops */
-const quickExpenseInputProps = {
-  amountInput: homePage.quickExpenseInput.amountInput,
-  onAmountBlur: homePage.quickExpenseInput.handleAmountBlur,
-} satisfies QuickExpenseInputProps;
+export function buildQuickExpenseInputProps(
+  quickExpenseInput: UseQuickExpenseInputResult,
+): QuickExpenseInputProps {
+  return {
+    amountInput: quickExpenseInput.amountInput,
+    onAmountBlur: quickExpenseInput.handleAmountBlur,
+  };
+}
 
+/** 出費クイック入力componentへ渡すprops */
+const quickExpenseInputProps = buildQuickExpenseInputProps(homePage.quickExpenseInput);
 return <QuickExpenseInput {...quickExpenseInputProps} />;
 ```
 
