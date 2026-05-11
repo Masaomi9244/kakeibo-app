@@ -170,8 +170,6 @@ front-end/src/components/organisms/FixedCostList/FixedCostListItem.tsx
 
 - 終了月
 - 固定費カテゴリ
-- 固定費説明カード
-- 全固定費の合計カード
 
 ### Calendar
 
