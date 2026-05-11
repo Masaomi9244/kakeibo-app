@@ -11,8 +11,8 @@ const emptyHighestExpenseMonth: AnnualSummaryHighlight = {
 };
 
 /**
- * @description 月別サマリー一覧から最も支出が多かった月を抽出する。
- * @param summaries - 月別サマリー一覧。
+ * @description 月別表示値から最も支出が多かった月を抽出する。
+ * @param summaries - 最多支出月算出に使う月別表示値一覧。
  * @returns 最も支出が多かった月の表示値。
  * @example
  * findHighestExpenseMonth(monthlySummaries);

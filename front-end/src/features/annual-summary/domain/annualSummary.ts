@@ -34,7 +34,7 @@ export type AnnualSummary = {
   readonly expenseTotal: number;
   /** 年間固定費 */
   readonly fixedCostTotal: number;
-  /** 月別サマリー一覧 */
+  /** APIから取得した月別集計一覧 */
   readonly months: readonly AnnualSummaryMonth[];
   /** 年間貯める収入 */
   readonly reservedIncome: number;
@@ -45,20 +45,20 @@ export type AnnualSummary = {
 };
 
 /**
- * 年間サマリーの月別一覧に表示する1か月分の集計。
+ * 年間サマリーの補助表示に使う1か月分の集計。
  */
 export type AnnualMonthlySummary = {
   /** 月別の実収支 */
   readonly actualBalance: number;
-  /** 使える収入 */
+  /** 月別の使える収入 */
   readonly availableIncome: number;
-  /** 出費 */
+  /** 月別の出費 */
   readonly expense: number;
-  /** 固定費 */
+  /** 月別の固定費 */
   readonly fixedCost: number;
   /** 表示月 */
   readonly month: string;
-  /** 生活費残り */
+  /** 月別の生活費残り */
   readonly remainingBalance: number;
   /** 貯める収入 */
   readonly reservedIncome: number;
@@ -129,6 +129,22 @@ export type BarMetric = {
   readonly id: string;
   /** 指標ラベル */
   readonly label: string;
+  /** 指標金額 */
+  readonly value: number;
+};
+
+/**
+ * 年間サマリーの円グラフに表示する指標。
+ */
+export type PieMetric = {
+  /** セグメントの色 */
+  readonly color: string;
+  /** 指標を識別するID */
+  readonly id: string;
+  /** 指標ラベル */
+  readonly label: string;
+  /** 円グラフ全体に占める割合 */
+  readonly percentage: number;
   /** 指標金額 */
   readonly value: number;
 };

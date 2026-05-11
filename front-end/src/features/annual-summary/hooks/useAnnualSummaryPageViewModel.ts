@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 
 import type {
-  AnnualMonthlySummary,
   AnnualSummaryHighlight,
   AnnualSummaryStatCard,
   BarMetric,
+  PieMetric,
 } from "@/features/annual-summary/domain/annualSummary";
 
 import { useAnnualSummary } from "@/features/annual-summary/hooks/useAnnualSummary";
@@ -22,9 +22,9 @@ import { formatAsiaTokyoMonth } from "@/libs/date";
  * 年間サマリー画面templateへ渡すview model。
  */
 export type AnnualSummaryPageViewModel = {
-  /** 年間収支内訳グラフの指標一覧 */
-  readonly annualBreakdownMetrics: readonly BarMetric[];
-  /** 年間収支内訳グラフの見出し */
+  /** 年間収支内訳円グラフの指標一覧 */
+  readonly annualBreakdownMetrics: readonly PieMetric[];
+  /** 年間収支内訳円グラフの見出し */
   readonly annualBreakdownTitle: string;
   /** 年間サマリー取得エラー文言 */
   readonly annualSummaryErrorMessage: string | undefined;
@@ -32,8 +32,6 @@ export type AnnualSummaryPageViewModel = {
   readonly annualSummaryIsLoading: boolean;
   /** 最多支出月カードに表示する値 */
   readonly highestExpenseMonth: AnnualSummaryHighlight;
-  /** 月別サマリー一覧 */
-  readonly monthlySummaries: readonly AnnualMonthlySummary[];
   /** 月別出費推移グラフの指標一覧 */
   readonly monthlyTrendMetrics: readonly BarMetric[];
   /** 月別出費推移グラフの見出し */
@@ -59,7 +57,7 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
   const annualSummaryQuery = useAnnualSummary(currentYear);
   /** APIから取得した年間サマリー */
   const annualSummary = annualSummaryQuery.data;
-  /** 月別サマリー一覧 */
+  /** 最多支出月算出に使う月別表示値一覧 */
   const monthlySummaries =
     annualSummary === undefined
       ? []
@@ -84,7 +82,7 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
   /** 月別出費推移グラフの指標一覧 */
   const monthlyTrendMetrics =
     annualSummary === undefined ? [] : createMonthlyExpenseTrendMetrics(annualSummary);
-  /** 年間収支内訳グラフの指標一覧 */
+  /** 年間収支内訳円グラフの指標一覧 */
   const annualBreakdownMetrics =
     annualSummary === undefined ? [] : createAnnualBreakdownMetrics(annualSummary);
 
@@ -96,7 +94,6 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
       : undefined,
     annualSummaryIsLoading: annualSummaryQuery.isLoading,
     highestExpenseMonth,
-    monthlySummaries,
     monthlyTrendMetrics,
     monthlyTrendTitle: "月別出費推移",
     statCards,
