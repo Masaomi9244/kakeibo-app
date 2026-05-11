@@ -113,7 +113,6 @@ export function FixedCostForm({
             label="固定費名"
             onChange={handleNameChange}
             placeholder="家賃、光熱費など"
-            required
             value={values.name}
           />
           <TextField
@@ -122,7 +121,6 @@ export function FixedCostForm({
             label="金額"
             onChange={handleAmountChange}
             placeholder="¥ 0"
-            required
             value={values.amount}
           />
         </Box>
@@ -131,18 +129,10 @@ export function FixedCostForm({
             fullWidth
             label="開始月"
             onChange={handleStartMonthChange}
-            required
             slotProps={{ inputLabel: { shrink: true } }}
             type="month"
             value={values.startMonth}
           />
-          <Typography
-            color="text.secondary"
-            sx={fixedCostFormStyles.startMonthHelpText}
-            variant="body2"
-          >
-            この月から毎月の予算計算に含まれます
-          </Typography>
         </Box>
         <Button disabled={isSubmitting} size="large" type="submit" variant="contained">
           {isEditing ? "更新する" : "登録する"}

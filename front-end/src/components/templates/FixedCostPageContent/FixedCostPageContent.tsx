@@ -2,14 +2,11 @@
 
 import type { ReactElement } from "react";
 
-import { Alert, Box, Stack } from "@mui/material";
+import { Alert, Stack } from "@mui/material";
 
 import { AmountHeroCard } from "@/components/molecules/AmountHeroCard";
-import { StatCard } from "@/components/molecules/StatCard";
 import { FixedCostForm } from "@/components/organisms/FixedCostForm/FixedCostForm";
-import { FixedCostGuide } from "@/components/organisms/FixedCostGuide/FixedCostGuide";
 import { FixedCostList } from "@/components/organisms/FixedCostList/FixedCostList";
-import { fixedCostPageContentStyles } from "@/components/templates/FixedCostPageContent/FixedCostPageContent.styles";
 import { useFixedCostPageViewModel } from "@/features/fixed-costs/hooks/useFixedCostPageViewModel";
 
 /**
@@ -28,18 +25,10 @@ export function FixedCostPageContent(): ReactElement {
       {fixedCostPage.fixedCostsErrorMessage === undefined ? null : (
         <Alert severity="error">{fixedCostPage.fixedCostsErrorMessage}</Alert>
       )}
-      <FixedCostGuide />
       <AmountHeroCard
         amount={fixedCostPage.totals.activeFixedCostTotal}
         label="今月の固定費"
       />
-      <Box sx={fixedCostPageContentStyles.statGrid}>
-        <StatCard
-          amount={fixedCostPage.totals.fixedCostTotal}
-          label="全固定費の合計"
-          subtitle={fixedCostPage.totals.fixedCostCountLabel}
-        />
-      </Box>
       <FixedCostForm
         errorMessage={fixedCostPage.fixedCostForm.errorMessage}
         isEditing={fixedCostPage.fixedCostForm.isEditing}

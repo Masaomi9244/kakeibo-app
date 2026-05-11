@@ -155,7 +155,6 @@ front-end/src/components/organisms/IncomeList/IncomeList.tsx
 ### Fixed Costs
 
 ```txt
-front-end/src/components/organisms/FixedCostGuide/FixedCostGuide.tsx
 front-end/src/components/organisms/FixedCostForm/FixedCostForm.tsx
 front-end/src/components/organisms/FixedCostList/FixedCostList.tsx
 front-end/src/components/organisms/FixedCostList/FixedCostListItem.tsx
@@ -163,7 +162,6 @@ front-end/src/components/organisms/FixedCostList/FixedCostListItem.tsx
 
 役割:
 
-- `FixedCostGuide`: 固定費の意味と予算反映ルールを補足する
 - `FixedCostForm`: 固定費登録フォームを表示する
 - `FixedCostList`: 固定費一覧、編集、削除、有効状態を表示する
 - `FixedCostListItem`: 固定費一覧の1行分と行操作を表示する
@@ -172,6 +170,8 @@ front-end/src/components/organisms/FixedCostList/FixedCostListItem.tsx
 
 - 終了月
 - 固定費カテゴリ
+- 固定費説明カード
+- 全固定費の合計カード
 
 ### Calendar
 
