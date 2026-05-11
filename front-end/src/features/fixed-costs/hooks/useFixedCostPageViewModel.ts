@@ -67,8 +67,6 @@ export type FixedCostPageViewModel = {
   readonly handleDeleteFixedCost: (fixedCostId: string) => void;
   /** 固定費編集時に呼び出す処理 */
   readonly handleEditFixedCost: (fixedCost: FixedCostItem) => void;
-  /** 固定費有効状態切り替え時に呼び出す処理 */
-  readonly handleToggleFixedCostActive: (fixedCost: FixedCostItem) => void;
   /** 固定費削除中か */
   readonly isDeleting: boolean;
   /** 固定費更新中か */
@@ -245,34 +243,6 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
     });
   };
 
-  /**
-   * @description 固定費の有効状態を切り替える。
-   * @param fixedCost - 切り替え対象の固定費。
-   * @returns なし。
-   * @example
-   * handleToggleFixedCostActive(fixedCost);
-   */
-  const handleToggleFixedCostActive = (fixedCost: FixedCostItem): void => {
-    /** 有効状態を反転した固定費更新request */
-    const updateRequest: CreateFixedCostRequest = {
-      amount: fixedCost.amount,
-      isActive: !fixedCost.isActive,
-      name: fixedCost.name,
-      startMonth: fixedCost.startMonth,
-    };
-
-    void updateFixedCostMutation
-      .mutateAsync({
-        id: fixedCost.id,
-        request: updateRequest,
-      })
-      .catch((error: unknown) => {
-        setFormErrorMessage(
-          error instanceof Error ? error.message : "固定費の更新に失敗しました",
-        );
-      });
-  };
-
   return {
     fixedCostForm: {
       errorMessage: formErrorMessage,
@@ -292,7 +262,6 @@ export function useFixedCostPageViewModel(): FixedCostPageViewModel {
     fixedCostsIsLoading: fixedCostsQuery.isLoading,
     handleDeleteFixedCost,
     handleEditFixedCost,
-    handleToggleFixedCostActive,
     isDeleting: deleteFixedCostMutation.isPending,
     isUpdating: updateFixedCostMutation.isPending,
     totals,

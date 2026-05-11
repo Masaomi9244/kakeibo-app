@@ -21,8 +21,6 @@ type FixedCostListProps = {
   readonly onDelete: (fixedCostId: string) => void;
   /** 編集ボタン押下時に呼び出す処理 */
   readonly onEdit: (fixedCost: FixedCostItem) => void;
-  /** 有効状態切り替え時に呼び出す処理 */
-  readonly onToggleActive: (fixedCost: FixedCostItem) => void;
 };
 
 /**
@@ -30,7 +28,7 @@ type FixedCostListProps = {
  * @param props - 固定費一覧と操作handler。
  * @returns 固定費一覧UI。
  * @example
- * <FixedCostList fixedCosts={fixedCosts} onEdit={handleEdit} onDelete={handleDelete} onToggleActive={handleToggleActive} />
+ * <FixedCostList fixedCosts={fixedCosts} onEdit={handleEdit} onDelete={handleDelete} />
  */
 export function FixedCostList({
   fixedCosts,
@@ -38,7 +36,6 @@ export function FixedCostList({
   isOperationDisabled,
   onDelete,
   onEdit,
-  onToggleActive,
 }: FixedCostListProps): ReactElement {
   /** 一覧に固定費が存在しないか */
   const isEmpty = fixedCosts.length === 0;
@@ -69,7 +66,6 @@ export function FixedCostList({
               key={fixedCost.id}
               onDelete={onDelete}
               onEdit={onEdit}
-              onToggleActive={onToggleActive}
             />
           ))}
         </Stack>

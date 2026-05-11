@@ -936,45 +936,26 @@ test.describe("MVP主要画面の実データE2E", () => {
       afterExpenseCalendar.fixedCostTotal + updatedFixedCostAmount,
     );
 
-    /** 固定費有効状態switch。 */
-    const fixedCostActiveSwitch = fixedCostRow(page, updatedFixedCostName).getByLabel(
-      `固定費の有効状態を切り替え ${updatedFixedCostName}`,
-    );
-
-    await fixedCostActiveSwitch.click();
-    await expect(fixedCostRow(page, updatedFixedCostName)).toHaveCount(0);
-
-    /** 固定費無効化後の月次サマリー。 */
-    const afterFixedCostToggleMonthly = await fetchMonthlySummary(apiContext);
-    /** 固定費無効化後の年間サマリー。 */
-    const afterFixedCostToggleAnnual = await fetchAnnualSummary(apiContext);
-    /** 固定費無効化後の出費カレンダー。 */
-    const afterFixedCostToggleCalendar = await fetchExpenseCalendar(apiContext);
-
-    expect(afterFixedCostToggleMonthly.fixedCostTotal).toBe(
-      afterExpenseMonthly.fixedCostTotal,
-    );
-    expect(afterFixedCostToggleAnnual.fixedCostTotal).toBe(
-      afterExpenseAnnual.fixedCostTotal,
-    );
-    expect(afterFixedCostToggleCalendar.fixedCostTotal).toBe(
-      afterExpenseCalendar.fixedCostTotal,
-    );
-
     await openPage(page, "/");
     await expect(
-      page.getByText(formatYen(afterFixedCostToggleMonthly.fixedCostTotal)).first(),
+      page.getByText(formatYen(afterFixedCostUpdateMonthly.fixedCostTotal)).first(),
     ).toBeVisible();
     await openPage(page, "/calendar");
     await expect(
-      page.getByText(formatYen(afterFixedCostToggleCalendar.expenseTotal)).first(),
+      page.getByText(formatYen(afterFixedCostUpdateCalendar.expenseTotal)).first(),
     ).toBeVisible();
     await openPage(page, "/annual-summary");
     await expect(
-      page.getByText(formatYen(afterFixedCostToggleAnnual.fixedCostTotal)).first(),
+      page.getByText(formatYen(afterFixedCostUpdateAnnual.fixedCostTotal)).first(),
     ).toBeVisible();
 
     await openPage(page, "/fixed-costs");
+    await fixedCostRow(page, updatedFixedCostName)
+      .getByRole("button", { name: `固定費を削除 ${updatedFixedCostName}` })
+      .click();
+    await expect(fixedCostRow(page, updatedFixedCostName)).toHaveCount(0);
+    createdIds.fixedCostId = undefined;
+
     await submitFixedCostForm(page, deletableFixedCostName, fixedCostAmount);
     await expect(fixedCostRow(page, deletableFixedCostName)).toContainText(
       formatYen(fixedCostAmount),

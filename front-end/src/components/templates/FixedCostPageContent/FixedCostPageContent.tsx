@@ -4,6 +4,7 @@ import type { ReactElement } from "react";
 
 import { Alert, Box, Stack } from "@mui/material";
 
+import { AmountHeroCard } from "@/components/molecules/AmountHeroCard";
 import { StatCard } from "@/components/molecules/StatCard";
 import { FixedCostForm } from "@/components/organisms/FixedCostForm/FixedCostForm";
 import { FixedCostGuide } from "@/components/organisms/FixedCostGuide/FixedCostGuide";
@@ -28,13 +29,11 @@ export function FixedCostPageContent(): ReactElement {
         <Alert severity="error">{fixedCostPage.fixedCostsErrorMessage}</Alert>
       )}
       <FixedCostGuide />
+      <AmountHeroCard
+        amount={fixedCostPage.totals.activeFixedCostTotal}
+        label="今月の固定費"
+      />
       <Box sx={fixedCostPageContentStyles.statGrid}>
-        <StatCard
-          amount={fixedCostPage.totals.activeFixedCostTotal}
-          label="今月の固定費"
-          subtitle={fixedCostPage.totals.fixedCostCountLabel}
-          tone="fixedCost"
-        />
         <StatCard
           amount={fixedCostPage.totals.fixedCostTotal}
           label="全固定費の合計"
@@ -58,7 +57,6 @@ export function FixedCostPageContent(): ReactElement {
         isOperationDisabled={fixedCostPage.isDeleting || fixedCostPage.isUpdating}
         onDelete={fixedCostPage.handleDeleteFixedCost}
         onEdit={fixedCostPage.handleEditFixedCost}
-        onToggleActive={fixedCostPage.handleToggleFixedCostActive}
       />
     </Stack>
   );

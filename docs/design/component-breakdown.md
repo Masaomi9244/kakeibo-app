@@ -80,6 +80,7 @@ Moleculesは、atomsやMUIを組み合わせた小さなUI。
 
 ```txt
 front-end/src/components/molecules/StatCard.tsx
+front-end/src/components/molecules/AmountHeroCard.tsx
 front-end/src/components/molecules/CalendarDateCell.tsx
 front-end/src/components/molecules/BarMetricColumn.tsx
 ```
@@ -87,6 +88,7 @@ front-end/src/components/molecules/BarMetricColumn.tsx
 役割:
 
 - `StatCard`: 金額や件数などの概要値を表示する
+- `AmountHeroCard`: 画面内で最も強調したい金額を表示する
 - `CalendarDateCell`: カレンダーの1日セルを表示する
 - `BarMetricColumn`: 年間サマリーの棒グラフ1指標を表示する
 
@@ -163,7 +165,7 @@ front-end/src/components/organisms/FixedCostList/FixedCostListItem.tsx
 
 - `FixedCostGuide`: 固定費の意味と予算反映ルールを補足する
 - `FixedCostForm`: 固定費登録フォームを表示する
-- `FixedCostList`: 固定費一覧、編集、削除、有効切り替えを表示する
+- `FixedCostList`: 固定費一覧、編集、削除、有効状態を表示する
 - `FixedCostListItem`: 固定費一覧の1行分と行操作を表示する
 
 表示しないもの:
