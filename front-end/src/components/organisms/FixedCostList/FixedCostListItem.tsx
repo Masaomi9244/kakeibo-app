@@ -19,8 +19,6 @@ type FixedCostListItemProps = {
   readonly onDelete: (fixedCostId: string) => void;
   /** 編集ボタン押下時に呼び出す処理 */
   readonly onEdit: (fixedCost: FixedCostItem) => void;
-  /** 有効状態切り替え時に呼び出す処理 */
-  readonly onToggleActive: (fixedCost: FixedCostItem) => void;
 };
 
 /**
@@ -28,26 +26,14 @@ type FixedCostListItemProps = {
  * @param props - 表示対象の固定費と操作handler。
  * @returns 固定費一覧の1行UI。
  * @example
- * <FixedCostListItem fixedCost={fixedCost} onEdit={handleEdit} onDelete={handleDelete} onToggleActive={handleToggleActive} />
+ * <FixedCostListItem fixedCost={fixedCost} onEdit={handleEdit} onDelete={handleDelete} />
  */
 export function FixedCostListItem({
   fixedCost,
   isOperationDisabled,
   onDelete,
   onEdit,
-  onToggleActive,
 }: FixedCostListItemProps): ReactElement {
-  /**
-   * @description 有効状態切り替えを親へ通知する。
-   * @param なし。
-   * @returns なし。
-   * @example
-   * handleToggleActive();
-   */
-  const handleToggleActive = (): void => {
-    onToggleActive(fixedCost);
-  };
-
   /**
    * @description 編集対象の固定費を親へ通知する。
    * @param なし。
@@ -93,16 +79,6 @@ export function FixedCostListItem({
         {formatYen(fixedCost.amount)}
       </Typography>
       <Stack direction="row" spacing={1} sx={fixedCostListStyles.controlRow}>
-        <Button
-          aria-label={`固定費の有効状態を切り替え ${fixedCost.name}`}
-          color={fixedCost.isActive ? "warning" : "success"}
-          disabled={isOperationDisabled}
-          onClick={handleToggleActive}
-          size="small"
-          variant="text"
-        >
-          {fixedCost.isActive ? "無効にする" : "有効にする"}
-        </Button>
         <Button
           aria-label={`固定費を編集 ${fixedCost.name}`}
           disabled={isOperationDisabled}

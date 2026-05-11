@@ -15,7 +15,7 @@
 - hookはdomain型または画面用view modelを返す
 - templateは画面用view model hookを呼び出し、componentsへpropsを渡すだけに寄せる
 - フォーム制御、保存判断、API mutation呼び出し、Snackbar / Undo制御はtemplateに置かずfeature hookへ寄せる
-- 日付選択、一覧編集、削除、有効切り替え、画面内集計などの画面状態は `useXxxPageViewModel` に集約する
+- 日付選択、一覧編集、削除、画面内集計などの画面状態は `useXxxPageViewModel` に集約する
 - 入力正規化、初期値生成、表示用の静的データ整形、集計補助は `features/{feature}/usecases/` に分離する
 - query keyはfactoryで定義し、componentに直書きしない
 - 残額、固定費対象月、日別残額、年間集計の正計算はバックエンドに任せる

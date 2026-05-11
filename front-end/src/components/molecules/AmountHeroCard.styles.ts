@@ -1,17 +1,17 @@
 import type { SxProps, Theme } from "@mui/material/styles";
 
 /**
- * 予算ヒーローで利用するstyle定義。
+ * 金額ヒーローカードで利用するstyle定義。
  */
-type BudgetHeroStyles = {
+type AmountHeroCardStyles = {
   /** 強調ラベル */
   readonly label: SxProps<Theme>;
-  /** 予算ヒーロー全体 */
+  /** 金額ヒーローカード全体 */
   readonly root: SxProps<Theme>;
 };
 
-/** 予算ヒーローで利用するstyle群。 */
-export const budgetHeroStyles = {
+/** 金額ヒーローカードで利用するstyle群。 */
+export const amountHeroCardStyles = {
   label: {
     fontWeight: 700,
   },
@@ -21,4 +21,4 @@ export const budgetHeroStyles = {
     color: "common.white",
     p: { sm: 4, xs: 3 },
   },
-} satisfies BudgetHeroStyles;
+} satisfies AmountHeroCardStyles;

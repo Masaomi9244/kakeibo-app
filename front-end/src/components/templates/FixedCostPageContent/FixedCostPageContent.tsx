@@ -2,12 +2,11 @@
 
 import type { ReactElement } from "react";
 
-import { Alert, Box, Stack } from "@mui/material";
+import { Alert, Stack } from "@mui/material";
 
-import { StatCard } from "@/components/molecules/StatCard";
+import { AmountHeroCard } from "@/components/molecules/AmountHeroCard";
 import { FixedCostForm } from "@/components/organisms/FixedCostForm/FixedCostForm";
 import { FixedCostList } from "@/components/organisms/FixedCostList/FixedCostList";
-import { fixedCostPageContentStyles } from "@/components/templates/FixedCostPageContent/FixedCostPageContent.styles";
 import { useFixedCostPageViewModel } from "@/features/fixed-costs/hooks/useFixedCostPageViewModel";
 
 /**
@@ -26,14 +25,10 @@ export function FixedCostPageContent(): ReactElement {
       {fixedCostPage.fixedCostsErrorMessage === undefined ? null : (
         <Alert severity="error">{fixedCostPage.fixedCostsErrorMessage}</Alert>
       )}
-      <Box sx={fixedCostPageContentStyles.statGrid}>
-        <StatCard
-          amount={fixedCostPage.totals.activeFixedCostTotal}
-          label="今月の固定費"
-          subtitle={fixedCostPage.totals.fixedCostCountLabel}
-          tone="fixedCost"
-        />
-      </Box>
+      <AmountHeroCard
+        amount={fixedCostPage.totals.activeFixedCostTotal}
+        label="今月の固定費"
+      />
       <FixedCostForm
         errorMessage={fixedCostPage.fixedCostForm.errorMessage}
         isEditing={fixedCostPage.fixedCostForm.isEditing}
@@ -51,7 +46,6 @@ export function FixedCostPageContent(): ReactElement {
         isOperationDisabled={fixedCostPage.isDeleting || fixedCostPage.isUpdating}
         onDelete={fixedCostPage.handleDeleteFixedCost}
         onEdit={fixedCostPage.handleEditFixedCost}
-        onToggleActive={fixedCostPage.handleToggleFixedCostActive}
       />
     </Stack>
   );
