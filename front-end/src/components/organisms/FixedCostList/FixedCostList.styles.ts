@@ -42,7 +42,8 @@ export const fixedCostListStyles = {
     p: { sm: 3, xs: 2.5 },
   },
   header: {
-    p: { sm: 3, xs: 2.5 },
+    px: { sm: 3, xs: 2.5 },
+    py: 2.5,
   },
   nameRow: {
     alignItems: "center",
@@ -56,7 +57,7 @@ export const fixedCostListStyles = {
     display: "grid",
     gap: 2,
     gridTemplateColumns: { sm: "1fr auto auto", xs: "1fr" },
-    p: { sm: 2.5, xs: 2 },
+    p: 2.5,
   },
   strongText: {
     fontWeight: 700,
