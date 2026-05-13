@@ -2,6 +2,7 @@ import type {
   AnnualSummary,
   AnnualSummaryMonth,
   BarMetric,
+  PieMetric,
 } from "@/features/annual-summary/domain/annualSummary";
 
 /** グラフ棒の最大高さ。 */
@@ -10,14 +11,17 @@ const MAX_BAR_HEIGHT = 180;
 /** グラフ棒の最小高さ。 */
 const MIN_BAR_HEIGHT = 6;
 
-/** 収入を表す色。 */
-const AVAILABLE_INCOME_COLOR = "#059669";
+/** 残り予算を表す色。 */
+const REMAINING_BALANCE_COLOR = "#059669";
 
 /** 固定費を表す色。 */
 const FIXED_COST_COLOR = "#f59e0b";
 
 /** 出費を表す色。 */
 const EXPENSE_COLOR = "#dc2626";
+
+/** 割合計算の基準値。 */
+const TOTAL_PERCENTAGE = 100;
 
 /**
  * グラフ指標の高さ計算に必要な値。
@@ -86,23 +90,19 @@ export const createMonthlyExpenseTrendMetrics = (
 };
 
 /**
- * @description 年間サマリーから年間収支内訳グラフの指標を作成する。
+ * @description 年間サマリーから年間収支内訳円グラフの指標を作成する。
  * @param annualSummary - APIから取得した年間サマリー。
- * @returns 年間収支内訳グラフの指標一覧。
+ * @returns 年間収支内訳円グラフの指標一覧。
  * @example
  * createAnnualBreakdownMetrics(annualSummary);
  */
 export const createAnnualBreakdownMetrics = (
   annualSummary: AnnualSummary,
-): BarMetric[] => {
-  /** 年間収支内訳グラフの元データ */
+): PieMetric[] => {
+  /** 年間収支内訳円グラフに表示する残り予算 */
+  const remainingBalance = Math.max(annualSummary.availableBalance, 0);
+  /** 年間収支内訳円グラフの元データ */
   const metrics = [
-    {
-      color: AVAILABLE_INCOME_COLOR,
-      id: "available-income",
-      label: "収入",
-      value: annualSummary.availableIncome,
-    },
     {
       color: FIXED_COST_COLOR,
       id: "fixed-cost",
@@ -115,12 +115,24 @@ export const createAnnualBreakdownMetrics = (
       label: "出費",
       value: annualSummary.expenseTotal,
     },
+    {
+      color: REMAINING_BALANCE_COLOR,
+      id: "remaining-balance",
+      label: "残り予算",
+      value: remainingBalance,
+    },
   ];
-  /** 年間収支内訳グラフの最大金額 */
-  const maxValue = Math.max(...metrics.map((metric) => Math.abs(metric.value)), 0);
+  /** 年間収支内訳円グラフの合計金額 */
+  const totalValue = metrics.reduce(
+    (sum, metric) => sum + Math.max(metric.value, 0),
+    0,
+  );
 
   return metrics.map((metric) => ({
     ...metric,
-    height: calculateBarHeight({ maxValue, value: metric.value }),
+    percentage:
+      totalValue === 0
+        ? 0
+        : Math.round((Math.max(metric.value, 0) / totalValue) * TOTAL_PERCENTAGE),
   }));
 };

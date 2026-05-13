@@ -14,9 +14,9 @@ const formatAnnualSummaryMonthLabel = (month: string): string =>
   `${Number(month.slice(5, 7))}月`;
 
 /**
- * @description APIから取得した月別サマリーを一覧表示用の値へ変換する。
+ * @description APIから取得した月別サマリーを補助表示用の値へ変換する。
  * @param months - APIから取得した月別サマリー一覧。
- * @returns 月別サマリー一覧に表示する値。
+ * @returns 最多支出月などの補助表示に使う値。
  * @example
  * createAnnualMonthlySummaries([{ month: "2026-05", totalIncome: 315000, availableIncome: 315000, reservedIncome: 0, fixedCostTotal: 95200, expenseTotal: 5960, actualBalance: 213840, availableBalance: 213840 }]);
  */

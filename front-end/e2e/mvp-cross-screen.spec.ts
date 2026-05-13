@@ -877,7 +877,7 @@ test.describe("MVP主要画面の実データE2E", () => {
     ).toBeVisible();
     await openPage(page, "/annual-summary");
     await expect(
-      page.getByText(formatYen(afterIncomeToggleAnnual.reservedIncome)).first(),
+      page.getByText(formatYen(afterIncomeToggleAnnual.availableIncome)).first(),
     ).toBeVisible();
 
     await openPage(page, "/incomes");

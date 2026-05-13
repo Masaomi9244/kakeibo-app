@@ -192,19 +192,20 @@ front-end/src/components/organisms/SelectedDayExpenses/SelectedDayExpenses.tsx
 
 ```txt
 front-end/src/components/organisms/SummaryChart/SummaryChart.tsx
-front-end/src/components/organisms/MonthlySummaryList/MonthlySummaryList.tsx
+front-end/src/components/organisms/SummaryPieChart/SummaryPieChart.tsx
 ```
 
 役割:
 
-- `SummaryChart`: 年間サマリーの主要指標をグラフ表示する
-- `MonthlySummaryList`: 月別の収入、固定費、出費、残り金額を一覧表示する
+- `SummaryChart`: 月別出費推移を棒グラフ表示する
+- `SummaryPieChart`: 年間収支内訳を円グラフ表示する
 
 表示しないもの:
 
 - カテゴリ別支出
 - カテゴリ割合
 - カテゴリランキング
+- 月別サマリー一覧
 
 ## Templates
 

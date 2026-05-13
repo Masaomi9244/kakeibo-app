@@ -27,12 +27,6 @@ export function createAnnualSummaryStatCards(
       tone: "income",
     },
     {
-      amount: totals.reservedIncome,
-      id: "reserved-income",
-      label: "貯める収入",
-      tone: "default",
-    },
-    {
       amount: totals.fixedCost,
       id: "fixed-cost",
       label: "年間固定費",

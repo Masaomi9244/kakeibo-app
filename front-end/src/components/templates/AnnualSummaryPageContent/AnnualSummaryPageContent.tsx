@@ -5,8 +5,8 @@ import type { ReactElement } from "react";
 import { Alert, Box, Paper, Stack, Typography } from "@mui/material";
 
 import { StatCard } from "@/components/molecules/StatCard";
-import { MonthlySummaryList } from "@/components/organisms/MonthlySummaryList/MonthlySummaryList";
 import { SummaryChart } from "@/components/organisms/SummaryChart/SummaryChart";
+import { SummaryPieChart } from "@/components/organisms/SummaryPieChart/SummaryPieChart";
 import { annualSummaryPageContentStyles } from "@/components/templates/AnnualSummaryPageContent/AnnualSummaryPageContent.styles";
 import { useAnnualSummaryPageViewModel } from "@/features/annual-summary/hooks/useAnnualSummaryPageViewModel";
 import { formatYen } from "@/libs/money";
@@ -53,11 +53,10 @@ export function AnnualSummaryPageContent(): ReactElement {
         metrics={annualSummaryPage.monthlyTrendMetrics}
         title={annualSummaryPage.monthlyTrendTitle}
       />
-      <SummaryChart
+      <SummaryPieChart
         metrics={annualSummaryPage.annualBreakdownMetrics}
         title={annualSummaryPage.annualBreakdownTitle}
       />
-      <MonthlySummaryList summaries={annualSummaryPage.monthlySummaries} />
     </Stack>
   );
 }
