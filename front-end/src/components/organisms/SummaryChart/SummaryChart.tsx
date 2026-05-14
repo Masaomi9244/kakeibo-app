@@ -6,7 +6,10 @@ import { useEffect, useRef } from "react";
 import type { BarMetric } from "@/features/annual-summary/domain/annualSummary";
 
 import { BarMetricColumn } from "@/components/molecules/BarMetricColumn";
-import { summaryChartStyles } from "@/components/organisms/SummaryChart/SummaryChart.styles";
+import {
+  getChartBodySx,
+  summaryChartStyles,
+} from "@/components/organisms/SummaryChart/SummaryChart.styles";
 
 /**
  * 年間サマリーグラフcomponentに渡すprops。
@@ -36,6 +39,14 @@ export function SummaryChart({
   const chartBodyRef = useRef<HTMLDivElement | null>(null);
   /** 初期表示で中央へ寄せる指標要素 */
   const centerMetricRef = useRef<HTMLDivElement | null>(null);
+  /** 中央寄せ対象の指標index */
+  const centerMetricIndex =
+    centerMetricId === undefined
+      ? -1
+      : metrics.findIndex((metric) => metric.id === centerMetricId);
+  /** 端の月を端に残し、それ以外の月だけ中央寄せするか */
+  const shouldCenterMetric =
+    centerMetricIndex > 0 && centerMetricIndex < metrics.length - 1;
 
   useEffect(() => {
     /** 指標列一覧のスクロール領域 */
@@ -43,7 +54,7 @@ export function SummaryChart({
     /** 初期表示で中央へ寄せる指標要素 */
     const centerMetric = centerMetricRef.current;
 
-    if (chartBody === null || centerMetric === null) {
+    if (chartBody === null || centerMetric === null || !shouldCenterMetric) {
       return;
     }
 
@@ -54,7 +65,7 @@ export function SummaryChart({
       centerMetric.clientWidth / 2;
 
     chartBody.scrollLeft = Math.max(scrollLeft, 0);
-  }, [centerMetricId, metrics]);
+  }, [centerMetricId, metrics, shouldCenterMetric]);
 
   return (
     <Paper variant="outlined" sx={summaryChartStyles.root}>
@@ -62,7 +73,11 @@ export function SummaryChart({
         <Typography component="h2" sx={summaryChartStyles.title} variant="h6">
           {title}
         </Typography>
-        <Box ref={chartBodyRef} sx={summaryChartStyles.chartBody}>
+        <Box
+          data-testid="summary-chart-body"
+          ref={chartBodyRef}
+          sx={getChartBodySx(shouldCenterMetric)}
+        >
           {metrics.map((metric) => (
             <Box
               key={metric.id}
