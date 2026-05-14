@@ -34,6 +34,8 @@ export type AnnualSummaryPageViewModel = {
   readonly highestExpenseMonth: AnnualSummaryHighlight;
   /** 月別出費推移グラフの指標一覧 */
   readonly monthlyTrendMetrics: readonly BarMetric[];
+  /** 月別出費推移グラフで中央表示する対象月 */
+  readonly monthlyTrendCenterMetricId: string;
   /** 月別出費推移グラフの見出し */
   readonly monthlyTrendTitle: string;
   /** 統計カード一覧 */
@@ -48,11 +50,10 @@ export type AnnualSummaryPageViewModel = {
  * const annualSummaryPage = useAnnualSummaryPageViewModel();
  */
 export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
+  /** 今月 */
+  const currentMonth = useMemo(() => formatAsiaTokyoMonth(new Date()), []);
   /** 今年 */
-  const currentYear = useMemo(
-    () => Number(formatAsiaTokyoMonth(new Date()).slice(0, 4)),
-    [],
-  );
+  const currentYear = Number(currentMonth.slice(0, 4));
   /** 年間サマリー取得query */
   const annualSummaryQuery = useAnnualSummary(currentYear);
   /** APIから取得した年間サマリー */
@@ -94,6 +95,7 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
       : undefined,
     annualSummaryIsLoading: annualSummaryQuery.isLoading,
     highestExpenseMonth,
+    monthlyTrendCenterMetricId: currentMonth,
     monthlyTrendMetrics,
     monthlyTrendTitle: "月別出費推移",
     statCards,

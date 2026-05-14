@@ -607,6 +607,29 @@ function fixedCostRow(page: Page, name: string): Locator {
 }
 
 /**
+ * @description 月別出費推移が今月を中央へ寄せる初期スクロール位置を持つことを確認する。
+ * @param page - Playwright page。
+ * @returns なし。
+ * @example
+ * await expectMonthlyTrendCenteredOnCurrentMonth(page);
+ */
+async function expectMonthlyTrendCenteredOnCurrentMonth(page: Page): Promise<void> {
+  /** 今月の月番号 */
+  const currentMonthNumber = Number(qaMonth.slice(5, 7));
+
+  if (currentMonthNumber === 1 || currentMonthNumber === 12) {
+    return;
+  }
+
+  /** 月別出費推移の横スクロール領域 */
+  const chartBody = page.getByTestId("summary-chart-body");
+
+  await expect
+    .poll(async () => chartBody.evaluate((element) => Math.round(element.scrollLeft)))
+    .toBeGreaterThan(0);
+}
+
+/**
  * @description 収入フォームを入力して送信する。
  * @param page - Playwright page。
  * @param name - 収入名。
@@ -798,6 +821,7 @@ test.describe("MVP主要画面の実データE2E", () => {
     await expect(page.getByText("合計")).toBeVisible();
 
     await openPage(page, "/annual-summary");
+    await expectMonthlyTrendCenteredOnCurrentMonth(page);
     await expect(
       page.getByText(formatYen(afterExpenseAnnual.expenseTotal)).first(),
     ).toBeVisible();

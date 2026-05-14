@@ -11,8 +11,8 @@ const MAX_BAR_HEIGHT = 180;
 /** グラフ棒の最小高さ。 */
 const MIN_BAR_HEIGHT = 6;
 
-/** 残り予算を表す色。 */
-const REMAINING_BALANCE_COLOR = "#059669";
+/** 年間実収入を表す色。 */
+const ACTUAL_INCOME_COLOR = "#059669";
 
 /** 固定費を表す色。 */
 const FIXED_COST_COLOR = "#f59e0b";
@@ -99,8 +99,8 @@ export const createMonthlyExpenseTrendMetrics = (
 export const createAnnualBreakdownMetrics = (
   annualSummary: AnnualSummary,
 ): PieMetric[] => {
-  /** 年間収支内訳円グラフに表示する残り予算 */
-  const remainingBalance = annualSummary.availableBalance;
+  /** 年間収支内訳円グラフに表示する年間実収入 */
+  const actualIncome = annualSummary.actualBalance;
   /** 年間収支内訳円グラフの元データ */
   const metrics = [
     {
@@ -116,10 +116,10 @@ export const createAnnualBreakdownMetrics = (
       value: annualSummary.expenseTotal,
     },
     {
-      color: REMAINING_BALANCE_COLOR,
-      id: "remaining-balance",
-      label: "残り予算",
-      value: remainingBalance,
+      color: ACTUAL_INCOME_COLOR,
+      id: "actual-income",
+      label: "年間実収入",
+      value: actualIncome,
     },
   ];
   /** 年間収支内訳円グラフの合計金額 */
