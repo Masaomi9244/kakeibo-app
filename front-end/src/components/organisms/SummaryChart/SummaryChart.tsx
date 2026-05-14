@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 
 import { Box, Paper, Stack, Typography } from "@mui/material";
+import { useEffect, useRef } from "react";
 
 import type { BarMetric } from "@/features/annual-summary/domain/annualSummary";
 
@@ -11,6 +12,8 @@ import { summaryChartStyles } from "@/components/organisms/SummaryChart/SummaryC
  * 年間サマリーグラフcomponentに渡すprops。
  */
 type SummaryChartProps = {
+  /** 初期表示で中央へ寄せる指標ID */
+  readonly centerMetricId?: string;
   /** グラフに表示する指標一覧 */
   readonly metrics: readonly BarMetric[];
   /** グラフの見出し */
@@ -24,16 +27,49 @@ type SummaryChartProps = {
  * @example
  * <SummaryChart metrics={metrics} title="5月の収支内訳" />
  */
-export function SummaryChart({ metrics, title }: SummaryChartProps): ReactElement {
+export function SummaryChart({
+  centerMetricId,
+  metrics,
+  title,
+}: SummaryChartProps): ReactElement {
+  /** 指標列一覧のスクロール領域 */
+  const chartBodyRef = useRef<HTMLDivElement | null>(null);
+  /** 初期表示で中央へ寄せる指標要素 */
+  const centerMetricRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    /** 指標列一覧のスクロール領域 */
+    const chartBody = chartBodyRef.current;
+    /** 初期表示で中央へ寄せる指標要素 */
+    const centerMetric = centerMetricRef.current;
+
+    if (chartBody === null || centerMetric === null) {
+      return;
+    }
+
+    /** 中央寄せ対象を表示領域中央へ置くためのスクロール位置 */
+    const scrollLeft =
+      centerMetric.offsetLeft -
+      chartBody.clientWidth / 2 +
+      centerMetric.clientWidth / 2;
+
+    chartBody.scrollLeft = Math.max(scrollLeft, 0);
+  }, [centerMetricId, metrics]);
+
   return (
     <Paper variant="outlined" sx={summaryChartStyles.root}>
       <Stack spacing={3}>
         <Typography component="h2" sx={summaryChartStyles.title} variant="h6">
           {title}
         </Typography>
-        <Box sx={summaryChartStyles.chartBody}>
+        <Box ref={chartBodyRef} sx={summaryChartStyles.chartBody}>
           {metrics.map((metric) => (
-            <BarMetricColumn key={metric.id} metric={metric} />
+            <Box
+              key={metric.id}
+              ref={metric.id === centerMetricId ? centerMetricRef : undefined}
+            >
+              <BarMetricColumn metric={metric} />
+            </Box>
           ))}
         </Box>
       </Stack>
