@@ -40,25 +40,30 @@ export function AnnualSummaryPageContent(): ReactElement {
           />
         ))}
       </Box>
-      <Paper variant="outlined" sx={annualSummaryPageContentStyles.highlightCard}>
-        <Typography color="text.secondary">
-          {annualSummaryPage.highestExpenseMonth.title}
-        </Typography>
-        <Typography sx={annualSummaryPageContentStyles.highlightValue} variant="h6">
-          {annualSummaryPage.highestExpenseMonth.label}:{" "}
-          {formatYen(annualSummaryPage.highestExpenseMonth.amount)}
-        </Typography>
-      </Paper>
-      <Box sx={annualSummaryPageContentStyles.chartGrid}>
-        <SummaryChart
-          centerMetricId={annualSummaryPage.monthlyTrendCenterMetricId}
-          metrics={annualSummaryPage.monthlyTrendMetrics}
-          title={annualSummaryPage.monthlyTrendTitle}
-        />
+      <SummaryChart
+        centerMetricId={annualSummaryPage.monthlyTrendCenterMetricId}
+        metrics={annualSummaryPage.monthlyTrendMetrics}
+        title={annualSummaryPage.monthlyTrendTitle}
+      />
+      <Box sx={annualSummaryPageContentStyles.breakdownGrid}>
         <SummaryPieChart
           metrics={annualSummaryPage.annualBreakdownMetrics}
           title={annualSummaryPage.annualBreakdownTitle}
         />
+        <Box sx={annualSummaryPageContentStyles.insightList}>
+          {annualSummaryPage.annualInsightCards.map((insightCard) => (
+            <Paper
+              key={insightCard.title}
+              variant="outlined"
+              sx={annualSummaryPageContentStyles.insightCard}
+            >
+              <Typography color="text.secondary">{insightCard.title}</Typography>
+              <Typography sx={annualSummaryPageContentStyles.insightValue} variant="h6">
+                {insightCard.label}: {formatYen(insightCard.amount)}
+              </Typography>
+            </Paper>
+          ))}
+        </Box>
       </Box>
     </Stack>
   );
