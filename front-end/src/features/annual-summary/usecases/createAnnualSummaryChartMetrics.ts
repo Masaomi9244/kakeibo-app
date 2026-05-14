@@ -100,7 +100,7 @@ export const createAnnualBreakdownMetrics = (
   annualSummary: AnnualSummary,
 ): PieMetric[] => {
   /** 年間収支内訳円グラフに表示する残り予算 */
-  const remainingBalance = Math.max(annualSummary.availableBalance, 0);
+  const remainingBalance = annualSummary.availableBalance;
   /** 年間収支内訳円グラフの元データ */
   const metrics = [
     {
