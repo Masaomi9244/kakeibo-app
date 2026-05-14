@@ -21,12 +21,6 @@ export function createAnnualSummaryStatCards(
       tone: "income",
     },
     {
-      amount: totals.availableIncome,
-      id: "available-income",
-      label: "収入",
-      tone: "income",
-    },
-    {
       amount: totals.fixedCost,
       id: "fixed-cost",
       label: "年間固定費",

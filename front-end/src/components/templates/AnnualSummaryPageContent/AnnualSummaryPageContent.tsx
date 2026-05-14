@@ -49,14 +49,16 @@ export function AnnualSummaryPageContent(): ReactElement {
           {formatYen(annualSummaryPage.highestExpenseMonth.amount)}
         </Typography>
       </Paper>
-      <SummaryChart
-        metrics={annualSummaryPage.monthlyTrendMetrics}
-        title={annualSummaryPage.monthlyTrendTitle}
-      />
-      <SummaryPieChart
-        metrics={annualSummaryPage.annualBreakdownMetrics}
-        title={annualSummaryPage.annualBreakdownTitle}
-      />
+      <Box sx={annualSummaryPageContentStyles.chartGrid}>
+        <SummaryChart
+          metrics={annualSummaryPage.monthlyTrendMetrics}
+          title={annualSummaryPage.monthlyTrendTitle}
+        />
+        <SummaryPieChart
+          metrics={annualSummaryPage.annualBreakdownMetrics}
+          title={annualSummaryPage.annualBreakdownTitle}
+        />
+      </Box>
     </Stack>
   );
 }
