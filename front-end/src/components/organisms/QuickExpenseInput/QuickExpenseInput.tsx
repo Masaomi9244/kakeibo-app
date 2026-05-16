@@ -41,7 +41,7 @@ export function QuickExpenseInput({
     <Paper variant="outlined" sx={quickExpenseInputStyles.card}>
       <Stack spacing={2}>
         <Typography component="h2" sx={quickExpenseInputStyles.heading} variant="h6">
-          出費を記録
+          変動費を記録
         </Typography>
         <TextField
           disabled={isSubmitting}

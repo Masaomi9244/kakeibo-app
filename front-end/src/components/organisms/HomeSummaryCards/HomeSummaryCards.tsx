@@ -52,13 +52,13 @@ export function HomeSummaryCards({
       <Box sx={homeSummaryCardsStyles.desktopGrid}>
         <StatCard amount={availableIncome} label="収入" tone="income" />
         <StatCard amount={fixedCostTotal} label="固定費" tone="fixedCost" />
-        <StatCard amount={expenseTotal} label="出費" tone="expense" />
+        <StatCard amount={expenseTotal} label="変動費" tone="expense" />
       </Box>
       <Collapse in={isExpanded} sx={homeSummaryCardsStyles.mobileCollapse}>
         <Box sx={homeSummaryCardsStyles.mobileGrid}>
           <StatCard amount={availableIncome} label="収入" tone="income" />
           <StatCard amount={fixedCostTotal} label="固定費" tone="fixedCost" />
-          <StatCard amount={expenseTotal} label="出費" tone="expense" />
+          <StatCard amount={expenseTotal} label="変動費" tone="expense" />
         </Box>
       </Collapse>
     </Stack>
