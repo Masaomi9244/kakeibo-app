@@ -31,8 +31,8 @@ export default function RootLayout({
   children,
 }: Readonly<RootLayoutProps>): ReactElement {
   return (
-    <html lang="ja">
-      <body>
+    <html lang="ja" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <AppRouterCacheProvider>
           <AppProviders>{children}</AppProviders>
         </AppRouterCacheProvider>
