@@ -16,6 +16,8 @@ type StatTone = "default" | "expense" | "fixedCost" | "income";
 type StatCardProps = {
   /** 統計カードで強調する金額 */
   readonly amount: number;
+  /** 統計カードを重要指標として背景強調するか */
+  readonly emphasized?: boolean;
   /** 金額の上に表示するラベル */
   readonly label: string;
   /** 金額の下に表示する補足テキスト */
@@ -33,12 +35,18 @@ type StatCardProps = {
  */
 export function StatCard({
   amount,
+  emphasized = false,
   label,
   subtitle,
   tone = "default",
 }: StatCardProps): ReactElement {
+  /** 統計カードの強調状態を反映したstyle */
+  const rootSx = emphasized
+    ? [statCardStyles.root, statCardStyles.emphasizedRoot]
+    : statCardStyles.root;
+
   return (
-    <Paper variant="outlined" sx={statCardStyles.root}>
+    <Paper variant="outlined" sx={rootSx}>
       <Stack spacing={0.75}>
         <Typography color="text.secondary" variant="body2">
           {label}

@@ -9,7 +9,6 @@ import { SummaryChart } from "@/components/organisms/SummaryChart/SummaryChart";
 import { SummaryPieChart } from "@/components/organisms/SummaryPieChart/SummaryPieChart";
 import { annualSummaryPageContentStyles } from "@/components/templates/AnnualSummaryPageContent/AnnualSummaryPageContent.styles";
 import { useAnnualSummaryPageViewModel } from "@/features/annual-summary/hooks/useAnnualSummaryPageViewModel";
-import { formatYen } from "@/libs/money";
 
 /**
  * @description 年間サマリー画面のview model接続済みコンテンツ全体を表示する。
@@ -34,6 +33,7 @@ export function AnnualSummaryPageContent(): ReactElement {
         {annualSummaryPage.statCards.map((statCard) => (
           <StatCard
             amount={statCard.amount}
+            emphasized={statCard.emphasized}
             key={statCard.id}
             label={statCard.label}
             tone={statCard.tone}
@@ -59,8 +59,13 @@ export function AnnualSummaryPageContent(): ReactElement {
             >
               <Typography color="text.secondary">{insightCard.title}</Typography>
               <Typography sx={annualSummaryPageContentStyles.insightValue} variant="h6">
-                {insightCard.label}: {formatYen(insightCard.amount)}
+                {insightCard.value}
               </Typography>
+              {insightCard.label !== undefined ? (
+                <Typography color="text.secondary" variant="body2">
+                  {insightCard.label}
+                </Typography>
+              ) : null}
             </Paper>
           ))}
         </Box>

@@ -11,13 +11,13 @@ const MAX_BAR_HEIGHT = 180;
 /** グラフ棒の最小高さ。 */
 const MIN_BAR_HEIGHT = 6;
 
-/** 年間実収入を表す色。 */
+/** 年間実収支を表す色。 */
 const ACTUAL_INCOME_COLOR = "#059669";
 
 /** 固定費を表す色。 */
 const FIXED_COST_COLOR = "#f59e0b";
 
-/** 出費を表す色。 */
+/** 変動費を表す色。 */
 const EXPENSE_COLOR = "#dc2626";
 
 /** 割合計算の基準値。 */
@@ -90,18 +90,18 @@ export const createMonthlyExpenseTrendMetrics = (
 };
 
 /**
- * @description 年間サマリーから年間収支内訳円グラフの指標を作成する。
+ * @description 年間サマリーから年間収入の使い道円グラフの指標を作成する。
  * @param annualSummary - APIから取得した年間サマリー。
- * @returns 年間収支内訳円グラフの指標一覧。
+ * @returns 年間収入の使い道円グラフの指標一覧。
  * @example
  * createAnnualBreakdownMetrics(annualSummary);
  */
 export const createAnnualBreakdownMetrics = (
   annualSummary: AnnualSummary,
 ): PieMetric[] => {
-  /** 年間収支内訳円グラフに表示する年間実収入 */
-  const actualIncome = annualSummary.actualBalance;
-  /** 年間収支内訳円グラフの元データ */
+  /** 年間収入の使い道円グラフに表示する年間実収支 */
+  const actualBalance = annualSummary.actualBalance;
+  /** 年間収入の使い道円グラフの元データ */
   const metrics = [
     {
       color: FIXED_COST_COLOR,
@@ -112,17 +112,17 @@ export const createAnnualBreakdownMetrics = (
     {
       color: EXPENSE_COLOR,
       id: "expense",
-      label: "出費",
+      label: "変動費",
       value: annualSummary.expenseTotal,
     },
     {
       color: ACTUAL_INCOME_COLOR,
       id: "actual-income",
-      label: "年間実収入",
-      value: actualIncome,
+      label: "年間実収支",
+      value: actualBalance,
     },
   ];
-  /** 年間収支内訳円グラフの合計金額 */
+  /** 年間収入の使い道円グラフの合計金額 */
   const totalValue = metrics.reduce(
     (sum, metric) => sum + Math.max(metric.value, 0),
     0,
