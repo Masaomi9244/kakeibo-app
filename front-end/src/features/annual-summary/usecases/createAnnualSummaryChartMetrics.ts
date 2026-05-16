@@ -6,10 +6,10 @@ import type {
 } from "@/features/annual-summary/domain/annualSummary";
 
 /** グラフ棒の最大高さ。 */
-const MAX_BAR_HEIGHT = 180;
+const MAX_BAR_HEIGHT = 156;
 
 /** グラフ棒の最小高さ。 */
-const MIN_BAR_HEIGHT = 6;
+const MIN_BAR_HEIGHT = 4;
 
 /** 年間実収支を表す色。 */
 const ACTUAL_INCOME_COLOR = "#059669";
@@ -62,9 +62,9 @@ const createMonthMetricLabel = (month: AnnualSummaryMonth): string =>
   `${Number(month.month.slice(5, 7))}月`;
 
 /**
- * @description 年間サマリーから月別出費推移グラフの指標を作成する。
+ * @description 年間サマリーから月別変動費推移グラフの指標を作成する。
  * @param annualSummary - APIから取得した年間サマリー。
- * @returns 月別出費推移グラフの指標一覧。
+ * @returns 月別変動費推移グラフの指標一覧。
  * @example
  * createMonthlyExpenseTrendMetrics(annualSummary);
  */
@@ -118,7 +118,7 @@ export const createAnnualBreakdownMetrics = (
     {
       color: ACTUAL_INCOME_COLOR,
       id: "actual-income",
-      label: "年間実収支",
+      label: "残額",
       value: actualBalance,
     },
   ];

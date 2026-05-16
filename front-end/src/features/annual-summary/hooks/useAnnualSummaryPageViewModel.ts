@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import type {
   AnnualSummaryHighlight,
   AnnualSummaryStatCard,
@@ -16,7 +14,6 @@ import {
 } from "@/features/annual-summary/usecases/createAnnualSummaryChartMetrics";
 import { createAnnualSummaryInsightCards } from "@/features/annual-summary/usecases/createAnnualSummaryInsightCards";
 import { createAnnualSummaryStatCards } from "@/features/annual-summary/usecases/createAnnualSummaryStatCards";
-import { formatAsiaTokyoMonth } from "@/libs/date";
 
 /**
  * 年間サマリー画面templateへ渡すview model。
@@ -32,11 +29,9 @@ export type AnnualSummaryPageViewModel = {
   readonly annualSummaryErrorMessage: string | undefined;
   /** 年間サマリー読み込み中か */
   readonly annualSummaryIsLoading: boolean;
-  /** 月別出費推移グラフの指標一覧 */
+  /** 月別変動費推移グラフの指標一覧 */
   readonly monthlyTrendMetrics: readonly BarMetric[];
-  /** 月別出費推移グラフで中央表示する対象月 */
-  readonly monthlyTrendCenterMetricId: string;
-  /** 月別出費推移グラフの見出し */
+  /** 月別変動費推移グラフの見出し */
   readonly monthlyTrendTitle: string;
   /** 統計カード一覧 */
   readonly statCards: readonly AnnualSummaryStatCard[];
@@ -50,10 +45,8 @@ export type AnnualSummaryPageViewModel = {
  * const annualSummaryPage = useAnnualSummaryPageViewModel();
  */
 export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
-  /** 今月 */
-  const currentMonth = useMemo(() => formatAsiaTokyoMonth(new Date()), []);
   /** 今年 */
-  const currentYear = Number(currentMonth.slice(0, 4));
+  const currentYear = new Date().getFullYear();
   /** 年間サマリー取得query */
   const annualSummaryQuery = useAnnualSummary(currentYear);
   /** APIから取得した年間サマリー */
@@ -83,7 +76,7 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
     monthlySummaries,
     annualSummaryTotals,
   );
-  /** 月別出費推移グラフの指標一覧 */
+  /** 月別変動費推移グラフの指標一覧 */
   const monthlyTrendMetrics =
     annualSummary === undefined ? [] : createMonthlyExpenseTrendMetrics(annualSummary);
   /** 年間収入の使い道円グラフの指標一覧 */
@@ -98,9 +91,8 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
       ? annualSummaryQuery.error.message
       : undefined,
     annualSummaryIsLoading: annualSummaryQuery.isLoading,
-    monthlyTrendCenterMetricId: currentMonth,
     monthlyTrendMetrics,
-    monthlyTrendTitle: "月別出費推移",
+    monthlyTrendTitle: "月別変動費推移",
     statCards,
   };
 }

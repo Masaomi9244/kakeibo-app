@@ -13,9 +13,17 @@ const TOTAL_PERCENTAGE = 100;
 /** 月別サマリーが空の場合に表示する前月比。 */
 const emptyMonthComparison: AnnualSummaryHighlight = {
   id: "month-comparison",
-  label: "データがありません",
-  title: "前月 / 前年との比較",
-  value: "--",
+  label: undefined,
+  title: "前月比",
+  value: "比較データがありません",
+};
+
+/** 月別比較が意味を持つか判断するための金額。 */
+type ComparableMonthData = {
+  /** 対象月の総収入 */
+  readonly totalIncome: number;
+  /** 対象月の変動費 */
+  readonly expense: number;
 };
 
 /**
@@ -60,7 +68,7 @@ const createSavingsRateCard = (
   totals: AnnualSummaryTotals,
 ): AnnualSummaryHighlight => ({
   id: "savings-rate",
-  label: "年間実収支 ÷ 年間全収入",
+  label: "収入に対して残った割合",
   title: "年間貯蓄率",
   value: formatPercent(
     calculateRate({
@@ -81,7 +89,7 @@ const createFixedCostRateCard = (
   totals: AnnualSummaryTotals,
 ): AnnualSummaryHighlight => ({
   id: "fixed-cost-rate",
-  label: "年間固定費 ÷ 年間全収入",
+  label: "収入に対する固定費の割合",
   title: "固定費率",
   value: formatPercent(
     calculateRate({
@@ -113,6 +121,16 @@ const createHighestExpenseMonthCard = (
 };
 
 /**
+ * @description 月別比較に使う収入または変動費データがあるか判定する。
+ * @param summary - 比較対象の月別表示値。
+ * @returns 比較に意味がある月か。
+ * @example
+ * hasComparableMonthData(summary);
+ */
+const hasComparableMonthData = (summary: ComparableMonthData): boolean =>
+  summary.totalIncome !== 0 || summary.expense !== 0;
+
+/**
  * @description 月別表示値から前月比カードを作成する。
  * @param summaries - 前月比算出に使う月別表示値一覧。
  * @returns 前月比カード。
@@ -141,6 +159,15 @@ const createMonthComparisonCard = (
     return emptyMonthComparison;
   }
 
+  /** 現在月に比較意味があるか */
+  const currentMonthHasComparableData = hasComparableMonthData(currentMonth);
+  /** 前月に比較意味があるか */
+  const previousMonthHasComparableData = hasComparableMonthData(previousMonth);
+
+  if (!currentMonthHasComparableData && !previousMonthHasComparableData) {
+    return emptyMonthComparison;
+  }
+
   /** 前月からの年間実収支差分 */
   const amountDifference = currentMonth.actualBalance - previousMonth.actualBalance;
   /** 前月比の符号付き金額表示 */
@@ -151,7 +178,7 @@ const createMonthComparisonCard = (
 
   return {
     id: "month-comparison",
-    label: `${previousMonth.month}→${currentMonth.month}`,
+    label: `${previousMonth.month} → ${currentMonth.month}`,
     title: "前月比",
     value: formattedDifference,
   };
