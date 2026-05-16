@@ -25,10 +25,7 @@ export function IncomePageContent(): ReactElement {
       {incomePage.incomesErrorMessage === undefined ? null : (
         <Alert severity="error">{incomePage.incomesErrorMessage}</Alert>
       )}
-      <IncomeSummary
-        includedIncome={incomePage.totals.includedIncome}
-        totalIncome={incomePage.totals.totalIncome}
-      />
+      <IncomeSummary totalIncome={incomePage.totals.totalIncome} />
       <IncomeForm
         errorMessage={incomePage.incomeForm.errorMessage}
         isEditing={incomePage.incomeForm.isEditing}
