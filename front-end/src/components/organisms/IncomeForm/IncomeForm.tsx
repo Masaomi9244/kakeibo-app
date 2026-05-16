@@ -174,7 +174,7 @@ export function IncomeForm({
             />
             <Box>
               <Typography sx={incomeFormStyles.title}>
-                今月使えるお金に含める
+                今月の残り予算に含める
               </Typography>
               <Typography color="text.secondary" variant="body2">
                 この収入を月の予算計算に含めます

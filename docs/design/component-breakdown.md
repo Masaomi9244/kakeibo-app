@@ -144,7 +144,7 @@ front-end/src/components/organisms/IncomeList/IncomeList.tsx
 
 役割:
 
-- `IncomeSummary`: 今月の総収入と予算に含まれる収入を表示する
+- `IncomeSummary`: 今月の総収入をヒーローカードで表示する
 - `IncomeForm`: 収入の登録・編集フォームを表示する
 - `IncomeList`: 収入一覧、編集、削除、予算対象切り替えを表示する
 

@@ -6,7 +6,7 @@ export type IncomeDto = {
   readonly amount: number;
   /** 収入ID */
   readonly id: string;
-  /** 今月使えるお金に含めるか */
+  /** 今月の残り予算に含めるか */
   readonly includedInBalance: boolean;
   /** YYYY-MM-DD形式の入金日 */
   readonly incomeDate: string;
@@ -20,7 +20,7 @@ export type IncomeDto = {
 export type CreateIncomeRequest = {
   /** 収入金額 */
   readonly amount: number;
-  /** 今月使えるお金に含めるか */
+  /** 今月の残り予算に含めるか */
   readonly includedInBalance: boolean;
   /** YYYY-MM-DD形式の入金日 */
   readonly incomeDate: string;
@@ -34,7 +34,7 @@ export type CreateIncomeRequest = {
 export type UpdateIncomeRequest = {
   /** 収入金額 */
   readonly amount: number;
-  /** 今月使えるお金に含めるか */
+  /** 今月の残り予算に含めるか */
   readonly includedInBalance: boolean;
   /** YYYY-MM-DD形式の入金日 */
   readonly incomeDate: string;

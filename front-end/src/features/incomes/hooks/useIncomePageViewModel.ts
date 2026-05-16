@@ -191,7 +191,7 @@ export function useIncomePageViewModel(): IncomePageViewModel {
 
   /**
    * @description 予算に含めるかどうかをフォームstateへ反映する。
-   * @param includedInBalance - 今月使えるお金に含めるか。
+   * @param includedInBalance - 今月の残り予算に含めるか。
    * @returns なし。
    * @example
    * handleIncludedInBalanceChange(true);
@@ -255,7 +255,7 @@ export function useIncomePageViewModel(): IncomePageViewModel {
   };
 
   /**
-   * @description 収入を今月使えるお金に含めるかどうかを切り替える。
+   * @description 収入を今月の残り予算に含めるかどうかを切り替える。
    * @param income - 切り替え対象の収入。
    * @returns なし。
    * @example
