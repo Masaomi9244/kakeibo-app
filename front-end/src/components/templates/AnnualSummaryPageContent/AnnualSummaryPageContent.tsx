@@ -41,7 +41,6 @@ export function AnnualSummaryPageContent(): ReactElement {
         ))}
       </Box>
       <SummaryChart
-        centerMetricId={annualSummaryPage.monthlyTrendCenterMetricId}
         metrics={annualSummaryPage.monthlyTrendMetrics}
         title={annualSummaryPage.monthlyTrendTitle}
       />

@@ -34,7 +34,11 @@ export function BarMetricColumn({ metric }: BarMetricColumnProps): ReactElement 
       <Typography sx={barMetricColumnStyles.label} variant="body2">
         {metric.label}
       </Typography>
-      <Typography color="text.secondary" variant="body2">
+      <Typography
+        color="text.secondary"
+        sx={barMetricColumnStyles.value}
+        variant="body2"
+      >
         {formatYen(metric.value)}
       </Typography>
     </Stack>

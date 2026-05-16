@@ -4,10 +4,10 @@ import type { SxProps, Theme } from "@mui/material/styles";
  * 年間サマリーグラフで利用するstyle定義。
  */
 type SummaryChartStyles = {
-  /** 中央寄せ用の左右余白を持つ指標列一覧 */
-  readonly centeredChartBody: SxProps<Theme>;
   /** 指標列一覧 */
   readonly chartBody: SxProps<Theme>;
+  /** 指標1列分のラッパー */
+  readonly chartItem: SxProps<Theme>;
   /** グラフカード全体 */
   readonly root: SxProps<Theme>;
   /** 見出し */
@@ -16,14 +16,21 @@ type SummaryChartStyles = {
 
 /** 年間サマリーグラフで利用するstyle群。 */
 export const summaryChartStyles = {
-  centeredChartBody: {
-    px: "max(0px, calc(50% - 36px))",
-  },
   chartBody: {
-    display: "flex",
-    gap: 2,
-    overflowX: "auto",
+    columnGap: { sm: 1.5, xs: 0.75 },
+    display: { md: "grid", xs: "flex" },
+    gap: { sm: 1.5, xs: 1.25 },
+    gridTemplateColumns: { md: "repeat(12, minmax(0, 1fr))" },
+    overflowX: { md: "visible", xs: "auto" },
+    rowGap: 0,
+    scrollSnapType: { xs: "x proximity" },
+    scrollbarWidth: "thin",
     pb: 1,
+  },
+  chartItem: {
+    flex: { md: "unset", xs: "0 0 56px" },
+    minWidth: { md: 0, xs: 56 },
+    scrollSnapAlign: { xs: "start" },
   },
   root: {
     borderRadius: 1,
@@ -36,12 +43,18 @@ export const summaryChartStyles = {
 
 /**
  * @description 指標列一覧のstyleを作成する。
- * @param shouldCenterMetric - 中央寄せ用の左右余白を持つか。
+ * @param なし。
  * @returns 指標列一覧へ渡すsx。
  * @example
- * getChartBodySx(true);
+ * getChartBodySx();
  */
-export const getChartBodySx = (shouldCenterMetric: boolean): SxProps<Theme> => [
-  summaryChartStyles.chartBody,
-  shouldCenterMetric ? summaryChartStyles.centeredChartBody : {},
-];
+export const getChartBodySx = (): SxProps<Theme> => summaryChartStyles.chartBody;
+
+/**
+ * @description 指標1列分のラッパーstyleを返す。
+ * @param なし。
+ * @returns 指標1列分へ渡すsx。
+ * @example
+ * getChartItemSx();
+ */
+export const getChartItemSx = (): SxProps<Theme> => summaryChartStyles.chartItem;

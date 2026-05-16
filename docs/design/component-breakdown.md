@@ -197,7 +197,7 @@ front-end/src/components/organisms/SummaryPieChart/SummaryPieChart.tsx
 
 役割:
 
-- `SummaryChart`: 月別出費推移を棒グラフ表示する
+- `SummaryChart`: 月別変動費推移を棒グラフ表示する
 - `SummaryPieChart`: 年間収入の使い道を円グラフ表示する
 - 年間収入の使い道の右カラムには補助指標カードを縦並びで表示する
 

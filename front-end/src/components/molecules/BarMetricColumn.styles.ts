@@ -10,6 +10,8 @@ type BarMetricColumnStyles = {
   readonly label: SxProps<Theme>;
   /** 指標列全体 */
   readonly root: SxProps<Theme>;
+  /** 指標金額 */
+  readonly value: SxProps<Theme>;
 };
 
 /** 棒グラフ指標列で利用するstyle群。 */
@@ -17,15 +19,20 @@ export const barMetricColumnStyles = {
   barArea: {
     alignItems: "flex-end",
     display: "flex",
-    height: 192,
+    height: { md: 168, xs: 136 },
+    justifyContent: "center",
   },
   label: {
+    fontSize: { sm: "0.875rem", xs: "0.75rem" },
     fontWeight: 700,
   },
   root: {
     alignItems: "center",
-    flex: 1,
-    minWidth: 72,
+    minWidth: 0,
+  },
+  value: {
+    fontSize: { sm: "0.875rem", xs: "0.7rem" },
+    textAlign: "center",
   },
 } satisfies BarMetricColumnStyles;
 
@@ -41,5 +48,7 @@ export const getBarSx = (color: string, height: number): SxProps<Theme> => ({
   bgcolor: color,
   borderRadius: "8px 8px 0 0",
   height,
-  width: 32,
+  maxWidth: 32,
+  minWidth: { sm: 16, xs: 10 },
+  width: "100%",
 });

@@ -47,7 +47,7 @@
 | `features/incomes.md` | 収入画面。収入の登録・編集・削除、使えるお金に含める設定。 |
 | `features/fixed-costs.md` | 固定費画面。固定費の登録・編集・削除、開始月、有効状態表示。 |
 | `features/calendar.md` | カレンダー画面。日別出費と日別終了時点残額。 |
-| `features/annual-summary.md` | 年間サマリー画面。年間全収入、固定費、変動費、収支、月別出費推移、年間収入の使い道。 |
+| `features/annual-summary.md` | 年間サマリー画面。年間全収入、固定費、変動費、収支、月別変動費推移、年間収入の使い道。 |
 | `features/pwa.md` | スマホホーム画面追加など、PWA表示に関するMVP仕様。 |
 
 ### `design/`
