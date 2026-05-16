@@ -30,7 +30,7 @@ export type AnnualSummary = {
   readonly availableIncome: number;
   /** 年間生活費残り */
   readonly availableBalance: number;
-  /** 年間出費 */
+  /** 年間変動費 */
   readonly expenseTotal: number;
   /** 年間固定費 */
   readonly fixedCostTotal: number;
@@ -72,7 +72,7 @@ export type AnnualMonthlySummary = {
 export type AnnualSummaryTotals = {
   /** 年間使える収入 */
   readonly availableIncome: number;
-  /** 年間出費 */
+  /** 年間変動費 */
   readonly expense: number;
   /** 年間固定費 */
   readonly fixedCost: number;
@@ -97,6 +97,8 @@ export type AnnualSummaryStatTone = "default" | "expense" | "fixedCost" | "incom
 export type AnnualSummaryStatCard = {
   /** 統計カードで強調する金額 */
   readonly amount: number;
+  /** 重要指標として背景を強調するか */
+  readonly emphasized: boolean;
   /** 統計カードを識別するID */
   readonly id: string;
   /** 金額の上に表示するラベル */
@@ -109,12 +111,14 @@ export type AnnualSummaryStatCard = {
  * 年間サマリー画面の注目月に表示する値。
  */
 export type AnnualSummaryHighlight = {
-  /** 注目月の金額 */
-  readonly amount: number;
-  /** 注目月の表示ラベル */
-  readonly label: string;
-  /** 注目月の補足タイトル */
+  /** 補助指標カードを識別するID */
+  readonly id: string;
+  /** 補助指標の補足ラベル */
+  readonly label: string | undefined;
+  /** 補助指標のタイトル */
   readonly title: string;
+  /** 補助指標の表示値 */
+  readonly value: string;
 };
 
 /**

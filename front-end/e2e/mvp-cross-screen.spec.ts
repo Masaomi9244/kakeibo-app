@@ -54,7 +54,7 @@ type AnnualSummary = {
   readonly reservedIncome: number;
   /** 年間固定費 */
   readonly fixedCostTotal: number;
-  /** 年間出費 */
+  /** 年間変動費 */
   readonly expenseTotal: number;
   /** 年間実収支 */
   readonly actualBalance: number;

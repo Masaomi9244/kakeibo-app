@@ -22,9 +22,9 @@ import { formatAsiaTokyoMonth } from "@/libs/date";
  * 年間サマリー画面templateへ渡すview model。
  */
 export type AnnualSummaryPageViewModel = {
-  /** 年間収支内訳円グラフの指標一覧 */
+  /** 年間収入の使い道円グラフの指標一覧 */
   readonly annualBreakdownMetrics: readonly PieMetric[];
-  /** 年間収支内訳円グラフの見出し */
+  /** 年間収入の使い道円グラフの見出し */
   readonly annualBreakdownTitle: string;
   /** 右カラムに表示する補助指標一覧 */
   readonly annualInsightCards: readonly AnnualSummaryHighlight[];
@@ -79,17 +79,20 @@ export function useAnnualSummaryPageViewModel(): AnnualSummaryPageViewModel {
   /** 統計カード一覧 */
   const statCards = createAnnualSummaryStatCards(annualSummaryTotals);
   /** 右カラムに表示する補助指標一覧 */
-  const annualInsightCards = createAnnualSummaryInsightCards(monthlySummaries);
+  const annualInsightCards = createAnnualSummaryInsightCards(
+    monthlySummaries,
+    annualSummaryTotals,
+  );
   /** 月別出費推移グラフの指標一覧 */
   const monthlyTrendMetrics =
     annualSummary === undefined ? [] : createMonthlyExpenseTrendMetrics(annualSummary);
-  /** 年間収支内訳円グラフの指標一覧 */
+  /** 年間収入の使い道円グラフの指標一覧 */
   const annualBreakdownMetrics =
     annualSummary === undefined ? [] : createAnnualBreakdownMetrics(annualSummary);
 
   return {
     annualBreakdownMetrics,
-    annualBreakdownTitle: "年間収支内訳",
+    annualBreakdownTitle: "年間収入の使い道",
     annualInsightCards,
     annualSummaryErrorMessage: annualSummaryQuery.isError
       ? annualSummaryQuery.error.message

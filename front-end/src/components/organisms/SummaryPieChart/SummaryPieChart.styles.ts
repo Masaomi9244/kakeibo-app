@@ -21,7 +21,7 @@ type PieGradientBuildState = {
 };
 
 /**
- * 年間収支内訳円グラフで利用するstyle定義。
+ * 年間収入の使い道円グラフで利用するstyle定義。
  */
 type SummaryPieChartStyles = {
   /** 円グラフ本体 */
@@ -85,7 +85,7 @@ const createPieGradient = (segments: readonly PieChartSegment[]): string => {
   return `conic-gradient(${gradientStops.stops.join(", ")})`;
 };
 
-/** 年間収支内訳円グラフで利用するstyle群。 */
+/** 年間収入の使い道円グラフで利用するstyle群。 */
 export const summaryPieChartStyles = {
   chart: {
     "&::after": {
@@ -106,13 +106,17 @@ export const summaryPieChartStyles = {
   },
   chartLayout: {
     alignItems: "center",
-    display: "grid",
-    gap: 3,
-    gridTemplateColumns: { md: "auto 1fr", xs: "1fr" },
-    justifyItems: { md: "start", xs: "center" },
+    display: "flex",
+    flexDirection: { sm: "row", xs: "column" },
+    gap: { md: 3, xs: 2.5 },
+    justifyContent: "center",
+    mx: "auto",
+    width: "100%",
   },
   legend: {
-    width: "100%",
+    maxWidth: 260,
+    minWidth: { sm: 200, xs: "100%" },
+    width: { sm: "auto", xs: "100%" },
   },
   legendItem: {
     alignItems: "center",

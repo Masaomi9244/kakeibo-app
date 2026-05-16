@@ -12,7 +12,7 @@ import {
 import { formatYen } from "@/libs/money";
 
 /**
- * 年間収支内訳円グラフcomponentに渡すprops。
+ * 年間収入の使い道円グラフcomponentに渡すprops。
  */
 type SummaryPieChartProps = {
   /** 円グラフに表示する指標一覧 */
@@ -22,11 +22,11 @@ type SummaryPieChartProps = {
 };
 
 /**
- * @description 年間収支内訳を円グラフと凡例で表示する。
+ * @description 年間収入の使い道を円グラフと凡例で表示する。
  * @param props - 円グラフに表示する指標一覧と見出し。
- * @returns 年間収支内訳円グラフUI。
+ * @returns 年間収入の使い道円グラフUI。
  * @example
- * <SummaryPieChart metrics={metrics} title="年間収支内訳" />
+ * <SummaryPieChart metrics={metrics} title="年間収入の使い道" />
  */
 export function SummaryPieChart({
   metrics,

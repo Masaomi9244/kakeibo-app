@@ -4,7 +4,7 @@ import type { SxProps, Theme } from "@mui/material/styles";
  * 年間サマリー画面テンプレートで利用するstyle定義。
  */
 type AnnualSummaryPageContentStyles = {
-  /** 年間収支内訳と補助指標の2カラム領域 */
+  /** 年間収入の使い道と補助指標の2カラム領域 */
   readonly breakdownGrid: SxProps<Theme>;
   /** 補助指標カード */
   readonly insightCard: SxProps<Theme>;

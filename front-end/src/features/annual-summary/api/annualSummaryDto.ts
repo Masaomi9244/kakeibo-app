@@ -30,7 +30,7 @@ export type AnnualSummaryDto = {
   readonly availableIncome: number;
   /** 年間生活費残り */
   readonly availableBalance: number;
-  /** 年間出費 */
+  /** 年間変動費 */
   readonly expenseTotal: number;
   /** 年間固定費 */
   readonly fixedCostTotal: number;
