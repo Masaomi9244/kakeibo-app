@@ -37,7 +37,7 @@ export function TodayExpensesCard({
     <Paper variant="outlined" sx={todayExpensesCardStyles.root}>
       <Stack spacing={0} sx={todayExpensesCardStyles.header}>
         <Typography component="h2" sx={todayExpensesCardStyles.heading} variant="h6">
-          今日の出費
+          今日の変動費
         </Typography>
       </Stack>
       <Stack spacing={1.5} sx={todayExpensesCardStyles.list}>
@@ -45,7 +45,7 @@ export function TodayExpensesCard({
           <Typography color="text.secondary">読み込み中です</Typography>
         ) : null}
         {!isLoading && expenses.length === 0 ? (
-          <Typography color="text.secondary">今日の出費はまだありません</Typography>
+          <Typography color="text.secondary">今日の変動費はまだありません</Typography>
         ) : null}
         {expenses.map((expense) => (
           <Box key={expense.id} sx={todayExpensesCardStyles.item}>
