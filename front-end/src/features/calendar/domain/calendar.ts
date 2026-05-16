@@ -8,8 +8,6 @@ export type CalendarCell = {
   readonly dateKey: string;
   /** カレンダーに表示する日 */
   readonly day: number;
-  /** その日の終了時点の生活費残り */
-  readonly endingBalance?: number;
   /** その日の出費合計 */
   readonly expenseTotal?: number;
   /** 表示対象月の日付か */

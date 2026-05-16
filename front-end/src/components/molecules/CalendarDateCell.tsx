@@ -21,7 +21,7 @@ type CalendarDateCellProps = {
 };
 
 /**
- * @description カレンダーの日付セルを支出合計と残高付きで表示する。
+ * @description カレンダーの日付セルを支出合計付きで表示する。
  * @param props - 1日分のカレンダーセル情報。
  * @returns カレンダー日付セルUI。
  * @example
@@ -53,11 +53,6 @@ export function CalendarDateCell({
       {cell.expenseTotal !== undefined ? (
         <Typography color="text.secondary" sx={calendarDateCellStyles.expenseTotal}>
           {formatYen(cell.expenseTotal)}
-        </Typography>
-      ) : null}
-      {cell.endingBalance !== undefined ? (
-        <Typography color="success.main" sx={calendarDateCellStyles.endingBalance}>
-          残 {formatYen(cell.endingBalance)}
         </Typography>
       ) : null}
     </Box>

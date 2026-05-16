@@ -9,7 +9,7 @@ import type {
 
 import { CalendarDateCell } from "@/components/molecules/CalendarDateCell";
 import {
-  getWeekDayColor,
+  getWeekDaySx,
   monthCalendarStyles,
 } from "@/components/organisms/MonthCalendar/MonthCalendar.styles";
 import { formatYen } from "@/libs/money";
@@ -68,30 +68,43 @@ export function MonthCalendar({
 }: MonthCalendarProps): ReactElement {
   return (
     <Paper variant="outlined" sx={monthCalendarStyles.root}>
-      <Stack spacing={3}>
+      <Stack sx={monthCalendarStyles.contentStack}>
         <Stack direction="row" sx={monthCalendarStyles.header}>
           <Typography component="h2" sx={monthCalendarStyles.monthTitle} variant="h6">
             {monthLabel}
           </Typography>
-          <Stack direction="row" spacing={1} sx={monthCalendarStyles.switcher}>
-            <Button onClick={onGoToPreviousMonth} size="small">
+          <Stack
+            direction="row"
+            spacing={{ sm: 1, xs: 0.5 }}
+            sx={monthCalendarStyles.switcher}
+          >
+            <Button
+              onClick={onGoToPreviousMonth}
+              size="small"
+              sx={monthCalendarStyles.switchButton}
+            >
               前月
             </Button>
-            <Button onClick={onGoToCurrentMonth} size="small" variant="outlined">
+            <Button
+              onClick={onGoToCurrentMonth}
+              size="small"
+              sx={monthCalendarStyles.switchButton}
+              variant="outlined"
+            >
               今月
             </Button>
-            <Button onClick={onGoToNextMonth} size="small">
+            <Button
+              onClick={onGoToNextMonth}
+              size="small"
+              sx={monthCalendarStyles.switchButton}
+            >
               翌月
             </Button>
           </Stack>
         </Stack>
         <Box sx={monthCalendarStyles.calendarGrid}>
           {weekDays.map((weekDay) => (
-            <Typography
-              color={getWeekDayColor(weekDay)}
-              key={weekDay}
-              sx={monthCalendarStyles.weekDay}
-            >
+            <Typography key={weekDay} sx={getWeekDaySx(weekDay)}>
               {weekDay}
             </Typography>
           ))}
