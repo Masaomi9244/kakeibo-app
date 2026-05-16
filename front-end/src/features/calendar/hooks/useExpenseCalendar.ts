@@ -21,6 +21,8 @@ export function useExpenseCalendar(
   selectedDate: string,
 ): UseQueryResult<ExpenseCalendar> {
   return useQuery({
+    placeholderData: (previousData) =>
+      previousData?.month === month ? previousData : undefined,
     queryFn: async () => {
       /** カレンダー取得APIのresponse */
       const response = await getExpenseCalendar({ month, selectedDate });

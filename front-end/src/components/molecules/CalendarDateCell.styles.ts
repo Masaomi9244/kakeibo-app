@@ -6,8 +6,6 @@ import type { SxProps, Theme } from "@mui/material/styles";
 type CalendarDateCellStyles = {
   /** 日付 */
   readonly day: SxProps<Theme>;
-  /** 日別残額 */
-  readonly endingBalance: SxProps<Theme>;
   /** 日別支出合計 */
   readonly expenseTotal: SxProps<Theme>;
 };
@@ -15,11 +13,6 @@ type CalendarDateCellStyles = {
 /** カレンダー日付セルで利用するstyle群。 */
 export const calendarDateCellStyles = {
   day: {
-    fontWeight: 700,
-  },
-  endingBalance: {
-    display: { sm: "block", xs: "none" },
-    fontSize: 12,
     fontWeight: 700,
   },
   expenseTotal: {
@@ -51,9 +44,9 @@ export const getCalendarDateCellRootSx = (
   cursor: "pointer",
   display: "flex",
   flexDirection: "column",
-  gap: 0.5,
+  gap: { md: 0.25, xs: 0.5 },
   justifyContent: "center",
-  minHeight: { sm: 104, xs: 72 },
-  p: 0.75,
+  minHeight: { md: 64, sm: 88, xs: 72 },
+  p: { md: 0.5, xs: 0.75 },
   textTransform: "none",
 });

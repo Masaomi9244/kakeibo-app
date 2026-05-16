@@ -98,6 +98,9 @@ style objectは名前付きexportにし、default exportは禁止する。
 1行程度の局所的な `sx` も原則禁止する。
 MUIの `color`、`variant`、`spacing` などpropsで表現できる場合はpropsを使い、`sx` が必要な場合は必ず `*.styles.ts` へ置く。
 
+カレンダーの曜日見出しなど、アプリ固有の意味色を付ける場合は `Typography color` propへ直接色コードを渡さない。
+`*.styles.ts` の `getXxxSx()` で `sx.color` として返し、表示確認で日曜の赤、土曜の青が反映されていることを確認する。
+
 以下は禁止する。
 
 - `sx` に同じ色コードを複数箇所で直書きする

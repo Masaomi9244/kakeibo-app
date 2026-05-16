@@ -142,9 +142,6 @@ export const createCalendarCells = (
       isCurrentMonth,
       isSelected: dateKey === selectedDateKey,
     };
-    /** 日別残額を持つ場合の追加値 */
-    const endingBalancePart =
-      day === undefined ? {} : { endingBalance: day.remainingAmount };
     /** 日別出費がある場合の追加値 */
     const expenseTotalPart =
       day === undefined || day.expenseTotal === 0
@@ -153,7 +150,6 @@ export const createCalendarCells = (
 
     return {
       ...baseCell,
-      ...endingBalancePart,
       ...expenseTotalPart,
     };
   });
