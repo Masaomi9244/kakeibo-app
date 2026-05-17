@@ -88,20 +88,9 @@ const createPieGradient = (segments: readonly PieChartSegment[]): string => {
 /** 年間収入の使い道円グラフで利用するstyle群。 */
 export const summaryPieChartStyles = {
   chart: {
-    "&::after": {
-      bgcolor: "background.paper",
-      borderRadius: "50%",
-      content: '""',
-      height: "58%",
-      left: "21%",
-      position: "absolute",
-      top: "21%",
-      width: "58%",
-    },
     aspectRatio: "1 / 1",
     borderRadius: "50%",
     boxShadow: "inset 0 0 0 1px rgba(15, 23, 42, 0.08)",
-    position: "relative",
     flexShrink: 0,
     width: { sm: 220, xs: 132 },
   },
