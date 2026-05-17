@@ -56,12 +56,17 @@ export function AnnualSummaryPageContent(): ReactElement {
               variant="outlined"
               sx={annualSummaryPageContentStyles.insightCard}
             >
-              <Typography color="text.secondary">{insightCard.title}</Typography>
-              <Typography sx={annualSummaryPageContentStyles.insightValue} variant="h6">
+              <Typography sx={annualSummaryPageContentStyles.insightTitle} variant="h6">
+                {insightCard.title}
+              </Typography>
+              <Typography sx={annualSummaryPageContentStyles.insightValue}>
                 {insightCard.value}
               </Typography>
               {insightCard.label !== undefined ? (
-                <Typography color="text.secondary" variant="body2">
+                <Typography
+                  sx={annualSummaryPageContentStyles.insightLabel}
+                  variant="body2"
+                >
                   {insightCard.label}
                 </Typography>
               ) : null}

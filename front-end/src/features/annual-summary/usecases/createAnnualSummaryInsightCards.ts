@@ -15,7 +15,7 @@ const emptyMonthComparison: AnnualSummaryHighlight = {
   id: "month-comparison",
   label: undefined,
   title: "前月比",
-  value: "比較データがありません",
+  value: "-",
 };
 
 /** 月別比較が意味を持つか判断するための金額。 */
@@ -68,7 +68,7 @@ const createSavingsRateCard = (
   totals: AnnualSummaryTotals,
 ): AnnualSummaryHighlight => ({
   id: "savings-rate",
-  label: "収入に対して残った割合",
+  label: "※収入に対して残った割合",
   title: "年間貯蓄率",
   value: formatPercent(
     calculateRate({
@@ -89,7 +89,7 @@ const createFixedCostRateCard = (
   totals: AnnualSummaryTotals,
 ): AnnualSummaryHighlight => ({
   id: "fixed-cost-rate",
-  label: "収入に対する固定費の割合",
+  label: "※収入に対する固定費の割合",
   title: "固定費率",
   value: formatPercent(
     calculateRate({
