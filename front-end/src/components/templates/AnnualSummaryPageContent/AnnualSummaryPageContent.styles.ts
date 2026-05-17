@@ -62,7 +62,10 @@ export const annualSummaryPageContentStyles = {
     gridTemplateColumns: {
       md: "repeat(4, 1fr)",
       sm: "repeat(2, 1fr)",
-      xs: "1fr 1fr",
+      xs: "repeat(2, minmax(0, 1fr))",
+    },
+    "@media (max-width: 389px)": {
+      gridTemplateColumns: "1fr",
     },
   },
 } satisfies AnnualSummaryPageContentStyles;

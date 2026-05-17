@@ -19,6 +19,8 @@ export const statCardStyles = {
   root: {
     borderRadius: 1,
     minHeight: 104,
+    minWidth: 0,
+    overflow: "hidden",
     p: 2,
   },
 } satisfies StatCardStyles;
