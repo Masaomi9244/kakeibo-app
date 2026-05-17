@@ -8,8 +8,12 @@ type AnnualSummaryPageContentStyles = {
   readonly breakdownGrid: SxProps<Theme>;
   /** 補助指標カード */
   readonly insightCard: SxProps<Theme>;
+  /** 補助指標カードの注記 */
+  readonly insightLabel: SxProps<Theme>;
   /** 補助指標一覧 */
   readonly insightList: SxProps<Theme>;
+  /** 補助指標カードの見出し */
+  readonly insightTitle: SxProps<Theme>;
   /** 補助指標の値 */
   readonly insightValue: SxProps<Theme>;
   /** 統計カード一覧 */
@@ -26,16 +30,32 @@ export const annualSummaryPageContentStyles = {
   },
   insightCard: {
     bgcolor: "rgba(245, 158, 11, 0.08)",
-    borderColor: "rgba(245, 158, 11, 0.3)",
+    borderColor: "rgba(245, 158, 11, 0.32)",
     borderRadius: 1,
-    p: { sm: 3, xs: 2.5 },
+    display: "flex",
+    flexDirection: "column",
+    gap: 1.5,
+    justifyContent: "center",
+    minHeight: { sm: 216, xs: 164 },
+    p: { sm: 6, xs: 3 },
+  },
+  insightLabel: {
+    color: "text.primary",
+    fontSize: { sm: "1rem", xs: "0.95rem" },
   },
   insightList: {
     display: "grid",
     gap: 2,
   },
-  insightValue: {
+  insightTitle: {
+    fontSize: { sm: "2rem", xs: "1.8rem" },
     fontWeight: 700,
+    lineHeight: 1.2,
+  },
+  insightValue: {
+    fontSize: { sm: "3.375rem", xs: "2.25rem" },
+    fontWeight: 700,
+    lineHeight: 1.1,
   },
   statGrid: {
     display: "grid",
